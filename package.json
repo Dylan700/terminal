@@ -1,8 +1,11 @@
 {
   "private": true,
-  "productName": "ElectronNext",
+  "productName": "Terminal",
+  "name": "electron-terminal",
+  "version": "0.0.1",
   "main": "main/index.js",
   "scripts": {
+    "prestart": "electron-rebuild",
     "clean": "rimraf dist renderer/.next renderer/out",
     "start": "electron .",
     "build": "next build renderer && next export renderer",
@@ -14,17 +17,26 @@
     "files": [
       "main",
       "renderer/out"
-    ]
+    ],
+    "icon": "renderer/assets/icons/icon.png"
   },
   "devDependencies": {
     "electron": "^12.0.2",
     "electron-builder": "^22.10.5",
+    "electron-rebuild": "^3.2.5",
+    "file-loader": "^6.2.0",
     "next": "latest",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "sass": "^1.43.4"
   },
   "dependencies": {
     "electron-is-dev": "^1.1.0",
-    "electron-next": "^3.1.5"
+    "electron-next": "^3.1.5",
+    "node-pty": "^0.10.1",
+    "raw-loader": "^4.0.2",
+    "url-loader": "^4.1.1",
+    "xterm-addon-fit": "^0.5.0",
+    "xterm-for-react": "^1.0.4"
   }
 }
