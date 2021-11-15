@@ -15,7 +15,7 @@ MatrixACPICPU: ProcessorId=6 LocalApicId=255 Disabled
 MatrixACPICPU: ProcessorId=7 LocalApicId=255 Disabled
 MatrixACPICPU: ProcessorId=8 LocalApicId=255 Disabled
 calling mpo_policy_init for TMSafetyNet
-Security policy loaded: Safety net for Rollback (TMSafetyNet)
+Security policy loaded: Safety net for Rollback (ZionSafetyNet)
 calling mpo_policy_init for Sandbox
 Security policy loaded: Seatbelt sandbox policy (Sandbox)
 calling mpo_policy_init for Quarantine

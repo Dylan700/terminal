@@ -56,6 +56,9 @@ var xtermEvent;
 
 // set pty to home directory
 ptyProcess.write("cd ~\n");
+if(os.platform() === 'darwin'){
+  ptyProcess.write("export PATH=/usr/local/bin:$PATH\n")
+}
 
 ipcMain.on('terminal', (event, data) => {
   ptyProcess.write(data);

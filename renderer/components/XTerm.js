@@ -119,7 +119,7 @@ const XTerm = (props) => {
 	}
 
 	return (
-		<div ref={props.forwardedRef}></div>
+		<div className="fullHeight" ref={props.forwardedRef}></div>
 	)
 }
 
