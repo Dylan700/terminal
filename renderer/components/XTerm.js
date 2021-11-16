@@ -68,12 +68,16 @@ const XTerm = (props) => {
 			window.electron.terminal.resize(terminal.cols, terminal.rows)
 		}
 
-		if(props.useIntro){
-			introAudio.currentTime = 0
-			introAudio.play()
-		}
-
 	}, [])
+
+	useEffect(() => {
+		if (props.useIntro && props.isActive) {
+			setTimeout(() => {
+				introAudio.currentTime = 0
+				introAudio.play()
+			}, 1000)
+		}
+	}, [props.isActive])
 
 	const audioListener = (data) => {
 		if (data.key === '\r') {

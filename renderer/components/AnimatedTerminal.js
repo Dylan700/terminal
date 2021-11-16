@@ -9,6 +9,7 @@ const AnimatedTerminal = (props) => {
 	leave: { opacity: 0 },
 	delay: 1000,
   })
+
 	return transition(
 		(style, item) => item && <animated.div style={style}>{<Terminal {...props} />}</animated.div>
 	)
