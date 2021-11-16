@@ -76,7 +76,28 @@ html, body, #__next
   font-family: 'SF Pro Text', 'SF Pro Icons', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif
   margin: 0
   height: 100%
-  background-color: rgba(11, 2, 8)
+  // background-color: $background-color
+  background-color: rgba(0, 0, 0, 0)
+
+@mixin background-tint($url, $color1, $color2, $opacity: 0.3)
+    background-color: $color1 // fallback
+    background-image: linear-gradient(to bottom,rgba($color1, $opacity),rgba($color2, $opacity)), url($url)
+
+.bg-image
+  @include background-tint($background-image, $background-color, $background-color, 0.3)
+  height: 100%
+  position: absolute
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  background-size: cover
+  background-position: center
+  background-repeat: repeat
+  filter: blur(15px)
+  -webkit-filter: blur(15px)
+  z-index: -1
+  -webkit-transform: scale(1.1)
 
 #__next > div
   height:100%
@@ -102,12 +123,12 @@ html, body, #__next
   color: $primary-color
 
 .text-small
-  font-size: 1.25rem
+  font-size: 1rem
   font-weight: 400
   color: $primary-color
 
 .text-tiny
-  font-size: 0.8rem
+  font-size: 0.6rem
   font-weight: 400
   color: $primary-color
 
@@ -121,6 +142,7 @@ html, body, #__next
   display: flex
   flex-direction: row
   margin: 0
+  justify-content: space-between
 
 .col
   display: flex

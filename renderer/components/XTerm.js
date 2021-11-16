@@ -35,8 +35,8 @@ const XTerm = (props) => {
 	useEffect(() => {
 		terminal.open(props.forwardedRef.current)
 		terminal.loadAddon(fitAddon)
-		fitAddon.fit();
-		
+		fitAddon.fit()
+
 		terminal.setOption('theme', {
 			background: variables.background,
 			foreground: variables.foreground,
@@ -86,7 +86,7 @@ const XTerm = (props) => {
 			tabAudio.volume = 0.8
 			tabAudio.play()
 		} else if (data.key === '\x7F' || data.key === '\x15') {
-			// backspace or ctrl+u key pressed
+			// backspace or ctrl+u or ctr+w key pressed
 			backspaceAudio.currentTime = 0
 			backspaceAudio.volume = 0.5
 			backspaceAudio.play()
@@ -114,7 +114,7 @@ const XTerm = (props) => {
 
 	const audioLineFeedListener = () => {
 		stdoutAudio.currentTime = 0
-		stdoutAudio.volume = 0.8
+		stdoutAudio.volume = 0.5
 		stdoutAudio.play()
 	}
 

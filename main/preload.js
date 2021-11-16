@@ -1,5 +1,6 @@
 const { ipcRenderer, contextBridge } = require('electron')
 const os = require('os')
+const si = require('systeminformation');
 
 contextBridge.exposeInMainWorld('electron', {
   terminal: {
@@ -8,7 +9,10 @@ contextBridge.exposeInMainWorld('electron', {
     resize: (cols, rows) => ipcRenderer.send('terminal.resize', { cols, rows }),
   },
   system: {
-    uptime: () => os.uptime(),
+    time: () => si.time(),
+    os: (cb) => si.osInfo(cb),
+    battery: (cb) => si.battery(cb),
+    hardware: (cb) => si.system(cb)
   },
   message: {
     send: (payload) => ipcRenderer.send('message', payload),
