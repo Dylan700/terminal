@@ -52,7 +52,16 @@ export const ThemeProvider = ({theme, children}) => {
 				setCurrentTheme(matrix)
 				break
 		}
+
+		if(window != null){
+			window.localStorage.setItem('theme', theme)
+		}
 	}
+
+	// set theme on mount
+	useEffect(() => {
+		setTheme(window.localStorage.getItem("theme") || 'matrix')
+	})
 
 	useEffect(() => {		
 		// set global css variables based on theme
