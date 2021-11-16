@@ -72,19 +72,25 @@
 
 @import "./terminal.module"
 
+// css variables
+:root
+  --primary-color: #{$primary-color}
+  --secondary-color: #{$secondary-color}
+  --background-color: #{$background-color}
+  --selection-color: #{$selection-color}
+  --background-image: #{url($background-image)}
+  --background-blur: #{$background-blur}
+  --background-color-blend: #{rgba($background-color, $background-image-blend)}
+
+
 html, body, #__next
   font-family: 'SF Pro Text', 'SF Pro Icons', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif
   margin: 0
   height: 100%
-  // background-color: $background-color
   background-color: rgba(0, 0, 0, 0)
 
-@mixin background-tint($url, $color1, $color2, $opacity: 0.3)
-    background-color: $color1 // fallback
-    background-image: linear-gradient(to bottom,rgba($color1, $opacity),rgba($color2, $opacity)), url($url)
-
 .bg-image
-  @include background-tint($background-image, $background-color, $background-color, 0.3)
+  background-image: var(--background-image)
   height: 100%
   position: absolute
   top: 0
@@ -94,8 +100,19 @@ html, body, #__next
   background-size: cover
   background-position: center
   background-repeat: repeat
-  filter: blur(15px)
-  -webkit-filter: blur(15px)
+  filter: blur(var(--background-blur))
+  -webkit-filter: blur(var(--background-blur))
+  z-index: -1
+  -webkit-transform: scale(1.1)
+
+.bg-color
+  background-color: var(--background-color-blend)
+  height: 100%
+  position: absolute
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
   z-index: -1
   -webkit-transform: scale(1.1)
 
@@ -109,34 +126,34 @@ html, body, #__next
   font-family: 'Orbitron', sans-serif
   font-size: 1.5rem
   font-weight: 400
-  color: $primary-color
+  color: var(--primary-color)
   margin: 0
 
 .text-large
   font-size: 3rem
   font-weight: 400
-  color: $primary-color
+  color: var(--primary-color)
 
 .text-medium
   font-size: 2rem
   font-weight: 400
-  color: $primary-color
+  color: var(--primary-color)
 
 .text-small
   font-size: 1rem
   font-weight: 400
-  color: $primary-color
+  color: var(--primary-color)
 
 .text-tiny
   font-size: 0.6rem
   font-weight: 400
-  color: $primary-color
+  color: var(--primary-color)
 
 .text-secondary
-  color: $secondary-color
+  color: var(--secondary-color)
 
 .text-primary
-  color: $primary-color
+  color: var(--primary-color)
 
 .row
   display: flex
@@ -151,11 +168,12 @@ html, body, #__next
   padding: 10px
 
 .spacer-outer
-  border-left: 1px solid $secondary-color
-  border-right: 1px solid $secondary-color
+  border-left: 1px solid var(--secondary-color)
+  border-right: 1px solid var(--secondary-color)
+  margin: 5px
 
 .spacer-inner
-  background-color: $secondary-color
+  background-color: var(--secondary-color)
   height: 1px
 
 .width-80

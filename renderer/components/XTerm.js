@@ -33,17 +33,18 @@ const XTerm = (props) => {
 
 	// init
 	useEffect(() => {
-		terminal.open(props.forwardedRef.current)
-		terminal.loadAddon(fitAddon)
-		fitAddon.fit()
 
 		terminal.setOption('theme', {
-			background: variables.background,
+			background: variables.background + "00",
 			foreground: variables.foreground,
 			cursor: variables.cursor,
 			cursorAccent: variables.cursorAccent,
 			selection: variables.selection,
 		})
+		terminal.options.allowTransparency = true;
+		terminal.open(props.forwardedRef.current)
+		terminal.loadAddon(fitAddon)
+		fitAddon.fit()
 
 		props.setTerminal(terminal)
 

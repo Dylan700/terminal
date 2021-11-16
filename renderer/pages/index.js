@@ -11,6 +11,7 @@ const App = () => {
     return (
       <div>
         <div className="bg-image"></div>
+        <div className="bg-color"></div>
         <Startup onComplete={() => { setIsLoading(false) }} />)
      </div>
     )
@@ -18,6 +19,7 @@ const App = () => {
     return (
       <div>
         <div className="bg-image"></div>
+        <div className="bg-color"></div>
         <DateTime isActive={true} />
         <Hardware isActive={true} />
         <Terminal isActive={true} useAudio={true} />
