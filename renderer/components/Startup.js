@@ -14,15 +14,11 @@ export default class Startup extends React.Component {
 		super(props)
 		this.terminalRef = React.createRef()
 		this.setTerminal = this.setTerminal.bind(this)
-		this.state = {terminal: null}
-	}
-
-	componentDidMount() {
-		console.log('this.terminalRef', this.terminalRef)
+		this.state = {terminal: null, hasCompleted: false}
 	}
 
 	componentDidUpdate() {
-		if(this.state.terminal){
+		if(this.state.terminal && this.state.hasCompleted === false){
 			this.runBootSequence();
 		}
 	}
@@ -53,10 +49,12 @@ export default class Startup extends React.Component {
 			}, delay)
 			delay += line.time
 		})
+
+		this.setState({...this.state, hasCompleted: true})
 	}
 
 	setTerminal(t){
-		this.setState({terminal: t})
+		this.setState({...this.state, terminal: t})
 	}
 
 	render() {
