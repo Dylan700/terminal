@@ -1,13 +1,25 @@
 import { useEffect, useState } from "react";
 import Spacer from "./Spacer";
 
-const DateTime = () => {
+import { useTransition, animated } from 'react-spring'
+
+import introAudioFile from '../assets/audio/panels.mp3'
+
+const DateTime = (props) => {
+	const introAudio = new Audio(introAudioFile);
 	const [datetime, setDateTime] = useState(new Date())
 	const startDate = new Date()
 	const [uptime, setUptime] = useState(0)
-	const [timezone, setTimezone] = useState("")
+	const [timezone, setTimezone] = useState("Determining Location...")
 	const [os, setOs] = useState({platform: "", distro: "", release: "", codename: "", kernel: ""})
 	const [battery, setBattery] = useState({ isCharging: false, percent: 0, timeRemaining: 0 })
+	const transition = useTransition(props.isActive, {
+		from: { opacity: 0, transform: 'translate3d(0, -20px, 0)' },
+		enter: { opacity: 1, transform: 'translate3d(0, 0px, 0)' },
+		leave: { opacity: 0, transform: 'translate3d(0, -20px, 0)' },
+		delay: 100,
+		config: { mass: 1, tension: 500, friction: 18 }
+	});
 
 	const formatTime = (time) => {
 		const hours = time.getHours();
@@ -60,42 +72,58 @@ const DateTime = () => {
 		})
 	}, [])
 
-	return (
-		<div>
-			<div className="row">
-				<div className="col">
-					<span className="display text-large">{formatTime(datetime)}</span>
-					<span className="display text-tiny text-secondary">{timezone}</span>
+	useEffect(() => {
+		if (props.isActive) {
+			setTimeout(() => {
+				introAudio.currentTime = 0
+				introAudio.volume = 1
+				introAudio.play();
+			}, 100);
+		}
+	}, [props.isActive])
+
+	const getDateTime = () => {
+		return (
+			<div>
+				<div className="row">
+					<div className="col">
+						<span className="display text-large">{formatTime(datetime)}</span>
+						<span className="display text-tiny text-secondary">{timezone}</span>
+					</div>
 				</div>
+				<Spacer type={"bottom"} />
+				<div className="row">
+					<div className="col">
+						<span className="display text-small text-secondary">{datetime.getFullYear()}</span>
+						<span className="display text-small">{formatDate(datetime)}</span>
+					</div>
+					<div className="col width-80">
+						<span className="display text-small text-secondary">{"UPTIME"}</span>
+						<span className="display text-small">{formatUptime(uptime)}</span>
+					</div>
+					<div className="col">
+						<span className="display text-small text-secondary">OS</span>
+						<span className="display text-small">{os.codename} <span className="text-tiny text-secondary">{os.release}</span></span>
+					</div>
+					<div className="col">
+						<span className="display text-small text-secondary">{battery.isCharging ? "CHARGE" : "BATTERY"}</span>
+						<span className="display text-small">
+							{`${battery.percent}%`}
+							{!battery.isCharging &&
+								<span className="text-tiny text-secondary">
+									{` - ${battery.timeRemaining} ${battery.timeRemaining === 1 ? "minute" : "minutes"}`}
+								</span>
+							}
+						</span>
+					</div>
+				</div>
+				<Spacer type={"vertical"} />
 			</div>
-			<Spacer type={"bottom"} />
-			<div className="row">
-				<div className="col">
-					<span className="display text-small text-secondary">{datetime.getFullYear()}</span>
-					<span className="display text-small">{formatDate(datetime)}</span>
-				</div>
-				<div className="col width-80">
-					<span className="display text-small text-secondary">{"UPTIME"}</span>
-					<span className="display text-small">{formatUptime(uptime)}</span>
-				</div>
-				<div className="col">
-					<span className="display text-small text-secondary">OS</span>
-					<span className="display text-small">{os.codename} <span className="text-tiny text-secondary">{os.release}</span></span>
-				</div>
-				<div className="col">
-					<span className="display text-small text-secondary">{battery.isCharging ? "CHARGE" : "BATTERY"}</span>
-					<span className="display text-small">
-						{`${battery.percent}%`}
-						{!battery.isCharging && 
-							<span className="text-tiny text-secondary">
-								{` - ${battery.timeRemaining} ${battery.timeRemaining === 1 ? "minute" : "minutes"}`}
-							</span>
-						}
-					</span>
-				</div>
-			</div>
-			<Spacer type={"vertical"} />
-		</div>
+		)
+	}
+
+	return transition(
+		(styles, item) => item && <animated.div style={styles}>{getDateTime()}</animated.div>
 	)
 }
 
