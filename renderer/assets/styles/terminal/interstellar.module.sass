@@ -1,8 +1,20 @@
+@import './default.module'
 
 $primary-color: #187dc0
 $background-color: #ffffff
 $selection-color: rgba(255, 255, 255, 0.3)
 $secondary-color: #054461
-$background-image: "../images/interstellar.jpg"
+// $background-image: "../images/interstellar.jpg"
 $background-blur: 12px
 $background-image-blend: 0.5
+// $background-color-blend: #{rgba($background-color, $background-image-blend)}
+
+:export
+	primaryColor: $primary-color
+	secondaryColor: $secondary-color
+	backgroundColor: $background-color
+	selectionColor: $selection-color
+	backgroundImage: $background-image
+	backgroundBlur: $background-blur
+	backgroundColorBlend: $background-color
+	introAudio: $intro-audio

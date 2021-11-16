@@ -13,18 +13,19 @@ export default class Terminal extends React.Component {
 		super(props)
 		this.terminalRef = React.createRef()
 		this.setTerminal = this.setTerminal.bind(this)
-		this.state = { terminal: null }
+		this.state = { terminal: null, initialized: false }
 	}
 
 	componentDidUpdate() {
-		if(this.state.terminal != null) {
+		if (this.state.terminal != null && !this.state.initialized) {
 			this.state.terminal.focus()
 			this.state.terminal.write('Connected to the Matrix.\n\nPress enter to continue.\n\n')
+			this.setState({ ...this.state, initialized: true })
 		}
 	}
 
 	setTerminal(t) {
-		this.setState({ terminal: t })
+		this.setState({...this.state, terminal: t})
 	}
 
 	render() {

@@ -6,15 +6,16 @@ $secondary-color: #125800
 $background-image: ''
 $background-blur: 0px
 $background-image-blend: 0.5	
+$intro-audio: '../assets/audio/keyboard.mp3'
 
 @import './terminal/interstellar.module'
 
 :export
 	primaryColor: $primary-color
 	secondaryColor: $secondary-color
-	background: $background-color
-	foreground: $primary-color
-	cursor: $primary-color
-	cursorAccent: $primary-color
-	selection: $selection-color
+	backgroundColor: $background-color
+	selectionColor: $selection-color
 	backgroundImage: $background-image
+	backgroundBlur: $background-blur
+	backgroundColorBlend: $background-color
+	introAudio: $intro-audio

@@ -1,9 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useState} from 'react';
 import { Terminal } from 'xterm';
 import { FitAddon } from 'xterm-addon-fit';
 
 import 'xterm/css/xterm.css'
-import variables from '../assets/styles/terminal.module.sass'
+import useTheme from '../contexts/theme';
 
 import introAudioFile from '../assets/audio/keyboard.mp3'
 import stdinAudioFile from '../assets/audio/type.mp3'
@@ -15,13 +15,14 @@ import escapeAudioFile from '../assets/audio/scanFast.mp3'
 import tabAudioFile from '../assets/audio/typing.mp3'
 
 const XTerm = (props) => {
+	const {currentTheme} = useTheme()
 	const fitAddon = new FitAddon()
-	const terminal = new Terminal(
+	const [terminal, setTerminal] = useState(new Terminal(
 		{
-		convertEol: true,
-		rows: 40,
-		cols: 100
-		});
+			convertEol: true,
+			rows: 40,
+			cols: 100
+		}))
 	const introAudio = new Audio(introAudioFile);
 	const stdinAudio = new Audio(stdinAudioFile);
 	const stdoutAudio = new Audio(stdoutAudioFile);
@@ -33,14 +34,6 @@ const XTerm = (props) => {
 
 	// init
 	useEffect(() => {
-
-		terminal.setOption('theme', {
-			background: variables.background + "00",
-			foreground: variables.foreground,
-			cursor: variables.cursor,
-			cursorAccent: variables.cursorAccent,
-			selection: variables.selection,
-		})
 		terminal.options.allowTransparency = true;
 		terminal.open(props.forwardedRef.current)
 		terminal.loadAddon(fitAddon)
@@ -48,28 +41,39 @@ const XTerm = (props) => {
 
 		props.setTerminal(terminal)
 
-		if(props.onKey){
+		if (props.onKey) {
 			terminal.onKey(props.onKey)
 		}
 
-		if(props.useAudio){
+		if (props.useAudio) {
 			terminal.onKey(audioListener)
 			terminal.onLineFeed(audioLineFeedListener)
 		}
 
-		if(props.usePty){
+		if (props.usePty) {
 			window.electron.terminal.on((event, data) => {
 				terminal.writeUtf8(data)
 			})
 
-			terminal.onKey((data) => { 
+			terminal.onKey((data) => {
 				window.electron.terminal.send(data.key)
 			})
 
 			window.electron.terminal.resize(terminal.cols, terminal.rows)
 		}
-
+		setTerminal(terminal)
 	}, [])
+
+	useEffect(() => {
+		terminal.options.theme = {
+			background: currentTheme.backgroundColor,
+			foreground: currentTheme.primaryColor,
+			cursor: currentTheme.primaryColor,
+			cursorAccent: currentTheme.primaryColor,
+			selection: currentTheme.selectionColor,
+		}
+		setTerminal(terminal)
+	}, [currentTheme])
 
 	useEffect(() => {
 		if (props.useIntro && props.isActive) {
