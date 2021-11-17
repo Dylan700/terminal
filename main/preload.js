@@ -15,6 +15,7 @@ contextBridge.exposeInMainWorld('electron', {
     hardware: (cb) => si.system(cb),
     network: (cb) => si.get({ networkInterfaces: 'ip4, ip6, type, ifaceName, mac, internal', networkGatewayDefault: '*'}, cb),
     ping: (cb) => si.inetChecksite('google.com', cb),
+    docker: (cb) => si.get({dockerInfo: "containersRunning, images, containersPaused, containers, memTotal", mem: "total"}, cb),
   },
   message: {
     send: (payload) => ipcRenderer.send('message', payload),

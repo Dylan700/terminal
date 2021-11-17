@@ -5,6 +5,7 @@ import DateTime from "../components/DateTime";
 import Hardware from "../components/Hardware";
 import Network from "../components/Network";
 import useTheme from "../contexts/theme";
+import Docker from "../components/Docker";
 
 
 const App = () => {
@@ -62,11 +63,10 @@ const App = () => {
           <div className="col" style={{ flex: 1 }}>
             <DateTime isActive={!toggleFullScreen} delay={500} />
             <Hardware isActive={!toggleFullScreen} delay={1000} />
+            <Docker isActive={!toggleFullScreen} delay={1500} />
           </div>
           <div className="col" style={{ flex: 2 }}>
-            {/* <Spacer variation="bottom" /> */}
             <Terminal isActive={true} useAudio={true} delay={2000} />
-            {/* <Spacer variation="bottom" /> */}
           </div>
           <div className="col" style={{ flex: 1 }}>
             <Network isActive={!toggleFullScreen} delay={700} />

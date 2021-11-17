@@ -6,7 +6,7 @@ import { useTransition, animated } from 'react-spring'
 import introAudioFile from '../assets/audio/panels.mp3'
 import exitAudioFile from '../assets/audio/scanFast.mp3'
 
-const Hardware = (props) => {
+const Network = (props) => {
 	const introAudio = new Audio(introAudioFile);
 	const exitAudio = new Audio(exitAudioFile);
 	const [network, setNetwork] = useState({ interfaces: [], networkGatewayDefault: ""});
@@ -124,4 +124,4 @@ const Hardware = (props) => {
 	)
 }
 
-export default Hardware
+export default Network
