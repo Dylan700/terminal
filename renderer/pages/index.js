@@ -4,6 +4,7 @@ import Terminal from "../components/AnimatedTerminal"
 import DateTime from "../components/DateTime";
 import Hardware from "../components/Hardware";
 import Network from "../components/Network";
+import Performance from "../components/Performance";
 import useTheme from "../contexts/theme";
 import Docker from "../components/Docker";
 
@@ -66,10 +67,11 @@ const App = () => {
             <Docker isActive={!toggleFullScreen} delay={1500} />
           </div>
           <div className="col" style={{ flex: 2 }}>
-            <Terminal isActive={true} useAudio={true} delay={2000} />
+            <Terminal isActive={true} useAudio={true} delay={2500} />
           </div>
           <div className="col" style={{ flex: 1 }}>
             <Network isActive={!toggleFullScreen} delay={700} />
+            <Performance isActive={!toggleFullScreen} delay={2000}  />
           </div>
         </div>
       </div>
