@@ -3,10 +3,10 @@ import { useContext, useState, createContext, useEffect } from 'react'
 // import all themes
 import interstellar from '../assets/styles/terminal/interstellar.module.sass'
 import matrix from '../assets/styles/terminal/matrix.module.sass'
-import military from '../assets/styles/terminal/military.module.sass'
+import dark from '../assets/styles/terminal/dark.module.sass'
 import mud from '../assets/styles/terminal/mud.module.sass'
 import power from '../assets/styles/terminal/power.module.sass'
-import professor_zoom from '../assets/styles/terminal/professor_zoom.module.sass'
+import pure from '../assets/styles/terminal/pure.module.sass'
 import scifi from '../assets/styles/terminal/scifi.module.sass'
 import sunset from '../assets/styles/terminal/sunset.module.sass'
 import tron from '../assets/styles/terminal/tron.module.sass'
@@ -24,8 +24,8 @@ export const ThemeProvider = ({theme, children}) => {
 			case 'interstellar':
 				setCurrentTheme(interstellar)
 				break
-			case 'military':
-				setCurrentTheme(military)
+			case 'dark':
+				setCurrentTheme(dark)
 				break
 			case 'mud':
 				setCurrentTheme(mud)
@@ -33,8 +33,8 @@ export const ThemeProvider = ({theme, children}) => {
 			case 'power':
 				setCurrentTheme(power)
 				break
-			case 'professor_zoom':
-				setCurrentTheme(professor_zoom)
+			case 'pure':
+				setCurrentTheme(pure)
 				break
 			case 'scifi':
 				setCurrentTheme(scifi)

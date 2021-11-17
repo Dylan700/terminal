@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Spacer from "./Spacer";
+import Circle from './Circle'
 
 import { useTransition, animated } from 'react-spring'
 
@@ -8,7 +9,6 @@ import introAudioFile from '../assets/audio/panels.mp3'
 const DateTime = (props) => {
 	const introAudio = new Audio(introAudioFile);
 	const [datetime, setDateTime] = useState(new Date())
-	const startDate = new Date()
 	const [uptime, setUptime] = useState(0)
 	const [timezone, setTimezone] = useState("Determining Location...")
 	const [os, setOs] = useState({platform: "", distro: "", release: "", codename: "", kernel: ""})
@@ -17,7 +17,7 @@ const DateTime = (props) => {
 		from: { opacity: 0, transform: 'translate3d(0, -20px, 0)' },
 		enter: { opacity: 1, transform: 'translate3d(0, 0px, 0)' },
 		leave: { opacity: 0, transform: 'translate3d(0, -20px, 0)' },
-		delay: 100,
+		delay: props.delay,
 		config: { mass: 1, tension: 500, friction: 18 }
 	});
 
@@ -78,17 +78,20 @@ const DateTime = (props) => {
 				introAudio.currentTime = 0
 				introAudio.volume = 1
 				introAudio.play();
-			}, 100);
+			}, props.delay);
 		}
 	}, [props.isActive])
 
 	const getDateTime = () => {
 		return (
 			<div>
-				<div className="row">
+				<div className="row align-center">
 					<div className="col">
 						<span className="display text-large">{formatTime(datetime)}</span>
 						<span className="display text-tiny text-secondary">{timezone}</span>
+					</div>
+					<div className="col align-center">
+						<Circle progress={battery.percent} info={!battery.isCharging ? `${battery.timeRemaining} ${battery.timeRemaining === 1 ? "minute" : "minutes"}` : "CHARGING"} />
 					</div>
 				</div>
 				<Spacer type={"bottom"} />
@@ -104,17 +107,6 @@ const DateTime = (props) => {
 					<div className="col">
 						<span className="display text-small text-secondary">OS</span>
 						<span className="display text-small">{os.codename} <span className="text-tiny text-secondary">{os.release}</span></span>
-					</div>
-					<div className="col">
-						<span className="display text-small text-secondary">{battery.isCharging ? "CHARGE" : "BATTERY"}</span>
-						<span className="display text-small">
-							{`${battery.percent}%`}
-							{!battery.isCharging &&
-								<span className="text-tiny text-secondary">
-									{` - ${battery.timeRemaining} ${battery.timeRemaining === 1 ? "minute" : "minutes"}`}
-								</span>
-							}
-						</span>
 					</div>
 				</div>
 				<Spacer type={"vertical"} />

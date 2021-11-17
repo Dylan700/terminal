@@ -5,6 +5,8 @@ import DateTime from "../components/DateTime";
 import Hardware from "../components/Hardware";
 import useTheme from "../contexts/theme";
 
+import Circle from '../components/Circle';
+
 const App = () => {
   const [isLoading, setIsLoading] = useState(true)
   const {setTheme} = useTheme()
@@ -16,13 +18,13 @@ const App = () => {
       }else if(e.keyCode === 50 && e.metaKey){
         setTheme("interstellar")
       }else if(e.keyCode === 51 && e.metaKey){
-        setTheme("military")
+        setTheme("dark")
       }else if(e.keyCode === 52 && e.metaKey){
         setTheme("mud")
       }else if(e.keyCode === 53 && e.metaKey){
         setTheme("power")
       }else if(e.keyCode === 54 && e.metaKey){
-        setTheme("professor_zoom")
+        setTheme("pure")
       }else if(e.keyCode === 55 && e.metaKey){
         setTheme("sunset")
       }else if(e.keyCode === 56 && e.metaKey){
@@ -50,9 +52,9 @@ const App = () => {
       <div>
         <div className="bg-image"></div>
         <div className="bg-color"></div>
-        <DateTime isActive={true} />
-        <Hardware isActive={true} />
-        <Terminal isActive={true} useAudio={true} />
+        <DateTime isActive={true} delay={500} />
+        <Hardware isActive={true} delay={1000} />
+        <Terminal isActive={true} useAudio={true} delay={2000} />
       </div>
     )
   }

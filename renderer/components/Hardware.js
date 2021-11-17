@@ -12,7 +12,7 @@ const Hardware = (props) => {
 		from: { opacity: 0, transform: 'translate3d(0, -20px, 0)' },
 		enter: { opacity: 1, transform: 'translate3d(0, 0px, 0)' },
 		leave: { opacity: 0, transform: 'translate3d(0, -20px, 0)' },
-		delay: 500,
+		delay: props.delay,
 		config: { mass: 1, tension: 500, friction: 18 }
 	});
 
@@ -34,7 +34,7 @@ const Hardware = (props) => {
 				introAudio.currentTime = 0
 				introAudio.volume = 1
 				introAudio.play();
-			}, 500);
+			}, props.delay);
 		}
   }, [props.isActive])
 

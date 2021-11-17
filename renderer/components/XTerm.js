@@ -66,7 +66,7 @@ const XTerm = (props) => {
 
 	useEffect(() => {
 		terminal.options.theme = {
-			background: currentTheme.backgroundColor,
+			background: "rgba(0, 0, 0, 0)",
 			foreground: currentTheme.primaryColor,
 			cursor: currentTheme.primaryColor,
 			cursorAccent: currentTheme.primaryColor,
@@ -80,7 +80,7 @@ const XTerm = (props) => {
 			setTimeout(() => {
 				introAudio.currentTime = 0
 				introAudio.play()
-			}, 1000)
+			}, props.introAudioDelay)
 		}
 	}, [props.isActive])
 
