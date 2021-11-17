@@ -7,6 +7,7 @@ import Network from "../components/Network";
 import Performance from "../components/Performance";
 import useTheme from "../contexts/theme";
 import Docker from "../components/Docker";
+import Spotify from "../components/Spotify";
 
 
 const App = () => {
@@ -71,7 +72,8 @@ const App = () => {
           </div>
           <div className="col" style={{ flex: 1 }}>
             <Network isActive={!toggleFullScreen} delay={700} />
-            <Performance isActive={!toggleFullScreen} delay={2000}  />
+            <Performance isActive={!toggleFullScreen} delay={2000} />
+            <Spotify isActive={!toggleFullScreen} delay={2300} />
           </div>
         </div>
       </div>
