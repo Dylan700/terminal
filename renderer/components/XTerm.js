@@ -35,6 +35,7 @@ const XTerm = (props) => {
 	// init
 	useEffect(() => {
 		terminal.options.allowTransparency = true;
+		terminal.options.scrollback = props.disableScroll ? 0 : 10000;
 		terminal.open(props.forwardedRef.current)
 		terminal.loadAddon(fitAddon)
 		fitAddon.fit()

@@ -5,9 +5,11 @@ import Circle from './Circle'
 import { useTransition, animated } from 'react-spring'
 
 import introAudioFile from '../assets/audio/panels.mp3'
+import exitAudioFile from '../assets/audio/scanFast.mp3'
 
 const DateTime = (props) => {
 	const introAudio = new Audio(introAudioFile);
+	const exitAudio = new Audio(exitAudioFile);
 	const [datetime, setDateTime] = useState(new Date())
 	const [uptime, setUptime] = useState(0)
 	const [timezone, setTimezone] = useState("Determining Location...")
@@ -73,13 +75,17 @@ const DateTime = (props) => {
 	}, [])
 
 	useEffect(() => {
-		if (props.isActive) {
-			setTimeout(() => {
+		setTimeout(() => {
+			if (props.isActive) {
 				introAudio.currentTime = 0
 				introAudio.volume = 1
 				introAudio.play();
-			}, props.delay);
-		}
+			} else {
+				exitAudio.currentTime = 0
+				exitAudio.volume = 0.5
+				exitAudio.play();
+			}
+		}, props.delay);
 	}, [props.isActive])
 
 	const getDateTime = () => {

@@ -4,9 +4,11 @@ import Spacer from "../components/Spacer";
 import {useTransition, animated} from 'react-spring'
 
 import introAudioFile from '../assets/audio/panels.mp3'
+import exitAudioFile from '../assets/audio/scanFast.mp3'
 
 const Hardware = (props) => {
 	const introAudio = new Audio(introAudioFile);
+	const exitAudio = new Audio(exitAudioFile);
 	const [hardware, setHardware] = useState({manufacturer: '', model: '', version: '', serial: ''});
 	const transition = useTransition(props.isActive, {
 		from: { opacity: 0, transform: 'translate3d(0, -20px, 0)' },
@@ -29,13 +31,17 @@ const Hardware = (props) => {
   }, []);
 
   useEffect(() => {
-	  if (props.isActive) {
-			setTimeout(() => {
-				introAudio.currentTime = 0
-				introAudio.volume = 1
-				introAudio.play();
-			}, props.delay);
-		}
+	  setTimeout(() => {
+		  if (props.isActive) {
+			  introAudio.currentTime = 0
+			  introAudio.volume = 1
+			  introAudio.play();
+		  } else {
+			  exitAudio.currentTime = 0
+			  exitAudio.volume = 0.5
+			  exitAudio.play();
+		  }
+	  }, props.delay);
   }, [props.isActive])
 
   const getHardware = () => {

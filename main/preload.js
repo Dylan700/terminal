@@ -12,7 +12,9 @@ contextBridge.exposeInMainWorld('electron', {
     time: () => si.time(),
     os: (cb) => si.osInfo(cb),
     battery: (cb) => si.battery(cb),
-    hardware: (cb) => si.system(cb)
+    hardware: (cb) => si.system(cb),
+    network: (cb) => si.get({ networkInterfaces: 'ip4, ip6, type, ifaceName, mac, internal', networkGatewayDefault: '*'}, cb),
+    ping: (cb) => si.inetChecksite('google.com', cb),
   },
   message: {
     send: (payload) => ipcRenderer.send('message', payload),
@@ -20,3 +22,4 @@ contextBridge.exposeInMainWorld('electron', {
     off: (handler) => ipcRenderer.off('message', handler),
   }
 })
+

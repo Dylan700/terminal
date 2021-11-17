@@ -11,7 +11,7 @@ const AnimatedTerminal = (props) => {
   })
 
 	return transition(
-		(style, item) => item && <animated.div style={style}>{<Terminal {...props} />}</animated.div>
+		(style, item) => item && <animated.div className="fullHeight" style={style}>{<Terminal {...props} />}</animated.div>
 	)
 }
 

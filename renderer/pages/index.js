@@ -3,12 +3,13 @@ import Startup from "../components/Startup"
 import Terminal from "../components/AnimatedTerminal"
 import DateTime from "../components/DateTime";
 import Hardware from "../components/Hardware";
+import Network from "../components/Network";
 import useTheme from "../contexts/theme";
 
-import Circle from '../components/Circle';
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true)
+  const [toggleFullScreen, setToggleFullScreen] = useState(false)
   const {setTheme} = useTheme()
 
   useEffect(() => {
@@ -32,6 +33,11 @@ const App = () => {
       }else if(e.keyCode === 57 && e.metaKey){
         setTheme("vader")
       }
+
+      if (e.keyCode === 220 && e.metaKey) {
+        setToggleFullScreen(prev => !prev)
+      }
+
     }
     window.addEventListener("keydown", handleKeyDown)
     return () => {
@@ -44,7 +50,7 @@ const App = () => {
       <div>
         <div className="bg-image"></div>
         <div className="bg-color"></div>
-        <Startup onComplete={() => { setIsLoading(false) }} />)
+        <Startup onComplete={() => { setIsLoading(false) }} />
      </div>
     )
   }else{
@@ -52,9 +58,20 @@ const App = () => {
       <div>
         <div className="bg-image"></div>
         <div className="bg-color"></div>
-        <DateTime isActive={true} delay={500} />
-        <Hardware isActive={true} delay={1000} />
-        <Terminal isActive={true} useAudio={true} delay={2000} />
+        <div className="row fullHeight">
+          <div className="col" style={{ flex: 1 }}>
+            <DateTime isActive={!toggleFullScreen} delay={500} />
+            <Hardware isActive={!toggleFullScreen} delay={1000} />
+          </div>
+          <div className="col" style={{ flex: 2 }}>
+            {/* <Spacer variation="bottom" /> */}
+            <Terminal isActive={true} useAudio={true} delay={2000} />
+            {/* <Spacer variation="bottom" /> */}
+          </div>
+          <div className="col" style={{ flex: 1 }}>
+            <Network isActive={!toggleFullScreen} delay={700} />
+          </div>
+        </div>
       </div>
     )
   }

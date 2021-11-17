@@ -104,6 +104,8 @@ html, body, #__next
   -webkit-filter: blur(var(--background-blur))
   z-index: -1
   -webkit-transform: scale(1.1)
+  transform: translateZ(0)
+  overflow: hidden
 
 .bg-color
   background-color: var(--background-color-blend)
@@ -115,6 +117,8 @@ html, body, #__next
   bottom: 0
   z-index: -1
   -webkit-transform: scale(1.1)
+  transform: translateZ(0)
+  overflow: hidden
 
 #__next > div
   height:100%
@@ -169,8 +173,8 @@ html, body, #__next
 .col
   display: flex
   flex-direction: column
-  margin: 0
-  padding: 10px
+  margin: 10px
+  padding: 0
 
 .align-center
   align-items: center
