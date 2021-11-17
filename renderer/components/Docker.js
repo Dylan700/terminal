@@ -6,6 +6,7 @@ import {useTransition, animated} from 'react-spring'
 import introAudioFile from '../assets/audio/panels.mp3'
 import exitAudioFile from '../assets/audio/scanFast.mp3'
 import Circle from "./Circle";
+import { getDisplayName } from "next/dist/shared/lib/utils";
 
 const Docker = (props) => {
 	const introAudio = new Audio(introAudioFile);
@@ -33,7 +34,7 @@ const Docker = (props) => {
 		  if (data.dockerInfo.containers === undefined) {
 			  setDocker(null)
 		  } else {
-			  setDocker({ ...data.dockerInfo, systemMemTotal: data.mem.total })
+			  setDocker({ ...data.dockerInfo, systemMemTotal: data.mem.total, containerInfo: [...data.dockerContainers] })
 		  }
 	  })
   }
@@ -70,6 +71,18 @@ const Docker = (props) => {
 							<Circle progress={Math.round((docker.memTotal / docker.systemMemTotal) * 100)} info={"memory usage"} />
 						</div>
 					</div>
+					{docker.containerInfo.length > 0 && <Spacer type={"vertical"} />}
+					{Object.keys(docker.containerInfo).map((key, index) => {
+						return (
+							<div key={index} className="row">
+								<div className="col">
+									<span className="display text-small text-secondary">{docker.containerInfo[key].state.toUpperCase()}</span>
+									<span className="display text-small">{docker.containerInfo[key].name}</span>
+									<span className="display text-tiny text-secondary">ID - {docker.containerInfo[key].id.substring(0, 6)}</span>
+								</div>
+							</div>
+						)
+					})}
 					<Spacer type={"top"} />
 				</div>
 			}
