@@ -1,5 +1,4 @@
 const { ipcRenderer, contextBridge } = require('electron')
-const os = require('os')
 const si = require('systeminformation');
 
 contextBridge.exposeInMainWorld('electron', {
@@ -17,6 +16,10 @@ contextBridge.exposeInMainWorld('electron', {
     ping: (cb) => si.inetChecksite('google.com', cb),
     docker: (cb) => si.get({dockerInfo: "containersRunning, images, containersPaused, containers, memTotal", dockerContainers: "name, state, id", mem: "total"}, cb),
     performance: (cb) => si.get({ currentLoad: "currentLoad", mem: "total, used", fsStats: "tx_sec"}, cb),
+  },
+  spotify: {
+    authorize: () => ipcRenderer.send('spotify.auth'),
+    onAuth: (cb) => ipcRenderer.on('spotify.auth', cb),
   },
   message: {
     send: (payload) => ipcRenderer.send('message', payload),

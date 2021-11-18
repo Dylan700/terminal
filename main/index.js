@@ -30,6 +30,7 @@ app.on('ready', async () => {
       })
 
   mainWindow.loadURL(url)
+
 })
 
 // Quit the app once all windows are closed
@@ -78,3 +79,6 @@ ipcMain.on('terminal.resize', (event, size) => {
 ptyProcess.onExit((code) => {
   app.quit();
 });
+
+require('./spotify');
+
