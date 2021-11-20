@@ -8,6 +8,7 @@ import Performance from "../components/Performance";
 import useTheme from "../contexts/theme";
 import Docker from "../components/Docker";
 import Spotify from "../components/Spotify";
+import AnimatedPanel from "../components/AnimatedPanel";
 
 
 const App = () => {
@@ -63,17 +64,17 @@ const App = () => {
         <div className="bg-color"></div>
         <div className="row fullHeight">
           <div className="col" style={{ flex: 1 }}>
-            <DateTime isActive={!toggleFullScreen} delay={500} />
-            <Hardware isActive={!toggleFullScreen} delay={1000} />
-            <Docker isActive={!toggleFullScreen} delay={1500} />
+            <AnimatedPanel isActive={!toggleFullScreen} delay={500}><DateTime /></AnimatedPanel>
+            <AnimatedPanel isActive={!toggleFullScreen} delay={1000} ><Hardware /></AnimatedPanel>
+            <AnimatedPanel isActive={!toggleFullScreen} delay={1500} ><Docker /></AnimatedPanel>
           </div>
           <div className="col" style={{ flex: 2 }}>
-            <Terminal isActive={true} useAudio={true} delay={2500} />
+            <Terminal isActive={true} delay={2500} useAudio={true} />
           </div>
           <div className="col" style={{ flex: 1 }}>
-            <Network isActive={!toggleFullScreen} delay={700} />
-            <Performance isActive={!toggleFullScreen} delay={2000} />
-            <Spotify isActive={!toggleFullScreen} delay={2300} />
+            <AnimatedPanel isActive={!toggleFullScreen} delay={700}><Network /></AnimatedPanel>
+            <AnimatedPanel isActive={!toggleFullScreen} delay={2000}><Performance /></AnimatedPanel>
+            <AnimatedPanel isActive={!toggleFullScreen} delay={2300}><Spotify /></AnimatedPanel>
           </div>
         </div>
       </div>

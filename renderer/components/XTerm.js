@@ -62,6 +62,14 @@ const XTerm = (props) => {
 
 			window.electron.terminal.resize(terminal.cols, terminal.rows)
 		}
+
+		terminal.onResize((d) => {
+			console.log("data: ", d)
+			fitAddon.fit()
+			console.log("fitted!")
+			window.electron.terminal.resize(terminal.cols, terminal.rows)
+		})
+
 		setTerminal(terminal)
 	}, [])
 

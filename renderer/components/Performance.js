@@ -1,24 +1,9 @@
 import { useState, useEffect } from "react";
 import Spacer from "./Spacer";
-
-import {useTransition, animated} from 'react-spring'
-
-import introAudioFile from '../assets/audio/panels.mp3'
-import exitAudioFile from '../assets/audio/scanFast.mp3'
 import Circle from "./Circle";
 
 const Performance = (props) => {
-	const introAudio = new Audio(introAudioFile);
-	const exitAudio = new Audio(exitAudioFile);
 	const [performance, setPerformance] = useState({ currentLoad: { currentLoad: "0"}, mem: {total: 0, used: 0}, fsStats: "tx_sec"});
-	const transition = useTransition(props.isActive, {
-		from: { opacity: 0, transform: 'translate3d(0, -20px, 0)' },
-		enter: { opacity: 1, transform: 'translate3d(0, 0px, 0)' },
-		leave: { opacity: 0, transform: 'translate3d(0, -20px, 0)' },
-		delay: props.delay,
-		config: { mass: 1, tension: 500, friction: 18 }
-	});
-
 
   useEffect(() => {
 	  //set performance stats every 2 seconds
@@ -38,20 +23,6 @@ const Performance = (props) => {
 	  })
   }
 
-  useEffect(() => {
-	  setTimeout(() => {
-		  if (props.isActive) {
-			  introAudio.currentTime = 0
-			  introAudio.volume = 1
-			  introAudio.play();
-		  } else {
-			  exitAudio.currentTime = 0
-			  exitAudio.volume = 0.5
-			  exitAudio.play();
-		  }
-	  }, props.delay);
-  }, [props.isActive])
-
 	const getPerformance = () => {
 	  return (
 		  <div>
@@ -68,9 +39,7 @@ const Performance = (props) => {
 	  )
   }
 
-	return transition(
-		(styles, item) => item && <animated.div style={styles}>{getPerformance()}</animated.div>
-	)
+	return getPerformance()
 }
 
 export default Performance

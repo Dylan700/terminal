@@ -6,8 +6,6 @@ import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { AiFillPauseCircle, AiFillPlayCircle } from "react-icons/ai";
 import { FaSpotify } from "react-icons/fa";
 
-import introAudioFile from '../assets/audio/panels.mp3'
-import exitAudioFile from '../assets/audio/scanFast.mp3'
 import ProgressBar from "./ProgressBar";
 import useTheme from "../contexts/theme";
 
@@ -15,20 +13,10 @@ import SpotifyAPI from "spotify-web-api-js"
 
 const Spotify = (props) => {
 	const {currentTheme} = useTheme();
-	const introAudio = new Audio(introAudioFile);
-	const exitAudio = new Audio(exitAudioFile);
 	const api = new SpotifyAPI();
-	const transition = useTransition(props.isActive, {
-		from: { opacity: 0, transform: 'translate3d(0, -20px, 0)' },
-		enter: { opacity: 1, transform: 'translate3d(0, 0px, 0)' },
-		leave: { opacity: 0, transform: 'translate3d(0, -20px, 0)' },
-		delay: props.delay,
-		config: { mass: 1, tension: 500, friction: 18 }
-	});
 
 	const [spotify, setSpotify] = useState(null);
 	const [isPremium, setIsPremium] = useState(false)
-
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [isAuthorizing, setIsAuthorizing] = useState(false);
 
@@ -72,20 +60,6 @@ const Spotify = (props) => {
 	const logout = () => {
 		localStorage.removeItem('access_token')
 	}
-
-	useEffect(() => {
-		setTimeout(() => {
-			if (props.isActive) {
-				introAudio.currentTime = 0
-				introAudio.volume = 1
-				introAudio.play();
-			} else {
-				exitAudio.currentTime = 0
-				exitAudio.volume = 0.5
-				exitAudio.play();
-			}
-		}, props.delay);
-	}, [props.isActive])
 
 	const play = () => {
 		api.play().then(() => {
@@ -154,9 +128,7 @@ const Spotify = (props) => {
 		)
 	}
 
-	return transition(
-		(styles, item) => item && <animated.div style={styles}>{getSpotify()}</animated.div>
-	)
+	return getSpotify()
 }
 
 export default Spotify
