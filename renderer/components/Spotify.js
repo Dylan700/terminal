@@ -76,7 +76,7 @@ const Spotify = (props) => {
 	const getSpotify = () => {
 		return (
 			<div>
-				{spotify && 
+				{spotify && spotify.currently_playing_type === "track" &&
 					<div>
 						<Spacer type="bottom" />
 						<div className="row">
@@ -112,12 +112,12 @@ const Spotify = (props) => {
 						<Spacer type={"top"} />
 					</div>
 				}
-				{!spotify &&
+				{(!spotify || spotify.currently_playing_type === "ad") &&
 					<div>
 						<Spacer type="bottom" />
 						<div className="row">
 							<div style={{ margin: 10 }}>
-								<span className="display text-small">SPOTIFY <span className="display text-tiny text-secondary">OFFLINE</span></span>
+							<span className="display text-small">SPOTIFY <span className="display text-tiny text-secondary">{(spotify && spotify.currently_playing_type === "ad") ? "PLAYING ADVERTISEMENT" : "OFFLINE"}</span></span>
 							</div>
 							<FaSpotify style={{ marginRight: 10 }} size={30} color={currentTheme.primaryColor} />
 						</div>
