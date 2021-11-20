@@ -7,6 +7,10 @@ contextBridge.exposeInMainWorld('electron', {
     on: (handler) => ipcRenderer.on('terminal', handler),
     resize: (cols, rows) => ipcRenderer.send('terminal.resize', { cols, rows }),
   },
+  touchbar: {
+    onFullScreen: (handler) => ipcRenderer.on('touchbar.fullscreen', handler),
+    sendFullScreen: (bool) => ipcRenderer.send('touchbar.fullscreen', bool), 
+  },
   system: {
     time: () => si.time(),
     os: (cb) => si.osInfo(cb),

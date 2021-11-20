@@ -31,6 +31,9 @@ app.on('ready', async () => {
 
   mainWindow.loadURL(url)
 
+  // load the touchbar
+  mainWindow.setTouchBar(require('./Touchbar'))
+
 })
 
 // Quit the app once all windows are closed

@@ -18,6 +18,11 @@ const App = () => {
   const {setTheme} = useTheme()
 
   useEffect(() => {
+
+    window.electron.touchbar.onFullScreen((event, bool) => {
+      setToggleFullScreen(bool)
+    })
+
     const handleKeyDown = (e) => {
       if (e.keyCode === 49 && e.metaKey) {
         setTheme("matrix")
@@ -40,7 +45,10 @@ const App = () => {
       }
 
       if (e.keyCode === 220 && e.metaKey) {
-        setToggleFullScreen(prev => !prev)
+        setToggleFullScreen(prev => {
+          window.electron.touchbar.sendFullScreen(!prev);
+          return !prev
+        })
       }
 
     }
