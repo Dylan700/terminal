@@ -41,6 +41,7 @@
   "dependencies": {
     "electron-is-dev": "^1.1.0",
     "electron-next": "^3.1.5",
+    "keytar": "^7.7.0",
     "node-pty": "^0.10.1",
     "raw-loader": "^4.0.2",
     "react-icons": "^4.3.1",

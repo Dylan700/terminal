@@ -30,26 +30,28 @@ const Spotify = (props) => {
 	const [isPremium, setIsPremium] = useState(false)
 
 	const [isPlaying, setIsPlaying] = useState(false);
+	const [isAuthorizing, setIsAuthorizing] = useState(false);
 
 	useEffect(() => {
 		window.electron.spotify.onAuth((event, data) => {
 			// save access token to local storage
 			localStorage.setItem('access_token', data.access_token)
+			setIsAuthorizing(false)
 		})
 
-		if(!isAuthorized()){
-			window.electron.spotify.authorize();
-		}
-
-		const interval = setInterval(() => {
-			if(isAuthorized()){
+		const interval = setInterval(async () => {
+			if(await isAuthorized()){
 				api.getMyCurrentPlaybackState().then(data => {
 					setSpotify(data)
-					console.log(data)
 					setIsPlaying(data.is_playing)
 				}).catch(e => setSpotify(null))
 
 				api.getMe().then(d => setIsPremium(d.product === 'premium')).catch(e => setIsPremium(false))
+			}else{
+				if(!isAuthorizing){
+					window.electron.spotify.authorize();
+					setIsAuthorizing(true)
+				}
 			}
 		}, 4000);
 
@@ -58,10 +60,10 @@ const Spotify = (props) => {
 		}
 	}, [])
 
-	const isAuthorized = () => {
-		if(localStorage.getItem('access_token')){
+	const isAuthorized = async () => {
+	if(localStorage.getItem('access_token')){
 			api.setAccessToken(localStorage.getItem('access_token'));
-			return api.getMe().then(d => true).catch(e => false)
+			return await api.getMe().then(data => true).catch(e => false)
 		}else{
 			return false
 		}
