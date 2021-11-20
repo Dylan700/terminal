@@ -1,6 +1,6 @@
 import Terminal from './Terminal';
 
-import { useTransition, animated } from 'react-spring'
+import { useTransition, animated, config } from 'react-spring'
 
 const AnimatedTerminal = (props) => {
   const transition = useTransition(props.isActive, {
@@ -8,6 +8,7 @@ const AnimatedTerminal = (props) => {
 	enter: { opacity: 1 },
 	leave: { opacity: 0 },
 	delay: props.delay,
+	config: config.molasses
   })
 
 	return transition(

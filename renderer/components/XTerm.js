@@ -36,8 +36,9 @@ const XTerm = (props) => {
 	useEffect(() => {
 		terminal.options.allowTransparency = true;
 		terminal.options.scrollback = props.disableScroll ? 0 : 10000;
-		terminal.open(props.forwardedRef.current)
 		terminal.loadAddon(fitAddon)
+		terminal.open(props.forwardedRef.current)
+		fitAddon.activate(terminal)
 		fitAddon.fit()
 
 		props.setTerminal(terminal)
@@ -63,12 +64,14 @@ const XTerm = (props) => {
 			window.electron.terminal.resize(terminal.cols, terminal.rows)
 		}
 
-		terminal.onResize((d) => {
-			console.log("data: ", d)
+		// observe changes in the terminal size
+		new ResizeObserver(() => {
+			if(Number.isNaN(fitAddon.proposeDimensions().cols) || Number.isNaN(fitAddon.proposeDimensions().rows)) {
+				return
+			}
 			fitAddon.fit()
-			console.log("fitted!")
 			window.electron.terminal.resize(terminal.cols, terminal.rows)
-		})
+		}).observe(terminal.element)
 
 		setTerminal(terminal)
 	}, [])
@@ -137,7 +140,7 @@ const XTerm = (props) => {
 	}
 
 	return (
-		<div className="fullHeight" ref={props.forwardedRef}></div>
+		<div id="terminal" className="fullHeight" ref={props.forwardedRef}></div>
 	)
 }
 
