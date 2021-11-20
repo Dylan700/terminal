@@ -9,6 +9,7 @@ import useTheme from "../contexts/theme";
 import Docker from "../components/Docker";
 import Spotify from "../components/Spotify";
 import AnimatedPanel from "../components/AnimatedPanel";
+import AnimatedSlider from "../components/AnimatedSlider";
 
 
 const App = () => {
@@ -63,19 +64,19 @@ const App = () => {
         <div className="bg-image"></div>
         <div className="bg-color"></div>
         <div className="row fullHeight">
-          <div className="col" style={{ flex: 1 }}>
+          <AnimatedSlider isActive={!toggleFullScreen} className="col" style={{ flex: 1 }}>
             <AnimatedPanel isActive={!toggleFullScreen} delay={500}><DateTime /></AnimatedPanel>
             <AnimatedPanel isActive={!toggleFullScreen} delay={1000} ><Hardware /></AnimatedPanel>
             <AnimatedPanel isActive={!toggleFullScreen} delay={1500} ><Docker /></AnimatedPanel>
-          </div>
+          </AnimatedSlider>
           <div className="col" style={{ flex: 2 }}>
             <Terminal isActive={true} delay={2500} useAudio={true} />
           </div>
-          <div className="col" style={{ flex: 1 }}>
+          <AnimatedSlider isActive={!toggleFullScreen} className="col" style={{ flex: 1 }}>
             <AnimatedPanel isActive={!toggleFullScreen} delay={700}><Network /></AnimatedPanel>
             <AnimatedPanel isActive={!toggleFullScreen} delay={2000}><Performance /></AnimatedPanel>
             <AnimatedPanel isActive={!toggleFullScreen} delay={2300}><Spotify /></AnimatedPanel>
-          </div>
+          </AnimatedSlider>
         </div>
       </div>
     )
