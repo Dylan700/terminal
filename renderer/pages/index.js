@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
+import useTheme from "../contexts/theme";
+import useSettings from "../contexts/settings";
 import Startup from "../components/Startup"
 import Terminal from "../components/AnimatedTerminal"
 import DateTime from "../components/DateTime";
 import Hardware from "../components/Hardware";
 import Network from "../components/Network";
 import Performance from "../components/Performance";
-import useTheme from "../contexts/theme";
 import Docker from "../components/Docker";
 import Spotify from "../components/Spotify";
 import AnimatedPanel from "../components/AnimatedPanel";
@@ -16,6 +17,7 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [toggleFullScreen, setToggleFullScreen] = useState(false)
   const {setTheme} = useTheme()
+  const {currentSettings, setSettings} = useSettings()
 
   useEffect(() => {
 
@@ -63,7 +65,7 @@ const App = () => {
       <div>
         <div className="bg-image"></div>
         <div className="bg-color"></div>
-        <Startup onComplete={() => { setIsLoading(false) }} />
+        <Startup onComplete={() => { setIsLoading(false) }} useAudio={currentSettings.enableAudio} />
      </div>
     )
   }else{
@@ -78,7 +80,7 @@ const App = () => {
             <AnimatedPanel isActive={!toggleFullScreen} delay={1500} ><Docker /></AnimatedPanel>
           </AnimatedSlider>
           <div className="col" style={{ flex: 2 }}>
-            <Terminal isActive={true} delay={2500} useAudio={true} />
+            <Terminal isActive={true} delay={2500} useAudio={currentSettings.enableAudio} />
           </div>
           <AnimatedSlider isActive={!toggleFullScreen} className="col" style={{ flex: 1 }}>
             <AnimatedPanel isActive={!toggleFullScreen} delay={700}><Network /></AnimatedPanel>
