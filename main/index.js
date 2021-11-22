@@ -21,6 +21,8 @@ app.on('ready', async () => {
     fullscreen: true,
     simpleFullscreen: true,
     autoHideMenuBar: true,
+    transparent: true,
+    vibrancy: 'dark',
   })
 
   const url = isDev
