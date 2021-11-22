@@ -19,6 +19,8 @@ app.on('ready', async () => {
       preload: join(__dirname, 'preload.js'),
     },
     fullscreen: true,
+    simpleFullscreen: true,
+    autoHideMenuBar: true,
   })
 
   const url = isDev
@@ -84,4 +86,5 @@ ptyProcess.onExit((code) => {
 });
 
 require('./spotify');
+require('./keybinds')
 
