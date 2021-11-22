@@ -19,14 +19,6 @@ var authWindow
 
 app.on('ready', async () => {
 
-	authWindow = new BrowserWindow({
-		width: 800,
-		height: 600,
-		fullscreen: false,
-		show: false,
-		'node-integration': false,
-	});
-
 
 	protocol.registerHttpProtocol('terminal', (request) => {
 		// this protocol is used to communicate with spotify and other services on callbacks
@@ -56,11 +48,11 @@ app.on('ready', async () => {
 		)
 	})
 
-
-	ipcMain.on("spotify.auth", (event) => {
+	ipcMain.on("spotify.auth", async (event) => {
 		// check to see if we have a refresh token
-		if (getRefreshToken() != null) {
-			spotifyAPI.setRefreshToken(getRefreshToken());
+		const refreshToken = await getRefreshToken();
+		if (refreshToken != null) {
+			spotifyAPI.setRefreshToken(refreshToken);
 			spotifyAPI.refreshAccessToken().then(
 				(data) => {
 					spotifyAPI.setAccessToken(data.body['access_token']);
@@ -69,15 +61,32 @@ app.on('ready', async () => {
 					})
 				}
 			).catch(e => {
-				showAuthWindow(event);
+				const checkInternetConnected = require('check-internet-connected');
+				checkInternetConnected().then(() => {
+					showAuthWindow(event);
+				}).catch(() => {
+					event.reply("spotify.auth", {
+						access_token: null
+					})
+				});
 			})
 			return;
+		}else{
+			showAuthWindow(event);
 		}
 	})
 
 });
 
 function showAuthWindow(event){
+	authWindow = new BrowserWindow({
+		width: 800,
+		height: 600,
+		fullscreen: false,
+		show: false,
+		'node-integration': false,
+	});
+
 	// set the state to something random of length 16
 	state = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 	authWindow.loadURL(spotifyAPI.createAuthorizeURL(scopes, state));
@@ -91,7 +100,7 @@ function storeRefreshToken(refreshToken) {
 	keytar.setPassword('spotify', 'refresh_token', refreshToken);
 }
 
-function getRefreshToken() {
+async function getRefreshToken() {
 	const keytar = require('keytar');
-	return keytar.getPassword('spotify', 'refresh_token');
+	return await keytar.getPassword('spotify', 'refresh_token');
 }

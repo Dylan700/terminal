@@ -22,8 +22,10 @@ const Spotify = (props) => {
 
 	useEffect(() => {
 		window.electron.spotify.onAuth((event, data) => {
-			// save access token to local storage
-			localStorage.setItem('access_token', data.access_token)
+			if(data.access_token != null){
+				// save access token to local storage
+				localStorage.setItem('access_token', data.access_token)
+			}
 			setIsAuthorizing(false)
 		})
 
