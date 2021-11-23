@@ -1,6 +1,7 @@
 const { BrowserWindow, app, protocol, ipcMain } = require('electron')
 
 const spotify = require('spotify-web-api-node');
+const si = require('systeminformation');
 
 const scopes = ['playlist-read-private', 'user-read-playback-state', 'user-modify-playback-state', 'user-read-currently-playing', 'user-read-private']
 const redirectUri = 'terminal://spotify'
@@ -10,7 +11,8 @@ var state = 'tmp_state'
 const spotifyAPI = new spotify({
 	redirectUri: redirectUri,
 	clientId: clientId,
-	clientSecret: "it's a secret"
+	usePKCE: true
+	// clientSecret: "8a3c083f109c49dd83ca48029ca643a0"
 });
 
 var callerEvent = null
@@ -61,9 +63,14 @@ app.on('ready', async () => {
 					})
 				}
 			).catch(e => {
-				const checkInternetConnected = require('check-internet-connected');
-				checkInternetConnected().then(() => {
-					showAuthWindow(event);
+				si.inetChecksite("google.com").then((data) => {
+					if(!data.ok){
+						event.reply("spotify.auth", {
+							access_token: null
+						})
+					}else{
+						showAuthWindow(event);
+					}
 				}).catch(() => {
 					event.reply("spotify.auth", {
 						access_token: null

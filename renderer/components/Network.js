@@ -24,8 +24,8 @@ const Network = (props) => {
 		})
 
 		window.electron.system.ping().then((data) => {
-			setPing(data.ms);
-		})
+			setPing(Math.round(data) || null);
+		}).catch(e => setPing(null))
 
 		//get public ip
 		getPublicIP().then((data) => {
