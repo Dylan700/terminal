@@ -5,12 +5,12 @@ import { FitAddon } from 'xterm-addon-fit';
 import 'xterm/css/xterm.css'
 import useTheme from '../contexts/theme';
 
-import introAudioFile from '../assets/audio/keyboard.mp3'
-import stdinAudioFile from '../assets/audio/type.mp3'
+import introAudioFile from '../assets/audio/swoosh2.mp3'
+import stdinAudioFile from '../assets/audio/type2.mp3'
 import stdoutAudioFile from '../assets/audio/folder.mp3'
 import backspaceAudioFile from '../assets/audio/panels.mp3'
 import clearAudioFile from '../assets/audio/granted.mp3'
-import exitAudioFile from '../assets/audio/denied.mp3'
+import exitAudioFile from '../assets/audio/error3.mp3'
 import escapeAudioFile from '../assets/audio/scanFast.mp3'
 import tabAudioFile from '../assets/audio/typing.mp3'
 
@@ -124,11 +124,11 @@ const XTerm = (props) => {
 		} else if (data.key === '\x03') {
 			// ctrl-c key pressed
 			exitAudio.currentTime = 0
-			exitAudio.volume = 1
+			exitAudio.volume = 0.5
 			exitAudio.play()
 		} else {
 			stdinAudio.currentTime = 0
-			stdinAudio.volume = 0.02
+			stdinAudio.volume = 0.2
 			stdinAudio.play()
 		}
 	}

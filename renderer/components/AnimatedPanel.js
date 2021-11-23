@@ -1,8 +1,8 @@
 import { useTransition, animated } from 'react-spring'
 import {useEffect} from 'react'
 
-import introAudioFile from '../assets/audio/panels.mp3'
-import exitAudioFile from '../assets/audio/scanFast.mp3'
+import introAudioFile from '../assets/audio/swoosh.mp3'
+import exitAudioFile from '../assets/audio/swoosh.mp3'
 
 const AnimatedPanel = (props) => {
 	const introAudio = new Audio(introAudioFile);
