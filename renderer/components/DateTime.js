@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Spacer from "./Spacer";
 import Circle from './Circle'
+import useSettings from "../contexts/settings";
 
 const DateTime = (props) => {
 	const [datetime, setDateTime] = useState(new Date())
@@ -8,6 +9,8 @@ const DateTime = (props) => {
 	const [timezone, setTimezone] = useState("Determining Location...")
 	const [os, setOs] = useState({platform: "", distro: "", release: "", codename: "", kernel: ""})
 	const [battery, setBattery] = useState({ isCharging: false, percent: 0, timeRemaining: 0 })
+
+	const {currentSettings} = useSettings()
 
 	const formatTime = (time) => {
 		const hours = time.getHours();
@@ -47,6 +50,12 @@ const DateTime = (props) => {
 
 		return () => clearInterval(interval)
 	}, [datetime])
+
+	useEffect(() => {
+		if (currentSettings.alertWhenBatteryFull && battery.percent === 100 && !window.electron.system.doNotDisturb()) {
+			new Notification("Battery is Full", {body: "You should unplug the charger now."})
+		}
+	}, [battery.percent])
 
 	useEffect(() => {
 		const osStats = window.electron.system.os((data) => {

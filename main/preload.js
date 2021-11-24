@@ -1,5 +1,6 @@
 const { ipcRenderer, contextBridge } = require('electron')
 const si = require('systeminformation');
+const { getDoNotDisturb } = require('electron-notification-state')
 
 contextBridge.exposeInMainWorld('electron', {
   terminal: {
@@ -20,6 +21,8 @@ contextBridge.exposeInMainWorld('electron', {
     ping: (cb) => si.inetLatency('google.com', cb),
     docker: (cb) => si.get({dockerInfo: "containersRunning, images, containersPaused, containers, memTotal", dockerContainers: "name, state, id", mem: "total"}, cb),
     performance: (cb) => si.get({ currentLoad: "currentLoad", mem: "total, used", fsStats: "tx_sec"}, cb),
+    doNotDisturb: () => getDoNotDisturb(),
+    
   },
   spotify: {
     authorize: () => ipcRenderer.send('spotify.auth'),
