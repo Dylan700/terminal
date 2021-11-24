@@ -28,19 +28,21 @@ const Spotify = (props) => {
 			}
 			setIsAuthorizing(false)
 		})
+	}, [])
 
+	useEffect(() => {
 		const interval = setInterval(async () => {
-			if(await isAuthorized()){
+			if (await isAuthorized()) {
 				api.getMyCurrentPlaybackState().then(data => {
 					setSpotify(data)
 					setIsPlaying(data.is_playing)
 				}).catch(e => setSpotify(null))
 
 				api.getMe().then(d => setIsPremium(d.product === 'premium')).catch(e => setIsPremium(false))
-			}else{
-				if(!isAuthorizing){
-					window.electron.spotify.authorize();
+			} else {
+				if (!isAuthorizing) {
 					setIsAuthorizing(true)
+					window.electron.spotify.authorize();
 				}
 			}
 		}, 4000);
@@ -48,7 +50,7 @@ const Spotify = (props) => {
 		return () => {
 			clearInterval(interval);
 		}
-	}, [])
+	}, [isAuthorizing])
 
 	const isAuthorized = async () => {
 	if(localStorage.getItem('access_token')){

@@ -1,26 +1,20 @@
 const { BrowserWindow, app, protocol, ipcMain } = require('electron')
 
-const spotify = require('spotify-web-api-node');
 const si = require('systeminformation');
 
+const base_uri = 'https://accounts.spotify.com/api/';
+const auth_uri = 'https://accounts.spotify.com/authorize';
 const scopes = ['playlist-read-private', 'user-read-playback-state', 'user-modify-playback-state', 'user-read-currently-playing', 'user-read-private']
 const redirectUri = 'terminal://spotify'
 const clientId = '45c838afe91345f38b82eb8959e9c750'
+
 var state = 'tmp_state'
-
-const spotifyAPI = new spotify({
-	redirectUri: redirectUri,
-	clientId: clientId,
-	usePKCE: true
-	// clientSecret: "8a3c083f109c49dd83ca48029ca643a0"
-});
-
+var codeChallenge = "tmp_challenge"
+var codeVerifier = "tmp_verifier"
 var callerEvent = null
-
 var authWindow
 
 app.on('ready', async () => {
-
 
 	protocol.registerHttpProtocol('terminal', (request) => {
 		// this protocol is used to communicate with spotify and other services on callbacks
@@ -31,15 +25,12 @@ app.on('ready', async () => {
 			console.log('State does not match');
 			return;
 		}
-		spotifyAPI.authorizationCodeGrant(code).then(
+		getCodeGrant(code).then(
 			(data) => {
-				spotifyAPI.setAccessToken(data.body['access_token']);
-				spotifyAPI.setRefreshToken(data.body['refresh_token']);
-				storeRefreshToken(data.body['refresh_token']);
-
+				storeRefreshToken(data.refresh_token);
 				if (callerEvent != null){
 					callerEvent.reply("spotify.auth", {
-						access_token: spotifyAPI.getAccessToken(),
+						access_token: data.access_token,
 					})
 					authWindow.close();
 				}
@@ -54,12 +45,10 @@ app.on('ready', async () => {
 		// check to see if we have a refresh token
 		const refreshToken = await getRefreshToken();
 		if (refreshToken != null) {
-			spotifyAPI.setRefreshToken(refreshToken);
-			spotifyAPI.refreshAccessToken().then(
+			refreshAccessToken(refreshToken).then(
 				(data) => {
-					spotifyAPI.setAccessToken(data.body['access_token']);
 					event.reply("spotify.auth", {
-						access_token: spotifyAPI.getAccessToken(),
+						access_token: data.access_token,
 					})
 				}
 			).catch(e => {
@@ -94,9 +83,7 @@ function showAuthWindow(event){
 		'node-integration': false,
 	});
 
-	// set the state to something random of length 16
-	state = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-	authWindow.loadURL(spotifyAPI.createAuthorizeURL(scopes, state));
+	authWindow.loadURL(getAuthorizationURL(scopes));
 	authWindow.show();
 	callerEvent = event;
 }
@@ -110,4 +97,45 @@ function storeRefreshToken(refreshToken) {
 async function getRefreshToken() {
 	const keytar = require('keytar');
 	return await keytar.getPassword('spotify', 'refresh_token');
+}
+
+// this function returns a string of the authorization url
+function getAuthorizationURL(scopes) {
+	const pkceChallenge = require("pkce-challenge");
+	challenge = pkceChallenge();
+	codeVerifier = challenge.code_verifier;
+	codeChallenge = challenge.code_challenge;
+	// set the state to something random of length 16
+	state = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+	const url = auth_uri + '?client_id=' + clientId + '&response_type=code&redirect_uri=' + redirectUri + '&scope=' + scopes.join('%20') + '&state=' + state + "&code_challenge_method=S256" + "&code_challenge=" + codeChallenge;	
+	return url;
+}
+
+// get an access token/refresh token and other data using a code grant
+async function getCodeGrant(code){
+	// send a post request to /api/token, with the code, grant_type, and redirect_uri, client_id and code_verifier
+	const response = await fetch(base_uri + 'token', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/x-www-form-urlencoded',
+		},
+		body: 'grant_type=authorization_code&code=' + code + '&redirect_uri=' + redirectUri + '&client_id=' + clientId + '&code_verifier=' + codeVerifier,
+	});
+
+	// return the response
+	return await response.json();
+}
+
+// get a new access token using a refresh token
+async function refreshAccessToken(refreshToken){
+	// send a post request to /api/token, with the refresh_token, grant_type, and redirect_uri, client_id and code_verifier
+	const response = await fetch(base_uri + 'token', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/x-www-form-urlencoded',
+		},
+		body: 'grant_type=refresh_token&refresh_token=' + refreshToken + '&redirect_uri=' + redirectUri + '&client_id=' + clientId,
+	});
+	// return the response
+	return await response.json();
 }
