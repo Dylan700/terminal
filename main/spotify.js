@@ -1,6 +1,7 @@
 const { BrowserWindow, app, protocol, ipcMain } = require('electron')
 
 const si = require('systeminformation');
+const fetch = require('electron-fetch').default
 
 const base_uri = 'https://accounts.spotify.com/api/';
 const auth_uri = 'https://accounts.spotify.com/authorize';
@@ -27,12 +28,18 @@ app.on('ready', async () => {
 		}
 		getCodeGrant(code).then(
 			(data) => {
-				storeRefreshToken(data.refresh_token);
-				if (callerEvent != null){
+				if(data.access_token){
+					storeRefreshToken(data.refresh_token);
+					if (callerEvent != null){
+						callerEvent.reply("spotify.auth", {
+							access_token: data.access_token,
+						})
+						authWindow.close();
+					}
+				}else{
 					callerEvent.reply("spotify.auth", {
-						access_token: data.access_token,
+						access_token: null,
 					})
-					authWindow.close();
 				}
 			}
 		).catch((err) => {
@@ -47,24 +54,21 @@ app.on('ready', async () => {
 		if (refreshToken != null) {
 			refreshAccessToken(refreshToken).then(
 				(data) => {
-					event.reply("spotify.auth", {
-						access_token: data.access_token,
-					})
-				}
-			).catch(e => {
-				si.inetChecksite("google.com").then((data) => {
-					if(!data.ok){
+					if(data.refresh_token){
+						storeRefreshToken(data.refresh_token);
+					}
+					if (data.access_token){
 						event.reply("spotify.auth", {
-							access_token: null
+							access_token: data.access_token,
 						})
 					}else{
 						showAuthWindow(event);
 					}
-				}).catch(() => {
-					event.reply("spotify.auth", {
-						access_token: null
-					})
-				});
+				}
+			).catch(e => {
+				event.reply("spotify.auth", {
+					access_token: null
+				})
 			})
 			return;
 		}else{
@@ -134,7 +138,7 @@ async function refreshAccessToken(refreshToken){
 		headers: {
 			'Content-Type': 'application/x-www-form-urlencoded',
 		},
-		body: 'grant_type=refresh_token&refresh_token=' + refreshToken + '&redirect_uri=' + redirectUri + '&client_id=' + clientId,
+		body: 'grant_type=refresh_token&refresh_token=' + refreshToken + '&client_id=' + clientId,
 	});
 	// return the response
 	return await response.json();
