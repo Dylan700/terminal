@@ -17,6 +17,7 @@ import tabAudioFile from '../assets/audio/typing.mp3'
 const XTerm = (props) => {
 	const {currentTheme} = useTheme()
 	const fitAddon = new FitAddon()
+	const [ptyIndex, setPtyIndex] = useState(0)
 	const [terminal, setTerminal] = useState(new Terminal(
 		{
 			convertEol: true,
@@ -42,7 +43,6 @@ const XTerm = (props) => {
 		fitAddon.fit()
 
 		props.setTerminal(terminal)
-
 		if (props.onKey) {
 			terminal.onKey(props.onKey)
 		}
@@ -53,15 +53,20 @@ const XTerm = (props) => {
 		}
 
 		if (props.usePty) {
+			window.electron.terminal.create()
+			window.electron.terminal.onCreate((index) => {
+				setPtyIndex(index)
+			})
+
 			window.electron.terminal.on((event, data) => {
 				terminal.writeUtf8(data)
 			})
 
 			terminal.onKey((data) => {
-				window.electron.terminal.send(data.key)
+				window.electron.terminal.send(ptyIndex, data.key)
 			})
 
-			window.electron.terminal.resize(terminal.cols, terminal.rows)
+			window.electron.terminal.resize(ptyIndex, terminal.cols, terminal.rows)
 		}
 
 		// observe changes in the terminal size
@@ -70,7 +75,7 @@ const XTerm = (props) => {
 				return
 			}
 			fitAddon.fit()
-			window.electron.terminal.resize(terminal.cols, terminal.rows)
+			window.electron.terminal.resize(ptyIndex, terminal.cols, terminal.rows)
 		}).observe(terminal.element)
 
 		setTerminal(terminal)

@@ -48,45 +48,7 @@ ipcMain.on('message', (event, message) => {
   event.sender.send('message', message)
 })
 
-
-const pty = require('node-pty');
-const os = require('os');
-const shell = process.env[os.platform() === 'win32' ? 'COMSPEC' : 'SHELL'];
-const ptyProcess = pty.spawn(shell, [], {
-  name: 'xterm-color',
-  cols: 100,
-  rows: 40,
-  cwd: process.cwd(),
-  env: process.env
-});
-
-var xtermEvent;
-
-// set pty to home directory
-ptyProcess.write("cd ~\n");
-if(os.platform() === 'darwin'){
-  ptyProcess.write("export PATH=/usr/local/bin:$PATH\n")
-}
-
-ipcMain.on('terminal', (event, data) => {
-  ptyProcess.write(data);
-  xtermEvent = event;
-});
-
-ptyProcess.onData((data) => {
-  if (xtermEvent != null) {
-    xtermEvent.reply('terminal', data);
-  }
-});
-
-ipcMain.on('terminal.resize', (event, size) => {
-  ptyProcess.resize(size.cols, size.rows);
-});
-
-ptyProcess.onExit((code) => {
-  app.quit();
-});
-
+require('./shell');
 require('./spotify');
-require('./keybinds')
+require('./keybinds');
 

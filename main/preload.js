@@ -4,9 +4,12 @@ const { getDoNotDisturb } = require('electron-notification-state')
 
 contextBridge.exposeInMainWorld('electron', {
   terminal: {
-    send: (payload) => ipcRenderer.send('terminal', payload),
+    send: (ptyIndex, payload) => ipcRenderer.send('terminal', ptyIndex, payload),
     on: (handler) => ipcRenderer.on('terminal', handler),
-    resize: (cols, rows) => ipcRenderer.send('terminal.resize', { cols, rows }),
+    resize: (ptyIndex, cols, rows) => ipcRenderer.send('terminal.resize', ptyIndex, {cols, rows}),
+    create: () => ipcRenderer.send('terminal.create'),
+    onCreate: (handler) => ipcRenderer.on('terminal.create', handler),
+    destroy: () => ipcRenderer.send('terminal.destroy'),
   },
   touchbar: {
     onFullScreen: (handler) => ipcRenderer.on('touchbar.fullscreen', handler),
