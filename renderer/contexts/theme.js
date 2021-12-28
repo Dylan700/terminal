@@ -61,7 +61,7 @@ export const ThemeProvider = ({theme, children}) => {
 	// set theme on mount
 	useEffect(() => {
 		setTheme(window.localStorage.getItem("theme") || 'matrix')
-	})
+	}, [])
 
 	useEffect(() => {		
 		// set global css variables based on theme
