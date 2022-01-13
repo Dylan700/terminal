@@ -1,4 +1,4 @@
-const { ipcRenderer, contextBridge } = require('electron')
+const { ipcRenderer, contextBridge, clipboard } = require('electron')
 const si = require('systeminformation');
 const { getDoNotDisturb } = require('electron-notification-state')
 
@@ -22,6 +22,7 @@ contextBridge.exposeInMainWorld('electron', {
     docker: (cb) => si.get({dockerInfo: "containersRunning, images, containersPaused, containers, memTotal", dockerContainers: "name, state, id", mem: "total"}, cb),
     performance: (cb) => si.get({ currentLoad: "currentLoad", mem: "total, used", fsStats: "tx_sec"}, cb),
     doNotDisturb: () => getDoNotDisturb(),
+    clipboard: () => clipboard.readText(),
     
   },
   spotify: {
