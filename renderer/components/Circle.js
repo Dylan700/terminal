@@ -5,7 +5,7 @@ import useTheme from '../contexts/theme';
 
 const Circle = (props) => {
 	const {currentTheme} = useTheme()
-	const { progress } = props
+	const progress = Number.isNaN(props.progress) ? 0 : props.progress
 	const stroke = 3
 	const radius = 50
 	const normalizedRadius = radius - stroke * 2;
