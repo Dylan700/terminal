@@ -91,13 +91,15 @@ const Spotify = (props) => {
 						</div>
 						<Spacer type="vertical" />
 						<div className="row">
+							<div className="col">
+								<img className="image-color" src={spotify.item.album.images[2].url} height={50} width={50}></img>
+								<div className="image-color-overlay" style={{width: "50px", height:"50px"}}></div>
+							</div>
 							<div className="col" style={{flex: 3}}>
 								<span className="display text-small">{spotify.item.name}</span>
 								<span className="display text-tiny text-secondary">
 									{spotify.item.artists.map(artist => artist.name).join(', ')}
 								</span>
-								<ProgressBar progress={(spotify.progress_ms/spotify.item.duration_ms) * 100} />
-
 							</div>
 							{isPremium && 
 								<div className="col" style={{flex: 1}}>
@@ -112,6 +114,9 @@ const Spotify = (props) => {
 									</div>
 								</div>
 							}
+						</div>
+						<div className="row" style={{marginLeft: "10px", marginRight: "10px"}}>
+							<ProgressBar progress={(spotify.progress_ms / spotify.item.duration_ms) * 100} />
 						</div>
 						<Spacer type={"top"} />
 					</div>
