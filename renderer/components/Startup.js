@@ -58,7 +58,7 @@ export default class Startup extends React.Component {
 	}
 
 	render() {
-		return <div className="fullHeight">
+		return <div className="fullHeight" style={{margin: "10px"}}>
 			<ForwardedRefTerminal ref={this.terminalRef} setTerminal={this.setTerminal} useAudio={this.props.useAudio} disableScroll={true} />
 		</div>;
 	}
