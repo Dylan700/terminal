@@ -31,6 +31,8 @@ const XTerm = (props) => {
 	const exitAudio = new Audio(exitAudioFile);
 	const escapeAudio = new Audio(escapeAudioFile);
 	const tabAudio = new Audio(tabAudioFile);
+	
+	const [audioListeners, setAudioListeners] = useState([])
 
 	// init
 	useEffect(() => {
@@ -45,11 +47,6 @@ const XTerm = (props) => {
 
 		if (props.onKey) {
 			terminal.onKey(props.onKey)
-		}
-
-		if (props.useAudio) {
-			terminal.onKey(audioListener)
-			terminal.onLineFeed(audioLineFeedListener)
 		}
 
 		if (props.usePty) {
@@ -92,6 +89,18 @@ const XTerm = (props) => {
 		}
 
 	}, [])
+
+	useEffect(() => {
+		if (props.useAudio) {
+			setAudioListeners(prev => [...prev, terminal.onKey(audioListener)])
+			setAudioListeners(prev => [...prev, terminal.onLineFeed(audioLineFeedListener)])
+		} else {
+			// iterate through all audio listeners and remove them
+			audioListeners.forEach(listener => {
+				listener.dispose()
+			})
+		}
+	}, [props.useAudio])
 
 	useEffect(() => {
 		terminal.options.theme = {

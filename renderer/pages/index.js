@@ -11,6 +11,7 @@ import Docker from "../components/Docker";
 import Spotify from "../components/Spotify";
 import AnimatedPanel from "../components/AnimatedPanel";
 import AnimatedSlider from "../components/AnimatedSlider";
+import Settings from "../components/Settings";
 
 
 const App = () => {
@@ -88,6 +89,7 @@ const App = () => {
             <AnimatedPanel isActive={!toggleFullScreen} delay={2300}><Spotify /></AnimatedPanel>
           </AnimatedSlider>
         </div>
+        <Settings />
       </div>
     )
   }

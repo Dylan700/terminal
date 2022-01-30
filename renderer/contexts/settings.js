@@ -14,12 +14,17 @@ const SettingsContext = createContext(defaultSettings)
 export const SettingsProvider = ({ settings, children }) => {
 
 	const [currentSettings, setCurrentSettings] = useState(settings || defaultSettings)
-	const setSettings = (settings) => {
-		setCurrentSettings({...currentSettings, settings})
-	}
+
+	useEffect(() => {
+		setCurrentSettings(localStorage.getItem('settings') ? JSON.parse(localStorage.getItem('settings')) : defaultSettings)
+	}, [])
+
+	useEffect(() => {
+		localStorage.setItem('settings', JSON.stringify(currentSettings))
+	}, [currentSettings])
 
 	return (
-		<SettingsContext.Provider value={{ currentSettings, setSettings }}>
+		<SettingsContext.Provider value={{ currentSettings, setCurrentSettings }}>
 			{children}
 		</SettingsContext.Provider>
 	)
