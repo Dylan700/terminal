@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import Spacer from "./Spacer";
 
-import { useTransition, animated } from 'react-spring'
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { AiFillPauseCircle, AiFillPlayCircle } from "react-icons/ai";
 import { FaSpotify } from "react-icons/fa";
@@ -33,7 +32,7 @@ const Spotify = (props) => {
 	useEffect(() => {
 		const interval = setInterval(async () => {
 			if (await isAuthorized()) {
-				api.getMyCurrentPlaybackState().then(data => {
+				api.getMyCurrentPlaybackState({"additional_types": "episode"}).then(data => {
 					setSpotify(data)
 					setIsPlaying(data.is_playing)
 				}).catch(e => setSpotify(null))
@@ -80,7 +79,7 @@ const Spotify = (props) => {
 	const getSpotify = () => {
 		return (
 			<div>
-				{spotify && spotify.currently_playing_type === "track" &&
+				{spotify && (spotify.currently_playing_type === "track" || spotify.currently_playing_type === "episode") &&
 					<div>
 						<Spacer type="bottom" />
 						<div className="row">
@@ -92,13 +91,18 @@ const Spotify = (props) => {
 						<Spacer type="vertical" />
 						<div className="row">
 							<div className="col">
-								<img className="image-color" src={spotify.item.album.images[2].url} height={50} width={50}></img>
+								<img className="image-color" src={spotify.item.album ? spotify.item.album.images[2].url : spotify.item.images[2].url} height={50} width={50}></img>
 								<div className="image-color-overlay" style={{width: "50px", height:"50px"}}></div>
 							</div>
 							<div className="col" style={{flex: 3}}>
 								<span className="display text-small">{spotify.item.name}</span>
 								<span className="display text-tiny text-secondary">
-									{spotify.item.artists.map(artist => artist.name).join(', ')}
+									{spotify.item.artists &&
+										spotify.item.artists.map(artist => artist.name).join(', ')
+									}
+									{spotify.item.description &&
+										<marquee scrollamount={2}>{spotify.item.description}</marquee>
+									}
 								</span>
 							</div>
 							{isPremium && 
