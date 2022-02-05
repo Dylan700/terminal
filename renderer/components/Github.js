@@ -4,22 +4,29 @@ import axios from "axios";
 import { FaGithub } from "react-icons/fa";
 import useTheme from "../contexts/theme";
 
-const Performance = (props) => {
+const Performance = ({username}) => {
 	const [github, setGithub] = useState(null);
 	const {currentTheme} = useTheme();
+	const [timer, setTimer] = useState(null);
 
-  useEffect(() => {
-	  const interval = setInterval(() => {
-		  setGithubData()
-	  }, 10000);
-	  return () => clearInterval(interval);
-  }, []);
+	useEffect(() => {
+		if(timer != null){
+			clearInterval(timer);
+		}
+		setTimer(setInterval(() => {
+			setGithubData(username)
+		}, 5000))
+		
+		return () => {
+			if(timer != null){
+				clearInterval(timer);
+			}
+		}
+	}, [username])
 
-	const setGithubData = () => {
-		// send request with axios to github api
-		axios.get("https://api.github.com/users/Dylan700").then((res) => {
+	const setGithubData = (username) => {
+		axios.get(`https://api.github.com/users/${username}`).then((res) => {
 			setGithub(res.data);
-			console.log(res.data);
 		}).catch(e => {setGithub(null)});
   	}
 

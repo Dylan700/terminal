@@ -80,7 +80,7 @@ const App = () => {
             <AnimatedPanel isActive={!toggleFullScreen} delay={500}><DateTime /></AnimatedPanel>
             <AnimatedPanel isActive={!toggleFullScreen} delay={1000} ><Hardware /></AnimatedPanel>
             <AnimatedPanel isActive={!toggleFullScreen} delay={1500} ><Docker /></AnimatedPanel>
-            <AnimatedPanel isActive={!toggleFullScreen} delay={2000} ><Github /></AnimatedPanel>
+            <AnimatedPanel isActive={!toggleFullScreen} delay={2000} ><Github username={currentSettings.githubUsername} /></AnimatedPanel>
           </AnimatedSlider>
           <div className="col" style={{ flex: 2 }}>
             <Terminal isActive={true} delay={2800} useAudio={currentSettings.enableAudio} />

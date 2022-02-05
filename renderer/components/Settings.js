@@ -41,6 +41,22 @@ const Settings = (props) => {
 			</div>
 			<div className="row">
 				<div className="col">
+					<span className="display" style={{ margin: 5 }}>GITHUB</span>
+					<Spacer type={"top"} />
+				</div>
+				<div className="col">
+					<div className="row">
+						<div className="col">
+							<span className="display text-small">Username</span>
+						</div>
+						<div className="col">
+							<input type="text" placeholder={currentSettings.githubUsername} onChange={(e) => setCurrentSettings(prev => { return { ...prev, githubUsername: e.target.value } })} />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div className="row">
+				<div className="col">
 					<span className="display" style={{ margin: 5 }}>THEMES</span>
 					<Spacer type={"top"} />
 				</div>
