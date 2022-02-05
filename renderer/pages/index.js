@@ -9,6 +9,7 @@ import Network from "../components/Network";
 import Performance from "../components/Performance";
 import Docker from "../components/Docker";
 import Spotify from "../components/Spotify";
+import Github from "../components/Github";
 import AnimatedPanel from "../components/AnimatedPanel";
 import AnimatedSlider from "../components/AnimatedSlider";
 import Settings from "../components/Settings";
@@ -79,14 +80,15 @@ const App = () => {
             <AnimatedPanel isActive={!toggleFullScreen} delay={500}><DateTime /></AnimatedPanel>
             <AnimatedPanel isActive={!toggleFullScreen} delay={1000} ><Hardware /></AnimatedPanel>
             <AnimatedPanel isActive={!toggleFullScreen} delay={1500} ><Docker /></AnimatedPanel>
+            <AnimatedPanel isActive={!toggleFullScreen} delay={2000} ><Github /></AnimatedPanel>
           </AnimatedSlider>
           <div className="col" style={{ flex: 2 }}>
-            <Terminal isActive={true} delay={2500} useAudio={currentSettings.enableAudio} />
+            <Terminal isActive={true} delay={2800} useAudio={currentSettings.enableAudio} />
           </div>
           <AnimatedSlider isActive={!toggleFullScreen} className="col" style={{ flex: 1 }}>
             <AnimatedPanel isActive={!toggleFullScreen} delay={700}><Network /></AnimatedPanel>
-            <AnimatedPanel isActive={!toggleFullScreen} delay={2000}><Performance /></AnimatedPanel>
-            <AnimatedPanel isActive={!toggleFullScreen} delay={2300}><Spotify /></AnimatedPanel>
+            <AnimatedPanel isActive={!toggleFullScreen} delay={2300}><Performance /></AnimatedPanel>
+            <AnimatedPanel isActive={!toggleFullScreen} delay={2500}><Spotify /></AnimatedPanel>
           </AnimatedSlider>
         </div>
         <Settings />
