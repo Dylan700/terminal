@@ -10,6 +10,7 @@ import Performance from "../components/Performance";
 import Docker from "../components/Docker";
 import Spotify from "../components/Spotify";
 import Github from "../components/Github";
+import Calendar from "../components/Calendar";
 import AnimatedPanel from "../components/AnimatedPanel";
 import AnimatedSlider from "../components/AnimatedSlider";
 import Settings from "../components/Settings";
@@ -80,6 +81,7 @@ const App = () => {
             <AnimatedPanel isActive={!toggleFullScreen} delay={500}><DateTime /></AnimatedPanel>
             <AnimatedPanel isActive={!toggleFullScreen} delay={1000} ><Hardware /></AnimatedPanel>
             <AnimatedPanel isActive={!toggleFullScreen} delay={1500} ><Docker /></AnimatedPanel>
+            <AnimatedPanel isActive={!toggleFullScreen} delay={1500} ><Calendar /></AnimatedPanel>
             <AnimatedPanel isActive={!toggleFullScreen} delay={2000} ><Github username={currentSettings.githubUsername} /></AnimatedPanel>
           </AnimatedSlider>
           <div className="col" style={{ flex: 2 }}>
