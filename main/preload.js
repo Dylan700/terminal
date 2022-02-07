@@ -29,6 +29,9 @@ contextBridge.exposeInMainWorld('electron', {
     authorize: () => ipcRenderer.send('spotify.auth'),
     onAuth: (cb) => ipcRenderer.on('spotify.auth', cb),
   },
+  net: {
+    ical: (url) => ipcRenderer.invoke('net.ical', url),
+  },
   message: {
     send: (payload) => ipcRenderer.send('message', payload),
     on: (handler) => ipcRenderer.on('message', handler),

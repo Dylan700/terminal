@@ -89,4 +89,5 @@ ptyProcess.onExit((code) => {
 
 require('./spotify');
 require('./keybinds')
+require('./net');
 
