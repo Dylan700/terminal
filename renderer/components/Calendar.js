@@ -1,31 +1,26 @@
 import { useState, useEffect } from "react";
 import Spacer from "./Spacer";
-import useTheme from "../contexts/theme";
 import ICAL from "ical.js";
 
 const Calendar = (props) => {
 	const [data, setData] = useState();
 
-	useEffect(() => {
-		// get calendar data then save the parsed ICAL object
-		// need to fix cors stuff with axios https://pratikpc.medium.com/bypassing-cors-with-electron-ab7eaf331605
-		const rawData = `
-BEGIN:VCALENDAR
-PRODID:-//Allocate//iCal4j 1.0//EN
-VERSION:2.0
-CALSCALE:GREGORIAN
-BEGIN:VEVENT
-DTSTAMP:20220205T011823Z
-DTSTART;TZID=Australia/Sydney:20220221T100000
-DTEND;TZID=Australia/Sydney:20220221T120000
-SUMMARY:Introduction to Artificial Intelligence\, LEC
-LOCATION:-
-DESCRIPTION:COMP3308-S1C-ND-RE\, LEC\, 01 Introduction to Artificial Intelligence Staff: - Location: -
-END:VEVENT
-UID:uid0
-END:VCALENDAR
-`;
-		const icalDataParse = ICAL.parse(rawData);
+	useEffect(async () => {
+		const defaultData = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Google Inc//Google Calendar 70.9054//EN\nCALSCALE:GREGORIAN\nBEGIN:VTIMEZONE\nTZID:Australia/Sydney\nBEGIN:STANDARD\nTZOFFSETFROM:+1100\nTZOFFSETTO:+1000\nTZNAME:EST\nDTSTART:19700101T000000\nEND:STANDARD\nEND:VTIMEZONE\nEND:VCALENDAR";
+
+		let rawData = await window.electron.net.ical("https://google.com.au.xd");
+
+		if (rawData == null) {
+			rawData = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Google Inc//Google Calendar 70.9054//EN\nCALSCALE:GREGORIAN\nBEGIN:VTIMEZONE\nTZID:Australia/Sydney\nBEGIN:STANDARD\nTZOFFSETFROM:+1100\nTZOFFSETTO:+1000\nTZNAME:EST\nDTSTART:19700101T000000\nEND:STANDARD\nEND:VTIMEZONE\nEND:VCALENDAR";
+		}
+
+		let icalDataParse;
+
+		try {
+			icalDataParse = ICAL.parse(rawData);
+		} catch (e) {
+			icalDataParse = ICAL.parse(defaultData);
+		}
 		const icalData = new ICAL.Component(icalDataParse);
 		setData(icalData);
 	}, []);
@@ -38,17 +33,17 @@ END:VCALENDAR
 				const event = new ICAL.Event(e);
 				return (
 					event.startDate.year === date.getFullYear() &&
-					event.startDate.day === date.getDate() && event.startDate.month-1 === date.getMonth()
+					event.startDate.day === date.getDate() && event.startDate.month - 1 === date.getMonth()
 				);
 			});
 			return filteredEvents;
-		}else{
+		} else {
 			return [];
 		}
 	}
 
 
-	
+
 	// return the date as a percentage between 12am to 12am (24 hours), so 0.5 would be 12pm
 	const dateAsPercentage = (date) => {
 		const now = new Date();
@@ -72,9 +67,17 @@ END:VCALENDAR
 					backgroundColor: "var(--primary-color)",
 				}}
 			>
-				<marquee scrollamount={2} className="display text-tiny" style={{color: "var(--background-color)"}}>{summary}</marquee>
+				<marquee scrollamount={2} className="display text-tiny" style={{ color: "var(--background-color)" }}>{summary}</marquee>
 			</div>
 		);
+	}
+
+	// given a day "SUN", "MON" etc., return the date of the next occurence of that day, inclusively.
+	const getNextDate = (day) => {
+		const today = new Date();
+		const dayIndex = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"].indexOf(day);
+		const nextDay = new Date(today.getFullYear(), today.getMonth(), today.getDate() + (dayIndex - today.getDay()));
+		return nextDay;
 	}
 
 	const getCalendar = () => {
@@ -83,7 +86,7 @@ END:VCALENDAR
 				<Spacer type="bottom" />
 
 
-				<div className="container" style={{margin: "10px"}}>
+				<div className="container" style={{ margin: "10px" }}>
 					<div style={{ width: "100%" }}>
 						<div className="text-primary" style={{ marginLeft: `${dateAsPercentage(new Date()) * 100}%`, position: "absolute" }}>
 							<div style={{ width: "2px", height: "30px", backgroundColor: "var(--primary-color)" }}></div>
@@ -107,50 +110,61 @@ END:VCALENDAR
 						</div>
 					</div>
 
-					<div className="col" style={{ width: "100%", position: "relative", height: "20px"}}>
+					<div className="col" style={{ width: "100%", position: "relative", height: "20px" }}>
 						{/* 2pm event, going for 1 hour */}
-						<span className={`display text-small ${new Date().getDay() == 0 ? "text-primary": "text-secondary" }`}>SUN</span>
-						{getEvents(new Date(2022, 1, 21, 0, 0, 0, 0), data).map((event) => {
+						<span className={`display text-small ${new Date().getDay() == 0 ? "text-primary" : "text-secondary"}`}>SUN</span>
+						{getEvents(getNextDate("SUN"), data).map((event) => {
 							const e = new ICAL.Event(event);
-							return getEventDiv(e.duration.hours*60, e.startDate.minute + e.startDate.hour * 60, e.summary);
+							return getEventDiv(e.duration.hours * 60, e.startDate.minute + e.startDate.hour * 60, e.summary);
 						})}
-						{getEventDiv(60, 60 * 14)}
 					</div>
-					<div className="col" style={{ width: "100%", position: "relative" , height: "20px"}}>
+					<div className="col" style={{ width: "100%", position: "relative", height: "20px" }}>
 						{/* 2pm event, going for 1 hour */}
 						<span className={`display text-small ${new Date().getDay() == 1 ? "text-primary" : "text-secondary"}`}>MON</span>
-						{getEventDiv(60, 60 * 15)}
-						{getEventDiv(60, 60 * 8)}
+						{getEvents(getNextDate("MON"), data).map((event) => {
+							const e = new ICAL.Event(event);
+							return getEventDiv(e.duration.hours * 60, e.startDate.minute + e.startDate.hour * 60, e.summary);
+						})}
 					</div>
 					<div className="col" style={{ width: "100%", position: "relative", height: "20px" }}>
 						{/* 2pm event, going for 1 hour */}
 						<span className={`display text-small ${new Date().getDay() == 2 ? "text-primary" : "text-secondary"}`}>TUE</span>
-						{getEventDiv(60, 60 * 14)}
-						{getEventDiv(60, 60 * 6)}
+						{getEvents(getNextDate("TUE"), data).map((event) => {
+							const e = new ICAL.Event(event);
+							return getEventDiv(e.duration.hours * 60, e.startDate.minute + e.startDate.hour * 60, e.summary);
+						})}
 					</div>
 					<div className="col" style={{ width: "100%", position: "relative", height: "20px" }}>
 						{/* 2pm event, going for 1 hour */}
 						<span className={`display text-small ${new Date().getDay() == 3 ? "text-primary" : "text-secondary"}`}>WED</span>
-						{getEventDiv(60, 60 * 15)}
-						{getEventDiv(60, 60 * 8)}
+						{getEvents(getNextDate("WED"), data).map((event) => {
+							const e = new ICAL.Event(event);
+							return getEventDiv(e.duration.hours * 60, e.startDate.minute + e.startDate.hour * 60, e.summary);
+						})}
 					</div>
 					<div className="col" style={{ width: "100%", position: "relative", height: "20px" }}>
 						{/* 2pm event, going for 1 hour */}
 						<span className={`display text-small ${new Date().getDay() == 4 ? "text-primary" : "text-secondary"}`}>THU</span>
-						{getEventDiv(60, 60 * 14)}
-						{getEventDiv(60, 60 * 6)}
+						{getEvents(getNextDate("THU"), data).map((event) => {
+							const e = new ICAL.Event(event);
+							return getEventDiv(e.duration.hours * 60, e.startDate.minute + e.startDate.hour * 60, e.summary);
+						})}
 					</div>
 					<div className="col" style={{ width: "100%", position: "relative", height: "20px" }}>
 						{/* 2pm event, going for 1 hour */}
 						<span className={`display text-small ${new Date().getDay() == 5 ? "text-primary" : "text-secondary"}`}>FRI</span>
-						{getEventDiv(60, 60 * 15)}
-						{getEventDiv(60, 60 * 8)}
+						{getEvents(getNextDate("FRI"), data).map((event) => {
+							const e = new ICAL.Event(event);
+							return getEventDiv(e.duration.hours * 60, e.startDate.minute + e.startDate.hour * 60, e.summary);
+						})}
 					</div>
 					<div className="col" style={{ width: "100%", position: "relative", height: "20px" }}>
 						{/* 2pm event, going for 1 hour */}
 						<span className={`display text-small ${new Date().getDay() == 6 ? "text-primary" : "text-secondary"}`}>SAT</span>
-						{getEventDiv(60, 60 * 15)}
-						{getEventDiv(60, 60 * 8)}
+						{getEvents(getNextDate("SAT"), data).map((event) => {
+							const e = new ICAL.Event(event);
+							return getEventDiv(e.duration.hours * 60, e.startDate.minute + e.startDate.hour * 60, e.summary);
+						})}
 					</div>
 
 				</div>
