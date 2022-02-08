@@ -75,10 +75,11 @@ const XTerm = (props) => {
 		// handle paste functionality
 		const handlePaste = (e) => {
 			if (e.keyCode === 86 && e.metaKey) {
-				terminal.focus()
-				document.execCommand('paste')
-				// terminal.write(window.electron.system.clipboard())
-				window.electron.terminal.send(window.electron.system.clipboard())
+				// check if terminal is focused
+				if(terminal.element.classList.contains("focus")){
+					document.execCommand('paste')
+					window.electron.terminal.send(window.electron.system.clipboard())
+				}
 			}
 		}
 
