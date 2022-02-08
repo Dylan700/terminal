@@ -1,14 +1,17 @@
 import { useState, useEffect } from "react";
 import Spacer from "./Spacer";
 import ICAL from "ical.js";
+import useSettings from "../contexts/settings";
 
+// TODO: add ical data to localstorage to save between sessions if user is offline
 const Calendar = (props) => {
 	const [data, setData] = useState();
+	const {currentSettings} = useSettings();
 
 	useEffect(async () => {
 		const defaultData = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Google Inc//Google Calendar 70.9054//EN\nCALSCALE:GREGORIAN\nBEGIN:VTIMEZONE\nTZID:Australia/Sydney\nBEGIN:STANDARD\nTZOFFSETFROM:+1100\nTZOFFSETTO:+1000\nTZNAME:EST\nDTSTART:19700101T000000\nEND:STANDARD\nEND:VTIMEZONE\nEND:VCALENDAR";
 
-		let rawData = await window.electron.net.ical("https://google.com.au.xd");
+		let rawData = await window.electron.net.ical(currentSettings.icalUrl);
 
 		if (rawData == null) {
 			rawData = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Google Inc//Google Calendar 70.9054//EN\nCALSCALE:GREGORIAN\nBEGIN:VTIMEZONE\nTZID:Australia/Sydney\nBEGIN:STANDARD\nTZOFFSETFROM:+1100\nTZOFFSETTO:+1000\nTZNAME:EST\nDTSTART:19700101T000000\nEND:STANDARD\nEND:VTIMEZONE\nEND:VCALENDAR";
@@ -41,8 +44,6 @@ const Calendar = (props) => {
 			return [];
 		}
 	}
-
-
 
 	// return the date as a percentage between 12am to 12am (24 hours), so 0.5 would be 12pm
 	const dateAsPercentage = (date) => {
