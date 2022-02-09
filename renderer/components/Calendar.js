@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Spacer from "./Spacer";
 import ICAL from "ical.js";
 import useSettings from "../contexts/settings";
+import Tooltip from "./Tooltip";
 
 // TODO: add ical data to localstorage to save between sessions if user is offline
 const Calendar = (props) => {
@@ -9,6 +10,8 @@ const Calendar = (props) => {
 	const {currentSettings} = useSettings();
 
 	useEffect(async () => {
+		// set ical to lenient mode to prevent time parsing errors
+		ICAL.design.strict = false;
 		const defaultData = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Google Inc//Google Calendar 70.9054//EN\nCALSCALE:GREGORIAN\nBEGIN:VTIMEZONE\nTZID:Australia/Sydney\nBEGIN:STANDARD\nTZOFFSETFROM:+1100\nTZOFFSETTO:+1000\nTZNAME:EST\nDTSTART:19700101T000000\nEND:STANDARD\nEND:VTIMEZONE\nEND:VCALENDAR";
 
 		let rawData = await window.electron.net.ical(currentSettings.icalUrl);
@@ -66,18 +69,22 @@ const Calendar = (props) => {
 					width: `${percentage * 100}%`,
 					marginLeft: `${left * 100}%`,
 					backgroundColor: "var(--primary-color)",
+					minHeight: "1em", 
 				}}
 			>
-				<marquee scrollamount={2} className="display text-tiny" style={{ color: "var(--background-color)" }}>{summary}</marquee>
+					<marquee scrollamount={2} className="display text-tiny" style={{ color: "var(--background-color)" }}>{summary}</marquee>
 			</div>
 		);
 	}
 
-	// given a day "SUN", "MON" etc., return the date of the next occurence of that day, inclusively.
+	// given a day "SUN", "MON" etc., return the date of the next occurence of that day. So if the day is Tuesday, but it is currently Thursday, return the date of the next Tuesday
 	const getNextDate = (day) => {
 		const today = new Date();
 		const dayIndex = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"].indexOf(day);
-		const nextDay = new Date(today.getFullYear(), today.getMonth(), today.getDate() + (dayIndex - today.getDay()));
+		let nextDay = new Date(today.getFullYear(), today.getMonth(), today.getDate() + (dayIndex - today.getDay()));
+		if(nextDay.getDate() < today.getDate()) {
+			nextDay = new Date(today.getFullYear(), today.getMonth(), today.getDate() + (dayIndex - today.getDay() + 7));
+		}
 		return nextDay;
 	}
 
@@ -85,7 +92,6 @@ const Calendar = (props) => {
 		return (
 			<div>
 				<Spacer type="bottom" />
-
 
 				<div className="container" style={{ margin: "10px" }}>
 					<div style={{ width: "100%" }}>
@@ -112,59 +118,87 @@ const Calendar = (props) => {
 					</div>
 
 					<div className="col" style={{ width: "100%", position: "relative", height: "20px" }}>
-						{/* 2pm event, going for 1 hour */}
 						<span className={`display text-small ${new Date().getDay() == 0 ? "text-primary" : "text-secondary"}`}>SUN</span>
 						{getEvents(getNextDate("SUN"), data).map((event) => {
 							const e = new ICAL.Event(event);
-							return getEventDiv(e.duration.hours * 60, e.startDate.minute + e.startDate.hour * 60, e.summary);
+							const duration = `${e.startDate.hour < 12 ? e.startDate.hour : e.startDate.hour - 12}:${e.startDate.minute < 10 ? "0" + e.startDate.minute : e.startDate.minute}${e.startDate.hour < 12 ? "am" : "pm"} - ${e.startDate.hour < 12 ? e.startDate.hour + 1 : e.startDate.hour - 11}:${e.startDate.minute < 10 ? "0" + e.startDate.minute : e.startDate.minute}${e.startDate.hour < 12 ? "am" : "pm"}`;
+							return (
+								<Tooltip key={e.uid} title={e.summary} subtitle={duration} description={e.description}>
+									{getEventDiv(e.duration.hours * 60, e.startDate.minute + e.startDate.hour * 60, e.summary)}
+								</Tooltip>
+							)
 						})}
 					</div>
 					<div className="col" style={{ width: "100%", position: "relative", height: "20px" }}>
-						{/* 2pm event, going for 1 hour */}
 						<span className={`display text-small ${new Date().getDay() == 1 ? "text-primary" : "text-secondary"}`}>MON</span>
 						{getEvents(getNextDate("MON"), data).map((event) => {
 							const e = new ICAL.Event(event);
-							return getEventDiv(e.duration.hours * 60, e.startDate.minute + e.startDate.hour * 60, e.summary);
+							const duration = `${e.startDate.hour < 12 ? e.startDate.hour : e.startDate.hour - 12}:${e.startDate.minute < 10 ? "0" + e.startDate.minute : e.startDate.minute}${e.startDate.hour < 12 ? "am" : "pm"} - ${e.startDate.hour < 12 ? e.startDate.hour + 1 : e.startDate.hour - 11}:${e.startDate.minute < 10 ? "0" + e.startDate.minute : e.startDate.minute}${e.startDate.hour < 12 ? "am" : "pm"}`;
+							return (
+								<Tooltip key={e.uid} title={e.summary} subtitle={duration} description={e.description}>
+									{getEventDiv(e.duration.hours * 60, e.startDate.minute + e.startDate.hour * 60, e.summary)}
+								</Tooltip>
+							)
 						})}
 					</div>
 					<div className="col" style={{ width: "100%", position: "relative", height: "20px" }}>
-						{/* 2pm event, going for 1 hour */}
 						<span className={`display text-small ${new Date().getDay() == 2 ? "text-primary" : "text-secondary"}`}>TUE</span>
 						{getEvents(getNextDate("TUE"), data).map((event) => {
 							const e = new ICAL.Event(event);
-							return getEventDiv(e.duration.hours * 60, e.startDate.minute + e.startDate.hour * 60, e.summary);
+							const duration = `${e.startDate.hour < 12 ? e.startDate.hour : e.startDate.hour - 12}:${e.startDate.minute < 10 ? "0" + e.startDate.minute : e.startDate.minute}${e.startDate.hour < 12 ? "am" : "pm"} - ${e.startDate.hour < 12 ? e.startDate.hour + 1 : e.startDate.hour - 11}:${e.startDate.minute < 10 ? "0" + e.startDate.minute : e.startDate.minute}${e.startDate.hour < 12 ? "am" : "pm"}`;
+							return (
+								<Tooltip key={e.uid} title={e.summary} subtitle={duration} description={e.description}>
+									{getEventDiv(e.duration.hours * 60, e.startDate.minute + e.startDate.hour * 60, e.summary)}
+								</Tooltip>
+							)
 						})}
 					</div>
 					<div className="col" style={{ width: "100%", position: "relative", height: "20px" }}>
-						{/* 2pm event, going for 1 hour */}
 						<span className={`display text-small ${new Date().getDay() == 3 ? "text-primary" : "text-secondary"}`}>WED</span>
 						{getEvents(getNextDate("WED"), data).map((event) => {
 							const e = new ICAL.Event(event);
-							return getEventDiv(e.duration.hours * 60, e.startDate.minute + e.startDate.hour * 60, e.summary);
+							const duration = `${e.startDate.hour < 12 ? e.startDate.hour : e.startDate.hour - 12}:${e.startDate.minute < 10 ? "0" + e.startDate.minute : e.startDate.minute}${e.startDate.hour < 12 ? "am" : "pm"} - ${e.startDate.hour < 12 ? e.startDate.hour + 1 : e.startDate.hour - 11}:${e.startDate.minute < 10 ? "0" + e.startDate.minute : e.startDate.minute}${e.startDate.hour < 12 ? "am" : "pm"}`;
+							return (
+								<Tooltip key={e.uid} title={e.summary} subtitle={duration} description={e.description}>
+									{getEventDiv(e.duration.hours * 60, e.startDate.minute + e.startDate.hour * 60, e.summary)}
+								</Tooltip>
+							)
 						})}
 					</div>
 					<div className="col" style={{ width: "100%", position: "relative", height: "20px" }}>
-						{/* 2pm event, going for 1 hour */}
 						<span className={`display text-small ${new Date().getDay() == 4 ? "text-primary" : "text-secondary"}`}>THU</span>
 						{getEvents(getNextDate("THU"), data).map((event) => {
 							const e = new ICAL.Event(event);
-							return getEventDiv(e.duration.hours * 60, e.startDate.minute + e.startDate.hour * 60, e.summary);
+							const duration = `${e.startDate.hour < 12 ? e.startDate.hour : e.startDate.hour - 12}:${e.startDate.minute < 10 ? "0" + e.startDate.minute : e.startDate.minute}${e.startDate.hour < 12 ? "am" : "pm"} - ${e.startDate.hour < 12 ? e.startDate.hour + 1 : e.startDate.hour - 11}:${e.startDate.minute < 10 ? "0" + e.startDate.minute : e.startDate.minute}${e.startDate.hour < 12 ? "am" : "pm"}`;
+							return (
+								<Tooltip key={e.uid} title={e.summary} subtitle={duration} description={e.description}>
+									{getEventDiv(e.duration.hours * 60, e.startDate.minute + e.startDate.hour * 60, e.summary)}
+								</Tooltip>
+							)
 						})}
 					</div>
 					<div className="col" style={{ width: "100%", position: "relative", height: "20px" }}>
-						{/* 2pm event, going for 1 hour */}
 						<span className={`display text-small ${new Date().getDay() == 5 ? "text-primary" : "text-secondary"}`}>FRI</span>
 						{getEvents(getNextDate("FRI"), data).map((event) => {
 							const e = new ICAL.Event(event);
-							return getEventDiv(e.duration.hours * 60, e.startDate.minute + e.startDate.hour * 60, e.summary);
+							const duration = `${e.startDate.hour < 12 ? e.startDate.hour : e.startDate.hour - 12}:${e.startDate.minute < 10 ? "0" + e.startDate.minute : e.startDate.minute}${e.startDate.hour < 12 ? "am" : "pm"} - ${e.startDate.hour < 12 ? e.startDate.hour + 1 : e.startDate.hour - 11}:${e.startDate.minute < 10 ? "0" + e.startDate.minute : e.startDate.minute}${e.startDate.hour < 12 ? "am" : "pm"}`;
+							return (
+								<Tooltip key={e.uid} title={e.summary} subtitle={duration} description={e.description}>
+									{getEventDiv(e.duration.hours * 60, e.startDate.minute + e.startDate.hour * 60, e.summary)}
+								</Tooltip>
+							)
 						})}
 					</div>
 					<div className="col" style={{ width: "100%", position: "relative", height: "20px" }}>
-						{/* 2pm event, going for 1 hour */}
 						<span className={`display text-small ${new Date().getDay() == 6 ? "text-primary" : "text-secondary"}`}>SAT</span>
 						{getEvents(getNextDate("SAT"), data).map((event) => {
 							const e = new ICAL.Event(event);
-							return getEventDiv(e.duration.hours * 60, e.startDate.minute + e.startDate.hour * 60, e.summary);
+							const duration = `${e.startDate.hour < 12 ? e.startDate.hour : e.startDate.hour - 12}:${e.startDate.minute < 10 ? "0" + e.startDate.minute : e.startDate.minute}${e.startDate.hour < 12 ? "am" : "pm"} - ${e.startDate.hour < 12 ? e.startDate.hour + 1 : e.startDate.hour - 11}:${e.startDate.minute < 10 ? "0" + e.startDate.minute : e.startDate.minute}${e.startDate.hour < 12 ? "am" : "pm"}`;
+							return (
+								<Tooltip key={e.uid} title={e.summary} subtitle={duration} description={e.description}>
+									{getEventDiv(e.duration.hours * 60, e.startDate.minute + e.startDate.hour * 60, e.summary)}
+								</Tooltip>
+							)
 						})}
 					</div>
 

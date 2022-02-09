@@ -1,0 +1,24 @@
+.tt_wrapper 
+	position: relative
+
+.tt
+	background-color: transparent
+	position: absolute
+	top: 100%
+	padding: 2px
+	margin: 10px
+	color: var(--primary-color)
+	height: auto
+	max-height: 0px
+	transition: max-height 0.3s ease-in-out 0.25s, border-color 0.3s ease 0.5s, background-color 0.2s ease 0.5s
+	border: 1px solid var(--primary-color)
+	border-color: transparent
+	border-left: none
+	border-right: none
+	overflow: hidden
+
+.active 
+		transition: max-height 0.3s ease-in-out, border-color 0.1s ease, background-color 0.3s ease
+		border-color: var(--primary-color)
+		background-color: var(--background-color)
+		max-height: 500px
