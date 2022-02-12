@@ -9,6 +9,7 @@ import ProgressBar from "./ProgressBar";
 import useTheme from "../contexts/theme";
 
 import SpotifyAPI from "spotify-web-api-js"
+import AnimatedText from "./AnimatedText";
 
 const Spotify = (props) => {
 	const {currentTheme} = useTheme();
@@ -95,10 +96,10 @@ const Spotify = (props) => {
 								<div className="image-color-overlay" style={{width: "50px", height:"50px"}}></div>
 							</div>
 							<div className="col" style={{flex: 3}}>
-								<span className="display text-small">{spotify.item.name}</span>
+								<AnimatedText className="display text-small">{spotify.item.name}</AnimatedText>
 								<span className="display text-tiny text-secondary">
 									{spotify.item.artists &&
-										spotify.item.artists.map(artist => artist.name).join(', ')
+										<AnimatedText>{spotify.item.artists.map(artist => artist.name).join(', ')}</AnimatedText>
 									}
 									{spotify.item.description &&
 										<marquee scrollamount={2}>{spotify.item.description}</marquee>
@@ -130,7 +131,7 @@ const Spotify = (props) => {
 						<Spacer type="bottom" />
 						<div className="row">
 							<div style={{ margin: 10 }}>
-							<span className="display text-small">SPOTIFY <span className="display text-tiny text-secondary">{(spotify && spotify.currently_playing_type === "ad") ? "PLAYING ADVERTISEMENT" : "OFFLINE"}</span></span>
+								<span className="display text-small">SPOTIFY <AnimatedText className="display text-tiny text-secondary">{(spotify && spotify.currently_playing_type === "ad") ? "PLAYING ADVERTISEMENT" : "OFFLINE"}</AnimatedText></span>
 							</div>
 							<FaSpotify style={{ marginRight: 10 }} size={30} color={currentTheme.primaryColor} />
 						</div>

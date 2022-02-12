@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Spacer from "../components/Spacer";
+import AnimatedText from "./AnimatedText";
 
 const Network = (props) => {
 	const [network, setNetwork] = useState({ interfaces: [], networkGatewayDefault: ""});
@@ -52,7 +53,7 @@ const Network = (props) => {
 					{ping &&
 						<div className="col" style={{ alignItems: 'flex-end' }}>
 							<span className="display text-tiny text-secondary">PUBLIC ADDRESS</span>
-							<span className="display text-medium text-primary">{publicIP}</span>
+							<AnimatedText className="display text-medium text-primary">{publicIP}</AnimatedText>
 						</div>
 					}
 					{ping &&
@@ -73,13 +74,13 @@ const Network = (props) => {
 						<div key={index} className="row">
 							<div className="col">
 								<span className="display text-small text-secondary">{item.ifaceName} <span className="text-tiny text-secondary">{item.type}</span></span>
-								<span className="display text-small">{item.ip4}</span>
-								<span className="display text-tiny text-secondary">{item.ip6}</span>
+								<AnimatedText className="display text-small">{item.ip4}</AnimatedText>
+								<AnimatedText className="display text-tiny text-secondary">{item.ip6}</AnimatedText>
 							</div>
 							{item.mac &&
 								<div className="col">
 									<span className="display text-small text-secondary">MAC ADDRESS</span>
-									<span className="display text-small">{item.mac}</span>
+									<AnimatedText className="display text-small">{item.mac}</AnimatedText>
 								</div>
 							}
 						</div>

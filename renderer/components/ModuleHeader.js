@@ -1,4 +1,5 @@
 import styles from '../assets/styles/moduleHeader.module.sass';
+import AnimatedText from './AnimatedText';
 
 const ModuleHeader = (props) => {
 
@@ -7,8 +8,8 @@ const ModuleHeader = (props) => {
 			<div className={styles.line1}>
 				<div className={styles.block}></div>
 				<div style={{display: 'flex', flexDirection: 'column'}}>
-					<span className="text-secondary text-small">{props.subtitle}</span>
-					<span className="text-primary display">{props.title}</span>
+					<AnimatedText className="text-secondary text-small">{props.subtitle}</AnimatedText>
+					<AnimatedText className="text-primary display">{props.title}</AnimatedText>
 				</div>
 				<div className={styles.line2}></div>
 			</div>
