@@ -122,7 +122,7 @@ const Calendar = (props) => {
 						<span className={`display text-small ${new Date().getDay() == 0 ? "text-primary" : "text-secondary"}`}>SUN</span>
 						{getEvents(getNextDate("SUN"), data).map((event) => {
 							const e = new ICAL.Event(event);
-							const duration = `${e.startDate.hour < 12 ? e.startDate.hour : e.startDate.hour - 12}:${e.startDate.minute < 10 ? "0" + e.startDate.minute : e.startDate.minute}${e.startDate.hour < 12 ? "am" : "pm"} - ${e.startDate.hour < 12 ? e.startDate.hour + 1 : e.startDate.hour - 11}:${e.startDate.minute < 10 ? "0" + e.startDate.minute : e.startDate.minute}${e.startDate.hour < 12 ? "am" : "pm"}`;
+							const duration = `${e.startDate.hour < 12 ? e.startDate.hour : e.startDate.hour - 12}:${e.startDate.minute < 10 ? "0" + e.startDate.minute : e.startDate.minute}${e.startDate.hour < 12 ? "am" : "pm"} - ${e.endDate.hour <= 12 ? e.endDate.hour : e.endDate.hour - 12}:${e.endDate.minute < 10 ? "0" + e.endDate.minute : e.endDate.minute}${e.endDate.hour < 12 ? "am" : "pm"}`;
 							return (
 								<Tooltip key={e.uid} title={e.summary} subtitle={duration} description={e.description}>
 									{getEventDiv(e.duration.hours * 60, e.startDate.minute + e.startDate.hour * 60, e.summary)}
@@ -134,7 +134,7 @@ const Calendar = (props) => {
 						<span className={`display text-small ${new Date().getDay() == 1 ? "text-primary" : "text-secondary"}`}>MON</span>
 						{getEvents(getNextDate("MON"), data).map((event) => {
 							const e = new ICAL.Event(event);
-							const duration = `${e.startDate.hour < 12 ? e.startDate.hour : e.startDate.hour - 12}:${e.startDate.minute < 10 ? "0" + e.startDate.minute : e.startDate.minute}${e.startDate.hour < 12 ? "am" : "pm"} - ${e.startDate.hour < 12 ? e.startDate.hour + 1 : e.startDate.hour - 11}:${e.startDate.minute < 10 ? "0" + e.startDate.minute : e.startDate.minute}${e.startDate.hour < 12 ? "am" : "pm"}`;
+							const duration = `${e.startDate.hour < 12 ? e.startDate.hour : e.startDate.hour - 12}:${e.startDate.minute < 10 ? "0" + e.startDate.minute : e.startDate.minute}${e.startDate.hour < 12 ? "am" : "pm"} - ${e.endDate.hour <= 12 ? e.endDate.hour : e.endDate.hour - 12}:${e.endDate.minute < 10 ? "0" + e.endDate.minute : e.endDate.minute}${e.endDate.hour < 12 ? "am" : "pm"}`;
 							return (
 								<Tooltip key={e.uid} title={e.summary} subtitle={duration} description={e.description}>
 									{getEventDiv(e.duration.hours * 60, e.startDate.minute + e.startDate.hour * 60, e.summary)}
@@ -146,7 +146,7 @@ const Calendar = (props) => {
 						<span className={`display text-small ${new Date().getDay() == 2 ? "text-primary" : "text-secondary"}`}>TUE</span>
 						{getEvents(getNextDate("TUE"), data).map((event) => {
 							const e = new ICAL.Event(event);
-							const duration = `${e.startDate.hour < 12 ? e.startDate.hour : e.startDate.hour - 12}:${e.startDate.minute < 10 ? "0" + e.startDate.minute : e.startDate.minute}${e.startDate.hour < 12 ? "am" : "pm"} - ${e.startDate.hour < 12 ? e.startDate.hour + 1 : e.startDate.hour - 11}:${e.startDate.minute < 10 ? "0" + e.startDate.minute : e.startDate.minute}${e.startDate.hour < 12 ? "am" : "pm"}`;
+							const duration = `${e.startDate.hour < 12 ? e.startDate.hour : e.startDate.hour - 12}:${e.startDate.minute < 10 ? "0" + e.startDate.minute : e.startDate.minute}${e.startDate.hour < 12 ? "am" : "pm"} - ${e.endDate.hour <= 12 ? e.endDate.hour : e.endDate.hour - 12}:${e.endDate.minute < 10 ? "0" + e.endDate.minute : e.endDate.minute}${e.endDate.hour < 12 ? "am" : "pm"}`;
 							return (
 								<Tooltip key={e.uid} title={e.summary} subtitle={duration} description={e.description}>
 									{getEventDiv(e.duration.hours * 60, e.startDate.minute + e.startDate.hour * 60, e.summary)}
@@ -158,7 +158,7 @@ const Calendar = (props) => {
 						<span className={`display text-small ${new Date().getDay() == 3 ? "text-primary" : "text-secondary"}`}>WED</span>
 						{getEvents(getNextDate("WED"), data).map((event) => {
 							const e = new ICAL.Event(event);
-							const duration = `${e.startDate.hour < 12 ? e.startDate.hour : e.startDate.hour - 12}:${e.startDate.minute < 10 ? "0" + e.startDate.minute : e.startDate.minute}${e.startDate.hour < 12 ? "am" : "pm"} - ${e.startDate.hour < 12 ? e.startDate.hour + 1 : e.startDate.hour - 11}:${e.startDate.minute < 10 ? "0" + e.startDate.minute : e.startDate.minute}${e.startDate.hour < 12 ? "am" : "pm"}`;
+							const duration = `${e.startDate.hour < 12 ? e.startDate.hour : e.startDate.hour - 12}:${e.startDate.minute < 10 ? "0" + e.startDate.minute : e.startDate.minute}${e.startDate.hour < 12 ? "am" : "pm"} - ${e.endDate.hour <= 12 ? e.endDate.hour : e.endDate.hour - 12}:${e.endDate.minute < 10 ? "0" + e.endDate.minute : e.endDate.minute}${e.endDate.hour < 12 ? "am" : "pm"}`;
 							return (
 								<Tooltip key={e.uid} title={e.summary} subtitle={duration} description={e.description}>
 									{getEventDiv(e.duration.hours * 60, e.startDate.minute + e.startDate.hour * 60, e.summary)}
@@ -170,7 +170,7 @@ const Calendar = (props) => {
 						<span className={`display text-small ${new Date().getDay() == 4 ? "text-primary" : "text-secondary"}`}>THU</span>
 						{getEvents(getNextDate("THU"), data).map((event) => {
 							const e = new ICAL.Event(event);
-							const duration = `${e.startDate.hour < 12 ? e.startDate.hour : e.startDate.hour - 12}:${e.startDate.minute < 10 ? "0" + e.startDate.minute : e.startDate.minute}${e.startDate.hour < 12 ? "am" : "pm"} - ${e.startDate.hour < 12 ? e.startDate.hour + 1 : e.startDate.hour - 11}:${e.startDate.minute < 10 ? "0" + e.startDate.minute : e.startDate.minute}${e.startDate.hour < 12 ? "am" : "pm"}`;
+							const duration = `${e.startDate.hour < 12 ? e.startDate.hour : e.startDate.hour - 12}:${e.startDate.minute < 10 ? "0" + e.startDate.minute : e.startDate.minute}${e.startDate.hour < 12 ? "am" : "pm"} - ${e.endDate.hour <= 12 ? e.endDate.hour : e.endDate.hour - 12}:${e.endDate.minute < 10 ? "0" + e.endDate.minute : e.endDate.minute}${e.endDate.hour < 12 ? "am" : "pm"}`;
 							return (
 								<Tooltip key={e.uid} title={e.summary} subtitle={duration} description={e.description}>
 									{getEventDiv(e.duration.hours * 60, e.startDate.minute + e.startDate.hour * 60, e.summary)}
@@ -182,7 +182,7 @@ const Calendar = (props) => {
 						<span className={`display text-small ${new Date().getDay() == 5 ? "text-primary" : "text-secondary"}`}>FRI</span>
 						{getEvents(getNextDate("FRI"), data).map((event) => {
 							const e = new ICAL.Event(event);
-							const duration = `${e.startDate.hour < 12 ? e.startDate.hour : e.startDate.hour - 12}:${e.startDate.minute < 10 ? "0" + e.startDate.minute : e.startDate.minute}${e.startDate.hour < 12 ? "am" : "pm"} - ${e.startDate.hour < 12 ? e.startDate.hour + 1 : e.startDate.hour - 11}:${e.startDate.minute < 10 ? "0" + e.startDate.minute : e.startDate.minute}${e.startDate.hour < 12 ? "am" : "pm"}`;
+							const duration = `${e.startDate.hour < 12 ? e.startDate.hour : e.startDate.hour - 12}:${e.startDate.minute < 10 ? "0" + e.startDate.minute : e.startDate.minute}${e.startDate.hour < 12 ? "am" : "pm"} - ${e.endDate.hour <= 12 ? e.endDate.hour : e.endDate.hour - 12}:${e.endDate.minute < 10 ? "0" + e.endDate.minute : e.endDate.minute}${e.endDate.hour < 12 ? "am" : "pm"}`;
 							return (
 								<Tooltip key={e.uid} title={e.summary} subtitle={duration} description={e.description}>
 									{getEventDiv(e.duration.hours * 60, e.startDate.minute + e.startDate.hour * 60, e.summary)}
@@ -194,7 +194,7 @@ const Calendar = (props) => {
 						<span className={`display text-small ${new Date().getDay() == 6 ? "text-primary" : "text-secondary"}`}>SAT</span>
 						{getEvents(getNextDate("SAT"), data).map((event) => {
 							const e = new ICAL.Event(event);
-							const duration = `${e.startDate.hour < 12 ? e.startDate.hour : e.startDate.hour - 12}:${e.startDate.minute < 10 ? "0" + e.startDate.minute : e.startDate.minute}${e.startDate.hour < 12 ? "am" : "pm"} - ${e.startDate.hour < 12 ? e.startDate.hour + 1 : e.startDate.hour - 11}:${e.startDate.minute < 10 ? "0" + e.startDate.minute : e.startDate.minute}${e.startDate.hour < 12 ? "am" : "pm"}`;
+							const duration = `${e.startDate.hour < 12 ? e.startDate.hour : e.startDate.hour - 12}:${e.startDate.minute < 10 ? "0" + e.startDate.minute : e.startDate.minute}${e.startDate.hour < 12 ? "am" : "pm"} - ${e.endDate.hour <= 12 ? e.endDate.hour : e.endDate.hour - 12}:${e.endDate.minute < 10 ? "0" + e.endDate.minute : e.endDate.minute}${e.endDate.hour < 12 ? "am" : "pm"}`;
 							return (
 								<Tooltip key={e.uid} title={e.summary} subtitle={duration} description={e.description}>
 									{getEventDiv(e.duration.hours * 60, e.startDate.minute + e.startDate.hour * 60, e.summary)}
