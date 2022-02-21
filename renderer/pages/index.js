@@ -14,7 +14,6 @@ import Calendar from "../components/Calendar";
 import AnimatedPanel from "../components/AnimatedPanel";
 import AnimatedSlider from "../components/AnimatedSlider";
 import Settings from "../components/Settings";
-import ModuleHeader from "../components/ModuleHeader";
 
 
 const App = () => {
