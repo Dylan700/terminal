@@ -70,6 +70,7 @@ const Calendar = (props) => {
 					marginLeft: `${left * 100}%`,
 					backgroundColor: "var(--primary-color)",
 					minHeight: "1em", 
+					bottom: 0
 				}}
 			>
 					<marquee scrollamount={2} className="display text-tiny" style={{ color: "var(--background-color)" }}>{summary}</marquee>
