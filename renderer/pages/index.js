@@ -2,18 +2,8 @@ import { useEffect, useState } from "react";
 import useTheme from "../contexts/theme";
 import useSettings from "../contexts/settings";
 import Startup from "../components/Startup"
-import Terminal from "../components/AnimatedTerminal"
-import DateTime from "../components/DateTime";
-import Hardware from "../components/Hardware";
-import Network from "../components/Network";
-import Performance from "../components/Performance";
-import Docker from "../components/Docker";
-import Spotify from "../components/Spotify";
-import Github from "../components/Github";
-import Calendar from "../components/Calendar";
-import AnimatedPanel from "../components/AnimatedPanel";
-import AnimatedSlider from "../components/AnimatedSlider";
 import Settings from "../components/Settings";
+import Layout from "../components/Layout";
 
 
 const App = () => {
@@ -77,21 +67,7 @@ const App = () => {
         <div className="bg-image"></div>
         <div className="bg-color"></div>
         <div className="row fullHeight">
-          <AnimatedSlider isActive={!toggleFullScreen} className="col" style={{ flex: 1 }}>
-            <AnimatedPanel isActive={!toggleFullScreen} delay={500}><DateTime /></AnimatedPanel>
-            <AnimatedPanel isActive={!toggleFullScreen} delay={1000} ><Hardware /></AnimatedPanel>
-            <AnimatedPanel isActive={!toggleFullScreen} delay={1500} ><Docker /></AnimatedPanel>
-            <AnimatedPanel isActive={!toggleFullScreen} delay={1500} ><Calendar /></AnimatedPanel>
-            <AnimatedPanel isActive={!toggleFullScreen} delay={2000} ><Github username={currentSettings.githubUsername} /></AnimatedPanel>
-          </AnimatedSlider>
-          <div className="col" style={{ flex: 2 }}>
-            <Terminal isActive={true} delay={2800} useAudio={currentSettings.enableAudio} />
-          </div>
-          <AnimatedSlider isActive={!toggleFullScreen} className="col" style={{ flex: 1 }}>
-            <AnimatedPanel isActive={!toggleFullScreen} delay={700}><Network /></AnimatedPanel>
-            <AnimatedPanel isActive={!toggleFullScreen} delay={2300}><Performance /></AnimatedPanel>
-            <AnimatedPanel isActive={!toggleFullScreen} delay={2500}><Spotify /></AnimatedPanel>
-          </AnimatedSlider>
+          <Layout isFullscreen={!toggleFullScreen} />
         </div>
         <Settings />
       </div>

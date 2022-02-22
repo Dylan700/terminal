@@ -3,6 +3,7 @@ import Spacer from "./Spacer";
 import ICAL from "ical.js";
 import useSettings from "../contexts/settings";
 import Tooltip from "./Tooltip";
+import AnimatedPanel from "./AnimatedPanel";
 
 // TODO: add ical data to localstorage to save between sessions if user is offline
 const Calendar = (props) => {
@@ -91,13 +92,13 @@ const Calendar = (props) => {
 
 	const getCalendar = () => {
 		return (
-			<div>
+			<AnimatedPanel isActive={props.isActive}>
 				<Spacer type="bottom" />
 
-				<div className="container" style={{ margin: "10px" }}>
+				<div className="container" style={{ margin: "10px", position: "relative" }}>
 					<div style={{ width: "100%" }}>
 						<div className="text-primary" style={{ marginLeft: `${dateAsPercentage(new Date()) * 100}%`, position: "absolute" }}>
-							<div style={{ width: "2px", height: "30px", backgroundColor: "var(--primary-color)" }}></div>
+							<div style={{ width: "3px", height: "30px", backgroundColor: "var(--primary-color)" }}></div>
 						</div>
 						<div className="row" style={{ alignItems: "center" }}>
 							<div className="col">
@@ -205,7 +206,7 @@ const Calendar = (props) => {
 
 				</div>
 				<Spacer type={"top"} />
-			</div>
+			</AnimatedPanel>
 		)
 	}
 

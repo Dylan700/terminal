@@ -40,8 +40,9 @@ const ModuleHeader = (props) => {
 					</div>
 					<div className={styles.line2}></div>
 				</div>
-				{opacityTransition(
-					(style, item) => item && <animated.div style={style} className={styles.tab}><span className={styles.tabText}>{props.id || "A1"}</span></animated.div>
+
+				{props.id && opacityTransition(
+					(style, item) => item && <animated.div style={style} className={styles.tab}><span className={styles.tabText}>{props.id}</span></animated.div>
 				)}
 				
 			</div>

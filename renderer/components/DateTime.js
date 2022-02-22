@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import Spacer from "./Spacer";
 import Circle from './Circle'
+import ModuleHeader from './ModuleHeader';
 import useSettings from "../contexts/settings";
+import AnimatedPanel from "./AnimatedPanel";
 
 const DateTime = (props) => {
 	const [datetime, setDateTime] = useState(new Date())
@@ -9,6 +11,7 @@ const DateTime = (props) => {
 	const [timezone, setTimezone] = useState("Determining Location...")
 	const [os, setOs] = useState({platform: "", distro: "", release: "", codename: "", kernel: ""})
 	const [battery, setBattery] = useState({ isCharging: false, percent: 0, timeRemaining: 0 })
+	const [hardware, setHardware] = useState({ manufacturer: '', model: '', version: '', serial: '' });
 
 	const {currentSettings} = useSettings()
 
@@ -48,6 +51,15 @@ const DateTime = (props) => {
 			})
 		})
 
+		const hardwareStats = window.electron.system.hardware().then((data) => {
+			setHardware({
+				manufacturer: data.manufacturer,
+				model: data.model,
+				version: data.version,
+				serial: data.serial
+			})
+		})
+
 		return () => clearInterval(interval)
 	}, [datetime])
 
@@ -72,31 +84,43 @@ const DateTime = (props) => {
 	const getDateTime = () => {
 		return (
 			<div>
-				<div className="row align-center">
-					<div className="col">
-						<span className="display text-large">{formatTime(datetime)}</span>
-						<span className="display text-tiny text-secondary">{timezone}</span>
+				<ModuleHeader isActive={props.isActive} title="TEMPORAL" subtitle={timezone}/>
+				<AnimatedPanel isActive={props.isActive} delay={500}>
+					<div className="row">
+						<div className="col">
+							<div className="row" style={{alignItems: "flex-end"}}>
+								<div className="col" style={{flexBasis: "100%"}}>
+									<span className="display text-small text-secondary">TIME</span>
+									<span className="display text-small">{formatTime(datetime)}</span>
+								</div>
+								<div className="col" style={{flexBasis: "100%"}}>
+									<span className="display text-small text-secondary">UPTIME</span>
+									<span className="display text-small">{formatUptime(uptime)}</span>
+								</div>
+								<div className="col" style={{flexBasis: "100%"}}>
+									<span className="display text-small text-secondary">{datetime.getFullYear()}</span>
+									<span className="display text-small">{formatDate(datetime)}</span>
+								</div>
+							</div>
+							<div className="row">
+								<Spacer type={"vertical"}/>
+							</div>
+							<div className="row">
+								<div className="col">
+									<span className="display text-small text-secondary">MANUFACTURER</span>
+									<span className="display text-small">{hardware.manufacturer}</span>
+								</div>
+								<div className="col">
+									<span className="display text-small text-secondary">OS <span className="text-tiny text-secondary">{os.release}</span></span>
+									<span className="display text-small" style={{ width: "max-content" }}>{os.codename}</span>
+								</div>
+							</div>
+						</div>
+						<div className="col align-center" style={{ justifyContent: "center", width: "100%" }}>
+							<Circle progress={battery.percent} info={!battery.isCharging ? `${battery.timeRemaining} ${battery.timeRemaining === 1 ? "minute" : "minutes"}` : "CHARGING"} />
+						</div>
 					</div>
-					<div className="col align-center">
-						<Circle progress={battery.percent} info={!battery.isCharging ? `${battery.timeRemaining} ${battery.timeRemaining === 1 ? "minute" : "minutes"}` : "CHARGING"} />
-					</div>
-				</div>
-				<Spacer type={"bottom"} />
-				<div className="row">
-					<div className="col">
-						<span className="display text-small text-secondary">{datetime.getFullYear()}</span>
-						<span className="display text-small">{formatDate(datetime)}</span>
-					</div>
-					<div className="col width-80">
-						<span className="display text-small text-secondary">{"UPTIME"}</span>
-						<span className="display text-small">{formatUptime(uptime)}</span>
-					</div>
-					<div className="col">
-						<span className="display text-small text-secondary">OS</span>
-						<span className="display text-small">{os.codename} <span className="text-tiny text-secondary">{os.release}</span></span>
-					</div>
-				</div>
-				<Spacer type={"vertical"} />
+				</AnimatedPanel>
 			</div>
 		)
 	}

@@ -1,0 +1,68 @@
+{
+	"modules" : [
+		{
+			"type" : "datetime",
+			"keybind": "",
+			"startRow" : "1",
+			"startCol": "1",
+			"endRow": "2",
+			"endCol" : "5"
+		},
+		{
+			"type": "docker",
+			"keybind": "",
+			"startRow": "2",
+			"startCol": "1",
+			"endRow": "3",
+			"endCol": "5"
+		},
+		{
+			"type": "github",
+			"keybind": "",
+			"startRow": "3",
+			"startCol": "1",
+			"endRow": "4",
+			"endCol": "5"
+		},
+		{
+			"type": "calendar",
+			"keybind": "",
+			"startRow": "4",
+			"startCol": "1",
+			"endRow": "7",
+			"endCol": "5"
+		},
+		{
+			"type": "terminal",
+			"keybind": "",
+			"startRow": "1",
+			"startCol": "5",
+			"endRow": "17",
+			"endCol": "12"
+		},
+		{
+			"type": "network",
+			"keybind": "",
+			"startRow": "1",
+			"startCol": "12",
+			"endRow": "3",
+			"endCol": "17"
+		},
+		{
+			"type": "spotify",
+			"keybind": "",
+			"startRow": "3",
+			"startCol": "12",
+			"endRow": "4",
+			"endCol": "17"
+		},
+		{
+			"type": "performance",
+			"keybind": "",
+			"startRow": "4",
+			"startCol": "12",
+			"endRow": "8",
+			"endCol": "17"
+		}
+	]
+}

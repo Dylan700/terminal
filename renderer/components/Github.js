@@ -3,26 +3,18 @@ import Spacer from "./Spacer";
 import axios from "axios";
 import { FaGithub } from "react-icons/fa";
 import useTheme from "../contexts/theme";
+import ModuleHeader from "./ModuleHeader";
+import AnimatedPanel from "./AnimatedPanel";
+import useSettings from "../contexts/settings";
 
-const Performance = ({username}) => {
+const Github = (props) => {
 	const [github, setGithub] = useState(null);
 	const {currentTheme} = useTheme();
-	const [timer, setTimer] = useState(null);
+	const {currentSettings, setCurrentSettings} = useSettings();
 
 	useEffect(() => {
-		if(timer != null){
-			clearInterval(timer);
-		}
-		setTimer(setInterval(() => {
-			setGithubData(username)
-		}, 5000))
-		
-		return () => {
-			if(timer != null){
-				clearInterval(timer);
-			}
-		}
-	}, [username])
+		setGithubData(currentSettings.githubUsername)
+	}, [currentSettings.githubUsername])
 
 	const setGithubData = (username) => {
 		axios.get(`https://api.github.com/users/${username}`).then((res) => {
@@ -30,41 +22,35 @@ const Performance = ({username}) => {
 		}).catch(e => {setGithub(null)});
   	}
 
-	const getPerformance = () => {
-		if(github != null){
-			return (
-				<div>
-					<Spacer type="bottom" />
-					<div className="row" style={{ alignItems: 'center' }}>
-						<div className="col">
-							<div className="row" style={{ alignItems: 'center' }}>
-								<div className="col">
-									<div className="image-circle" style={{ backgroundImage: `url(${github.avatar_url}` }}></div>
+	const getGithub = () => {
+		return (
+			<div>
+				<ModuleHeader isActive={props.isActive} title="GITHUB" subtitle={github != null ? "ONLINE" : "OFFLINE"} id ="GH"/>
+				<AnimatedPanel isActive={props.isActive} delay={500}>
+					{github != null &&
+						<div className="row" style={{ alignItems: 'center' }}>
+									<div className="col">
+										<div className="row" style={{ alignItems: 'center' }}>
+											<div className="col">
+												<div className="image-circle" style={{ backgroundImage: `url(${github.avatar_url}` }}></div>
+											</div>
+											<div className="col">
+												<span className="display text-small">{github.login}</span>
+											</div>
+										</div>
+									</div>
+									<div className="col">
+										<FaGithub style={{ marginRight: 10 }} size={30} color={currentTheme.primaryColor} />
+									</div>
 								</div>
-								<div className="col">
-									<span className="display text-small">{github.login}</span>
-								</div>
-							</div>
-						</div>
-						<div className="col">
-							<FaGithub style={{ marginRight: 10 }} size={30} color={currentTheme.primaryColor} />
-						</div>
-					</div>
-					<Spacer type={"top"} />
-				</div>
-			)
-		}else{
-			return(
-				<div>
-					<span className="display" style={{ margin: 5 }}>GITHUB <span className="display text-small text-secondary">OFFLINE</span></span>
-					<Spacer type={"top"} />
-				</div>
-			)
-		}
+					}
+				</AnimatedPanel>
+			</div>
+		);
 	}
 		
 
-	return getPerformance()
+	return getGithub()
 }
 
-export default Performance
+export default Github
