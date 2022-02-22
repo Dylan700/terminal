@@ -26,7 +26,7 @@ const App = () => {
       }else if(e.keyCode === 51 && e.metaKey){
         setTheme("dark")
       }else if(e.keyCode === 52 && e.metaKey){
-        setTheme("mud")
+        setTheme("sleek")
       }else if(e.keyCode === 53 && e.metaKey){
         setTheme("power")
       }else if(e.keyCode === 54 && e.metaKey){

@@ -4,7 +4,7 @@ import { useContext, useState, createContext, useEffect } from 'react'
 import interstellar from '../assets/styles/terminal/interstellar.module.sass'
 import matrix from '../assets/styles/terminal/matrix.module.sass'
 import dark from '../assets/styles/terminal/dark.module.sass'
-import mud from '../assets/styles/terminal/mud.module.sass'
+import sleek from '../assets/styles/terminal/sleek.module.sass'
 import power from '../assets/styles/terminal/power.module.sass'
 import pure from '../assets/styles/terminal/pure.module.sass'
 import scifi from '../assets/styles/terminal/scifi.module.sass'
@@ -27,8 +27,8 @@ export const ThemeProvider = ({theme, children}) => {
 			case 'dark':
 				setCurrentTheme(dark)
 				break
-			case 'mud':
-				setCurrentTheme(mud)
+			case 'sleek':
+				setCurrentTheme(sleek)
 				break
 			case 'power':
 				setCurrentTheme(power)
