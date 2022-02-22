@@ -38,13 +38,13 @@
 			"startRow": "1",
 			"startCol": "5",
 			"endRow": "17",
-			"endCol": "12"
+			"endCol": "13"
 		},
 		{
 			"type": "network",
 			"keybind": "",
 			"startRow": "1",
-			"startCol": "12",
+			"startCol": "13",
 			"endRow": "3",
 			"endCol": "17"
 		},
@@ -52,7 +52,7 @@
 			"type": "spotify",
 			"keybind": "",
 			"startRow": "3",
-			"startCol": "12",
+			"startCol": "13",
 			"endRow": "4",
 			"endCol": "17"
 		},
@@ -60,7 +60,7 @@
 			"type": "performance",
 			"keybind": "",
 			"startRow": "4",
-			"startCol": "12",
+			"startCol": "13",
 			"endRow": "8",
 			"endCol": "17"
 		}

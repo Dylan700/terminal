@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import Spacer from "./Spacer";
 
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { AiFillPauseCircle, AiFillPlayCircle } from "react-icons/ai";
@@ -10,6 +9,8 @@ import useTheme from "../contexts/theme";
 
 import SpotifyAPI from "spotify-web-api-js"
 import AnimatedText from "./AnimatedText";
+import ModuleHeader from "./ModuleHeader";
+import AnimatedPanel from "./AnimatedPanel";
 
 const Spotify = (props) => {
 	const {currentTheme} = useTheme();
@@ -77,67 +78,65 @@ const Spotify = (props) => {
 		}).catch(e => console.log(e))
 	}
 
+	const getStatus = () => {
+		if (spotify != null) {
+			if (spotify.currently_playing_type === "track") {
+				return "LISTENING TO MUSIC";
+			}else if(spotify.currently_playing_type === "episode"){
+				return "LISTENING TO A PODCAST";
+			}else if(spotify.currently_playing_type === "ad"){
+				return "PLAYING ADVERTISEMENT";
+			}else {
+				return "OFFLINE";
+			}
+		}else{
+			return "OFFLINE";
+		}
+	}
+
 	const getSpotify = () => {
 		return (
 			<div>
-				{spotify && (spotify.currently_playing_type === "track" || spotify.currently_playing_type === "episode") &&
-					<div>
-						<Spacer type="bottom" />
-						<div className="row">
-							<div style={{margin: 10}}>
-								<span className="display text-small">SPOTIFY</span>
-							</div>
-							<FaSpotify style={{marginRight: 10}} size={30} color={currentTheme.primaryColor} />
-						</div>
-						<Spacer type="vertical" />
-						<div className="row">
-							<div className="col">
-								<img className="image-color" src={spotify.item.album ? spotify.item.album.images[2].url : spotify.item.images[2].url} height={50} width={50}></img>
-								<div className="image-color-overlay" style={{width: "50px", height:"50px"}}></div>
-							</div>
-							<div className="col" style={{flex: 3}}>
-								<AnimatedText className="display text-small">{spotify.item.name}</AnimatedText>
-								<span className="display text-tiny text-secondary">
-									{spotify.item.artists &&
-										<AnimatedText>{spotify.item.artists.map(artist => artist.name).join(', ')}</AnimatedText>
-									}
-									{spotify.item.description &&
-										<marquee scrollamount={2}>{spotify.item.description}</marquee>
-									}
-								</span>
-							</div>
-							{isPremium && 
-								<div className="col" style={{flex: 1}}>
-									<div className="row" style={{justifyContent: "center"}}>
-										<AiOutlineLeft size={30} color={currentTheme.primaryColor} />
-										{isPlaying ?
-											<AiFillPauseCircle size={30} color={currentTheme.primaryColor} onClick={() => {play()}} /> 
-											:
-											<AiFillPlayCircle size={30} color={currentTheme.primaryColor} onClick={() => {pause()}}/>
-										}
-										<AiOutlineRight size={30} color={currentTheme.primaryColor} />
-									</div>
+				<ModuleHeader isActive={props.isActive} title="SPOTIFY" subtitle={getStatus()} id={<FaSpotify style={{width: "40px", height: "40px"}}/>}/>
+				<AnimatedPanel isActive={props.isActive}>
+					{spotify && (spotify.currently_playing_type === "track" || spotify.currently_playing_type === "episode") &&
+						<div>
+							<div className="row">
+								<div className="col">
+									<img className="image-color" src={spotify.item.album ? spotify.item.album.images[2].url : spotify.item.images[2].url} height={50} width={50}></img>
+									<div className="image-color-overlay" style={{width: "50px", height:"50px"}}></div>
 								</div>
-							}
-						</div>
-						<div className="row" style={{marginLeft: "10px", marginRight: "10px"}}>
-							<ProgressBar progress={(spotify.progress_ms / spotify.item.duration_ms) * 100} />
-						</div>
-						<Spacer type={"top"} />
-					</div>
-				}
-				{(!spotify || spotify.currently_playing_type === "ad") &&
-					<div>
-						<Spacer type="bottom" />
-						<div className="row">
-							<div style={{ margin: 10 }}>
-								<span className="display text-small">SPOTIFY <AnimatedText className="display text-tiny text-secondary">{(spotify && spotify.currently_playing_type === "ad") ? "PLAYING ADVERTISEMENT" : "OFFLINE"}</AnimatedText></span>
+								<div className="col" style={{flex: 3}}>
+									<AnimatedText className="display text-small">{spotify.item.name}</AnimatedText>
+									<span className="display text-tiny text-secondary">
+										{spotify.item.artists &&
+											<AnimatedText>{spotify.item.artists.map(artist => artist.name).join(', ')}</AnimatedText>
+										}
+										{spotify.item.description &&
+											<marquee scrollamount={2}>{spotify.item.description}</marquee>
+										}
+									</span>
+								</div>
+								{isPremium && 
+									<div className="col" style={{flex: 1}}>
+										<div className="row" style={{justifyContent: "center"}}>
+											<AiOutlineLeft size={30} color={currentTheme.primaryColor} />
+											{isPlaying ?
+												<AiFillPauseCircle size={30} color={currentTheme.primaryColor} onClick={() => {play()}} /> 
+												:
+												<AiFillPlayCircle size={30} color={currentTheme.primaryColor} onClick={() => {pause()}}/>
+											}
+											<AiOutlineRight size={30} color={currentTheme.primaryColor} />
+										</div>
+									</div>
+								}
 							</div>
-							<FaSpotify style={{ marginRight: 10 }} size={30} color={currentTheme.primaryColor} />
+							<div className="row" style={{marginLeft: "10px", marginRight: "10px"}}>
+								<ProgressBar progress={(spotify.progress_ms / spotify.item.duration_ms) * 100} />
+							</div>
 						</div>
-						<Spacer type={"top"} />
-					</div>
-				}
+					}
+				</AnimatedPanel>
 			</div>
 		)
 	}

@@ -35,7 +35,7 @@ const ModuleHeader = (props) => {
 						(style, item) => item && <animated.div style={style} className={styles.block}></animated.div>
 					)}
 					<div style={{ display: 'flex', flexDirection: 'column' }}>
-						<AnimatedText className="text-secondary text-small">{props.isActive ? props.subtitle : ""}</AnimatedText>
+						<AnimatedText className="text-secondary text-tiny">{props.isActive ? props.subtitle : ""}</AnimatedText>
 						<AnimatedText className="text-primary display">{props.isActive ? props.title : ""}</AnimatedText>
 					</div>
 					<div className={styles.line2}></div>
