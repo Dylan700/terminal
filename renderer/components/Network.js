@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import Spacer from "../components/Spacer";
 import AnimatedText from "./AnimatedText";
+import {ListContainer, ListItem} from "./List";
+import ModuleHeader from "./ModuleHeader";
 
 const Network = (props) => {
 	const [network, setNetwork] = useState({ interfaces: [], networkGatewayDefault: ""});
@@ -49,43 +51,28 @@ const Network = (props) => {
 	const getNetwork = () => {
 		return (
 			<div>
+				<ModuleHeader isActive={props.isActive} title="NETWORK" subtitle={navigator.onLine ? publicIP : "OFFLINE"}/>
 				<div className="row">
-					{ping &&
+					{navigator.onLine &&
 						<div className="col" style={{ alignItems: 'flex-end' }}>
-							<span className="display text-tiny text-secondary">PUBLIC ADDRESS</span>
-							<AnimatedText className="display text-medium text-primary">{publicIP}</AnimatedText>
+							<span className="display text-tiny text-secondary">UP/DOWN</span>
+							<span className="display text-medium text-primary">10%</span>
 						</div>
 					}
-					{ping &&
+					{navigator.onLine &&
 						<div className="col" style={{ alignItems: 'flex-end' }}>
 								<span className="display text-tiny text-secondary">PING</span>
 								<span className="display text-medium text-primary">{ping}ms</span>
 						</div>
 					}
-					{!ping &&
-						<div className="col" style={{ alignItems: 'flex-end' }}>
-							<span className="display text-tiny text-secondary">OFFLINE</span>
-						</div>
-					}
 				</div>
-				<Spacer type={"bottom"} />
-				{network.interfaces.map((item, index) => {
-					return (
-						<div key={index} className="row">
-							<div className="col">
-								<span className="display text-small text-secondary">{item.ifaceName} <span className="text-tiny text-secondary">{item.type}</span></span>
-								<AnimatedText className="display text-small">{item.ip4}</AnimatedText>
-								<AnimatedText className="display text-tiny text-secondary">{item.ip6}</AnimatedText>
-							</div>
-							{item.mac &&
-								<div className="col">
-									<span className="display text-small text-secondary">MAC ADDRESS</span>
-									<AnimatedText className="display text-small">{item.mac}</AnimatedText>
-								</div>
-							}
-						</div>
-					)
-				})}
+				<ListContainer title="INTERFACES">
+					{network.interfaces.map((item, index) => {
+						return (
+							<ListItem key={index} name1={item.ifaceName} value1={item.mac ? item.mac : item.ip6} name2={item.ip4} value2={item.type}></ListItem>
+						)
+					})}
+				</ListContainer>
 				<Spacer type={"top"} />
 			</div>
 		)
