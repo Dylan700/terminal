@@ -1,0 +1,44 @@
+.line
+	width: 100%
+	border-top: 2px solid var(--secondary-color)
+
+.itemContainer
+	display: flex
+	flex-direction: column
+	padding: 10px
+
+.item
+	width: 100%
+	display: flex
+	flex-direction: row
+	justify-content: space-between
+	position: relative
+
+.itemInnerRight
+	display: flex
+	flex-direction: column
+	justify-content: space-between
+	align-items: flex-end
+	padding: 2px
+
+.itemInnerLeft
+	display: flex
+	flex-direction: column
+	justify-content: space-between
+	align-items: flex-start
+	padding: 2px
+	margin-left: 15px
+
+.itemActive
+	background-color: var(--secondary-color)
+	opacity: 0.15
+	position: absolute
+	width: 100%
+	height: 100%
+
+.itemActiveIndicator
+	background-color: var(--primary-color)
+	width: 5px
+	height: 100%
+	position: absolute
+
