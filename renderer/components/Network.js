@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import Spacer from "../components/Spacer";
-import AnimatedText from "./AnimatedText";
+import ProgressBar from "./ProgressBar";
 import {ListContainer, ListItem} from "./List";
 import ModuleHeader from "./ModuleHeader";
 
 const Network = (props) => {
-	const [network, setNetwork] = useState({ interfaces: [], networkGatewayDefault: ""});
+	const [network, setNetwork] = useState({ interfaces: [], networkGatewayDefault: "", networkStats: {tx_sec: 0, rx_sec: 0} });
 	const [ping, setPing] = useState(null);
 	const [publicIP, setPublicIP] = useState("0.0.0.0");
 
@@ -23,7 +23,7 @@ const Network = (props) => {
 			const filteredData = data.networkInterfaces.filter((item) => {
 				return item.ip4 !== "";
 			})
-			setNetwork({ interfaces: filteredData, networkGatewayDefault: data.networkGatewayDefault });
+			setNetwork({ interfaces: filteredData, networkGatewayDefault: data.networkGatewayDefault, networkStats: data.networkStats[0] });
 		})
 
 		window.electron.system.ping().then((data) => {
@@ -54,13 +54,19 @@ const Network = (props) => {
 				<ModuleHeader isActive={props.isActive} title="NETWORK" subtitle={navigator.onLine ? publicIP : "OFFLINE"}/>
 				<div className="row">
 					{navigator.onLine &&
-						<div className="col" style={{ alignItems: 'flex-end' }}>
-							<span className="display text-tiny text-secondary">UP/DOWN</span>
-							<span className="display text-medium text-primary">10%</span>
+						<div className="col" style={{ alignItems: 'flex-start', flexBasis: "100%" }}>
+							<span className="display text-tiny text-secondary">UP<span>-{Math.round(network.networkStats.tx_sec / Math.pow(1024, ((network.networkStats.tx_sec >= 1024 * 1024 ? 2 : 1))))} {(network.networkStats.tx_sec >= 1024 * 1024 ? "MB" : "KB")}</span></span>
+							<ProgressBar vertical progress={(network.networkStats.tx_sec / (network.networkStats.tx_sec + network.networkStats.rx_sec)) * 100} />
 						</div>
 					}
 					{navigator.onLine &&
-						<div className="col" style={{ alignItems: 'flex-end' }}>
+						<div className="col" style={{ alignItems: 'flex-start', flexBasis: "100%" }}>
+							<span className="display text-tiny text-secondary">DOWN<span>-{Math.round(network.networkStats.rx_sec / Math.pow(1024, ((network.networkStats.rx_sec >= 1024 * 1024 ? 2 : 1))))} {(network.networkStats.rx_sec >= 1024 * 1024 ? "MB" : "KB")}</span></span>
+							<ProgressBar vertical progress={(network.networkStats.rx_sec / (network.networkStats.tx_sec + network.networkStats.rx_sec)) * 100} />
+						</div>
+					}
+					{navigator.onLine &&
+						<div className="col" style={{ alignItems: 'flex-end', flexBasis: "100%" }}>
 								<span className="display text-tiny text-secondary">PING</span>
 								<span className="display text-medium text-primary">{ping}ms</span>
 						</div>

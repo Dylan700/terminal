@@ -1,11 +1,25 @@
-.progressBarOuter
+.horizontalBarOuter
 	width: 100%
 	height: 0.5rem
 	background-color: var(--secondary-color)
 	position: relative
 	margin: 10px 0
 
-.progressBarInner
+.verticalBarOuter
+	width: 0.5rem
+	height: 100%
+	background-color: var(--secondary-color)
+	position: relative
+	margin: 10px 0
+
+.verticalBarInner
+	height: 0%
+	background-color: var(--primary-color)
+	position: absolute
+	width: 0.5rem
+	transition: height 1s ease-in
+
+.horizontalBarInner
 	width: 0%
 	background-color: var(--primary-color)
 	position: absolute
