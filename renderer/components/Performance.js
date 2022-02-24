@@ -19,7 +19,6 @@ const Performance = (props) => {
 	  const performanceStats = window.electron.system.performance().then((data) => {
 		  // filter processes by cpu percentage and get top 5.
 		  const list = data.processes.list.sort((a, b) => b.cpu - a.cpu).splice(0, 5);
-		  console.log(data)
 		  setPerformance({
 			  currentLoad: data.currentLoad,
 			  mem: data.mem,

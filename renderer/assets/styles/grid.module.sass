@@ -1,12 +1,14 @@
 .container
 	display: grid
-	grid-template-columns: repeat(16, 1fr)
-	grid-template-rows: repeat(16, auto)
+	grid-template-columns: repeat(16, minmax(0, 1fr))
+	grid-template-rows: repeat(16, 1fr)
 	grid-gap: 40px
 	width:  100%
 	box-sizing: border-box
-	padding: 10px
+	padding: 15px
 	margin: 0
+	min-height: 0
+	min-width: 0
 
 .item
 	width: 100%

@@ -45,23 +45,23 @@
 			"keybind": "",
 			"startRow": "1",
 			"startCol": "13",
-			"endRow": "3",
+			"endRow": "2",
 			"endCol": "17"
 		},
 		{
 			"type": "spotify",
 			"keybind": "",
-			"startRow": "3",
+			"startRow": "2",
 			"startCol": "13",
-			"endRow": "4",
+			"endRow": "3",
 			"endCol": "17"
 		},
 		{
 			"type": "performance",
 			"keybind": "",
-			"startRow": "4",
+			"startRow": "3",
 			"startCol": "13",
-			"endRow": "8",
+			"endRow": "4",
 			"endCol": "17"
 		}
 	]
