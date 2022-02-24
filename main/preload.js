@@ -20,7 +20,7 @@ contextBridge.exposeInMainWorld('electron', {
     network: (cb) => si.get({ networkInterfaces: 'ip4, ip6, type, ifaceName, mac, internal', networkGatewayDefault: '*', networkStats: "rx_sec, tx_sec"}, cb),
     ping: (cb) => si.inetLatency('google.com', cb),
     docker: (cb) => si.get({dockerInfo: "containersRunning, images, containersPaused, containers, memTotal", dockerContainers: "name, state, id", mem: "total"}, cb),
-    performance: (cb) => si.get({ currentLoad: "currentLoad", mem: "total, used", disksIO: "tIO_sec", processes: "list"}, cb),
+    performance: (cb) => si.get({ currentLoad: "currentLoad", mem: "total, used", disksIO: "tIO_sec", processes: "list", cpu: "manufacturer, model, core, physicalCores"}, cb),
     doNotDisturb: () => getDoNotDisturb(),
     clipboard: () => clipboard.readText(),
     
