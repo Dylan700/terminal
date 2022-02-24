@@ -3,8 +3,10 @@ import {useEffect} from 'react'
 
 import introAudioFile from '../assets/audio/swoosh.mp3'
 import exitAudioFile from '../assets/audio/swoosh.mp3'
+import useSettings from '../contexts/settings'
 
 const AnimatedPanel = (props) => {
+	const {currentSettings, setSettings} = useSettings();
 	const introAudio = new Audio(introAudioFile);
 	const exitAudio = new Audio(exitAudioFile);
 	const transition = useTransition(props.isActive, {
@@ -16,17 +18,19 @@ const AnimatedPanel = (props) => {
 	});
 
 	useEffect(() => {
-		setTimeout(() => {
-			if (props.isActive) {
-				introAudio.currentTime = 0
-				introAudio.volume = 1
-				introAudio.play()
-			} else {
-				exitAudio.currentTime = 0
-				exitAudio.volume = 0.5
-				exitAudio.play()
-			}
-		}, props.delay)
+		if(currentSettings.enableAudio){
+			setTimeout(() => {
+				if (props.isActive) {
+					introAudio.currentTime = 0
+					introAudio.volume = 1
+					introAudio.play()
+				} else {
+					exitAudio.currentTime = 0
+					exitAudio.volume = 0.5
+					exitAudio.play()
+				}
+			}, props.delay)
+		}
 	}, [props.isActive])
 
 	return transition(

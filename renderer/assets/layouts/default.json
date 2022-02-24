@@ -9,7 +9,7 @@
 			"endCol" : "5"
 		},
 		{
-			"type": "docker",
+			"type": "calendar",
 			"keybind": "",
 			"startRow": "2",
 			"startCol": "1",
@@ -17,7 +17,7 @@
 			"endCol": "5"
 		},
 		{
-			"type": "github",
+			"type": "docker",
 			"keybind": "",
 			"startRow": "3",
 			"startCol": "1",
@@ -25,7 +25,7 @@
 			"endCol": "5"
 		},
 		{
-			"type": "calendar",
+			"type": "github",
 			"keybind": "",
 			"startRow": "4",
 			"startCol": "1",
@@ -49,7 +49,7 @@
 			"endCol": "17"
 		},
 		{
-			"type": "spotify",
+			"type": "performance",
 			"keybind": "",
 			"startRow": "2",
 			"startCol": "13",
@@ -57,7 +57,7 @@
 			"endCol": "17"
 		},
 		{
-			"type": "performance",
+			"type": "spotify",
 			"keybind": "",
 			"startRow": "3",
 			"startCol": "13",
