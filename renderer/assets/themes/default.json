@@ -1,0 +1,8 @@
+{
+	"name": "Default",
+	"primaryColor": "#fff",
+	"secondaryColor": "#777",
+	"backgroundColor": "#101010",
+	"backgroundColorBlend": "#101010",
+	"selectionColor": "rgba(255, 255, 255, 0.3)"
+}

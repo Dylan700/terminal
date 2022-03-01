@@ -74,6 +74,29 @@ export const ThemeProvider = ({theme, children}) => {
 		document.documentElement.style.setProperty('--background-color-blend', currentTheme.backgroundColorBlend)
 	}, [currentTheme])
 
+	useEffect(() => {
+		const dropListener = document.addEventListener('drop', async (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+			for (let f of e.dataTransfer.files) {
+				const data = await window.electron.file.json(f.path);
+				if(data.primaryColor){
+					setCurrentTheme(data);
+				}
+			}
+		});
+
+		const dragOverListener = document.addEventListener('dragover', (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+		});
+
+		return () => {
+			document.removeEventListener('drop', dropListener);
+			document.removeEventListener('dragover', dragOverListener);
+		}
+	}, [])
+
 	return (
 		<ThemeContext.Provider value={{currentTheme, setTheme}}>
 			{children}

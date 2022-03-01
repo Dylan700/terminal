@@ -65,8 +65,10 @@ const Layout = (props) => {
 			e.preventDefault();
 			e.stopPropagation();
 			for (let f of e.dataTransfer.files) {
-				console.log(f.path);
-				setConfig(await window.electron.file.json(f.path));
+				const data = await window.electron.file.json(f.path);
+				if(data.modules){
+					setConfig(data);
+				}
 			}
 		});
 

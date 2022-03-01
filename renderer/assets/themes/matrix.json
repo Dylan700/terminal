@@ -1,0 +1,8 @@
+{
+	"name": "Matrix",
+	"primaryColor": "#5bc018",
+	"secondaryColor": "#125800",
+	"backgroundColor": "rgba(11, 2, 8, 0.9)",
+	"backgroundColorBlend": "rgba(11, 2, 8, 0.9)",
+	"selectionColor": "rgba(255, 255, 255, 0.3)"
+}
