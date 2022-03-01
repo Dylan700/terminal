@@ -21,7 +21,7 @@ const Layout = (props) => {
 
 	const findModule = (type, isActive) => {
 		if (type === "terminal") {
-			return <Terminal isActive={isActive} />
+			return <Terminal isActive={true} />
 		} else if (type === "datetime") {
 			return <DateTime isActive={isActive} />
 		} else if (type === "hardware") {
@@ -48,11 +48,19 @@ const Layout = (props) => {
 
 		return config.modules.map((module, index) => {
 
-			return (
-				<div key={index} className={styles.item} style={{gridArea: `${module.startRow}/${module.startCol}/${module.endRow}/${module.endCol}`}}>
-					{findModule(module.type, isActive)}
-				</div>
-			)
+			if(module.type === "terminal" && !isActive){
+				return (
+					<div key={index} className={styles.item} style={{ gridArea: "1/1/17/17" }}>
+						{findModule(module.type, isActive)}
+					</div>
+				)
+			}else{
+				return (
+					<div key={index} className={styles.item} style={{gridArea: `${module.startRow}/${module.startCol}/${module.endRow}/${module.endCol}`}}>
+						{findModule(module.type, isActive)}
+					</div>
+				)
+			}
 		})
 	}
 
