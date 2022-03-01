@@ -1,6 +1,7 @@
 const { ipcRenderer, contextBridge, clipboard } = require('electron')
 const si = require('systeminformation');
 const { getDoNotDisturb } = require('electron-notification-state')
+const fs = require('fs');
 
 contextBridge.exposeInMainWorld('electron', {
   terminal: {
@@ -23,7 +24,20 @@ contextBridge.exposeInMainWorld('electron', {
     performance: (cb) => si.get({ currentLoad: "currentLoad", mem: "total, used", disksIO: "tIO_sec", processes: "list", cpu: "manufacturer, model, core, physicalCores"}, cb),
     doNotDisturb: () => getDoNotDisturb(),
     clipboard: () => clipboard.readText(),
-    
+  },
+  file: {
+    // read the file and return the data as JSON parsed
+    json: (path) => {
+      return new Promise((resolve, reject) => {
+        fs.readFile(path, 'utf8', (err, data) => {
+          if (err) {
+            reject(err)
+          } else {
+            resolve(JSON.parse(data))
+          }
+        })
+      })
+    }
   },
   spotify: {
     authorize: () => ipcRenderer.send('spotify.auth'),
