@@ -32,8 +32,8 @@ const Performance = (props) => {
 	const getPerformance = () => {
 	  return (
 		  <div>
-			  <ModuleHeader isActive={props.isActive} title="PERFORMANCE" subtitle={`${performance.cpu.manufacturer} - ${performance.cpu.model} | ${performance.cpu.physicalCores} Core`}/>
-			  <AnimatedPanel isActive={props.isActive}>
+			  <ModuleHeader isActive={props.isActive} delay={props.delay} title="PERFORMANCE" subtitle={`${performance.cpu.manufacturer} - ${performance.cpu.model} | ${performance.cpu.physicalCores} Core`}/>
+			  <AnimatedPanel isActive={props.isActive} delay={props.delay}>
 				<div className="row">
 					<div className="col">
 						<Circle progress={Math.round(performance.currentLoad.currentLoad)} info={"CPU"} />

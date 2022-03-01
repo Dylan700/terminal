@@ -9,21 +9,24 @@ const ModuleHeader = (props) => {
 		from: { height: "0%" },
 		enter: { height: "100%" },
 		leave: { height: "0%" },
-		config: config.default
+		config: config.default,
+		delay: props.delay | 0
 	})
 
 	const lineTransition = useTransition(props.isActive, {
 		from: { width: "0%" },
 		enter: { width: "100%" },
 		leave: { width: "0%" },
-		config: config.default
+		config: config.default,
+		delay: props.delay | 0
 	})
 
 	const opacityTransition = useTransition(props.isActive, {
 		from: { opacity: 0 },
 		enter: { opacity: 1 },
 		leave: { opacity: 0 },
-		config: config.default
+		config: config.default,
+		delay: props.delay | 0
 	})
 
 

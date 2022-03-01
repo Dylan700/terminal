@@ -19,25 +19,25 @@ const Layout = (props) => {
 	const [modules, setModules] = useState([]);
 	const [config, setConfig] = useState(defaultConfig);
 
-	const findModule = (type, isActive) => {
+	const findModule = (type, isActive, delay) => {
 		if (type === "terminal") {
-			return <Terminal isActive={true} />
+			return <Terminal isActive={true} delay={delay}/>
 		} else if (type === "datetime") {
-			return <DateTime isActive={isActive} />
+			return <DateTime isActive={isActive} delay={delay}/>
 		} else if (type === "hardware") {
-			return <Hardware isActive={isActive} />
+			return <Hardware isActive={isActive} delay={delay}/>
 		} else if (type === "network") {
-			return <Network isActive={isActive} />
+			return <Network isActive={isActive} delay={delay}/>
 		} else if (type === "performance") {
-			return <Performance isActive={isActive} />
+			return <Performance isActive={isActive} delay={delay}/>
 		} else if (type === "docker") {
-			return <Docker isActive={isActive} />
+			return <Docker isActive={isActive} delay={delay}/>
 		} else if (type === "spotify") {
-			return <Spotify isActive={isActive} />
+			return <Spotify isActive={isActive} delay={delay}/>
 		} else if (type === "github") {
-			return <Github isActive={isActive} />
+			return <Github isActive={isActive} delay={delay}/>
 		} else if (type === "calendar") {
-			return <Calendar isActive={isActive} />
+			return <Calendar isActive={isActive} delay={delay}/>
 		}
 	}
 
@@ -46,18 +46,20 @@ const Layout = (props) => {
 			return;
 		}
 
+		let delay = 0;
 		return config.modules.map((module, index) => {
-
+			delay += 170;
+			console.log(delay)
 			if(module.type === "terminal" && !isActive){
 				return (
 					<div key={index} className={styles.item} style={{ gridArea: "1/1/17/17" }}>
-						{findModule(module.type, isActive)}
+						{findModule(module.type, isActive, 0)}
 					</div>
 				)
 			}else{
 				return (
 					<div key={index} className={styles.item} style={{gridArea: `${module.startRow}/${module.startCol}/${module.endRow}/${module.endCol}`}}>
-						{findModule(module.type, isActive)}
+						{findModule(module.type, isActive, delay)}
 					</div>
 				)
 			}

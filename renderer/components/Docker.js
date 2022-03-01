@@ -31,8 +31,8 @@ const Docker = (props) => {
 		return (
 			<div>
 
-				<ModuleHeader isActive={props.isActive} title="DOCKER" subtitle={docker ? `${docker.images} IMAGES` : "OFFLINE"}/>
-				<AnimatedPanel isActive={props.isActive}>
+				<ModuleHeader isActive={props.isActive} delay={props.delay} title="DOCKER" subtitle={docker ? `${docker.images} IMAGES` : "OFFLINE"}/>
+				<AnimatedPanel isActive={props.isActive} delay={props.delay}>
 					{docker && 
 						<div>
 							<div className="row">

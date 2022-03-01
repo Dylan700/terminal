@@ -52,8 +52,8 @@ const Network = (props) => {
 	const getNetwork = () => {
 		return (
 			<div>
-				<ModuleHeader isActive={props.isActive} title="NETWORK" subtitle={navigator.onLine ? publicIP : "OFFLINE"}/>
-				<AnimatedPanel isActive={props.isActive}>
+				<ModuleHeader isActive={props.isActive} delay={props.delay} title="NETWORK" subtitle={navigator.onLine ? publicIP : "OFFLINE"}/>
+				<AnimatedPanel isActive={props.isActive} delay={props.delay}>
 					<div className="row">
 						{navigator.onLine &&
 							<div className="col" style={{ alignItems: 'flex-start', flexBasis: "100%" }}>

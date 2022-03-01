@@ -25,8 +25,8 @@ const Github = (props) => {
 	const getGithub = () => {
 		return (
 			<div>
-				<ModuleHeader isActive={props.isActive} title="GITHUB" subtitle={github != null ? "ONLINE" : "OFFLINE"} id ="GH"/>
-				<AnimatedPanel isActive={props.isActive} delay={500}>
+				<ModuleHeader isActive={props.isActive} delay={props.delay} title="GITHUB" subtitle={github != null ? "ONLINE" : "OFFLINE"} id ="GH"/>
+				<AnimatedPanel isActive={props.isActive} delay={props.delay}>
 					{github != null &&
 						<div className="row" style={{ alignItems: 'center' }}>
 									<div className="col">

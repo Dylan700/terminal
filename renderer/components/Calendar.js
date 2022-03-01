@@ -94,8 +94,8 @@ const Calendar = (props) => {
 	const getCalendar = () => {
 		return (
 			<div>
-				<ModuleHeader isActive={props.isActive} title="CALENDAR" subtitle={new Date().toTimeString()}/>
-				<AnimatedPanel isActive={props.isActive}>
+				<ModuleHeader isActive={props.isActive} delay={props.delay} title="CALENDAR" subtitle={new Date().toTimeString()}/>
+				<AnimatedPanel isActive={props.isActive} delay={props.delay}>
 
 					<div className="container" style={{ margin: "10px", position: "relative" }}>
 						<div style={{ width: "100%" }}>

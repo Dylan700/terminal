@@ -84,8 +84,8 @@ const DateTime = (props) => {
 	const getDateTime = () => {
 		return (
 			<div>
-				<ModuleHeader isActive={props.isActive} title="TEMPORAL" subtitle={timezone}/>
-				<AnimatedPanel isActive={props.isActive} delay={500}>
+				<ModuleHeader isActive={props.isActive} delay={props.delay} title="TEMPORAL" subtitle={timezone}/>
+				<AnimatedPanel isActive={props.isActive} delay={props.delay}>
 					<div className="row">
 						<div className="col">
 							<div className="row" style={{alignItems: "flex-end"}}>

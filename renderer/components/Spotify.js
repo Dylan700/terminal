@@ -97,8 +97,8 @@ const Spotify = (props) => {
 	const getSpotify = () => {
 		return (
 			<div>
-				<ModuleHeader isActive={props.isActive} title="SPOTIFY" subtitle={getStatus()} id={<FaSpotify style={{width: "40px", height: "40px"}}/>}/>
-				<AnimatedPanel isActive={props.isActive}>
+				<ModuleHeader isActive={props.isActive} delay={props.delay} title="SPOTIFY" subtitle={getStatus()} id={<FaSpotify style={{width: "40px", height: "40px"}}/>}/>
+				<AnimatedPanel isActive={props.isActive} delay={props.delay}>
 					{spotify && (spotify.currently_playing_type === "track" || spotify.currently_playing_type === "episode") &&
 						<div>
 							<div className="row">
