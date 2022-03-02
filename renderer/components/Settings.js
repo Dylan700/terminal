@@ -3,8 +3,11 @@ import Spacer from './Spacer'
 import useSettings from '../contexts/settings'
 import { useEffect, useState } from 'react'
 
+import audioFile from '../assets/audio/info.mp3'
+
 const Settings = (props) => {
 
+	const audio = new Audio(audioFile);
 	const { currentSettings, setCurrentSettings } = useSettings()
 	const [active, setActive] = useState(false)
 
@@ -12,10 +15,18 @@ const Settings = (props) => {
 		const handleKeyDown = (e) => {
 			if(e.keyCode === 188 && e.metaKey){
 				setActive(prev => !prev)
+				if(currentSettings.enableAudio){
+					audio.currentTime = 0
+					audio.volume = 0.3
+					audio.play()
+				}
 			}
 		}
 		window.addEventListener("keydown", handleKeyDown)
-	}, [])
+		return () => {
+			window.removeEventListener("keydown", handleKeyDown)
+		}
+	}, [currentSettings.enableAudio])
 
 	return (
 		<div className={style.modal} style={{display: active ? "inherit" : "none"}}>
