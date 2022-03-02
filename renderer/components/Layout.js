@@ -13,11 +13,15 @@ import Github from "../components/Github";
 import Calendar from "../components/Calendar";
 
 import { useState, useEffect } from 'react';
+import introAudio from '../assets/audio/intro.mp3';
+import useSettings from '../contexts/settings';
 
 const Layout = (props) => {
 
 	const [modules, setModules] = useState([]);
 	const [config, setConfig] = useState(defaultConfig);
+	const {currentSettings, setCurrentSettings} = useSettings();
+	const intro = new Audio(introAudio)
 
 	const findModule = (type, isActive, delay) => {
 		if (type === "terminal") {
@@ -71,6 +75,12 @@ const Layout = (props) => {
 	}, [props.isFullscreen, config]);
 
 	useEffect(() => {
+		if(currentSettings.enableIntroMusic){
+			intro.volume = 0.07;
+			intro.currentTime = 0;
+			intro.play();
+		}
+
 		const dropListener = document.addEventListener('drop', async (e) => {
 			e.preventDefault();
 			e.stopPropagation();

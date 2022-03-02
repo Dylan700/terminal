@@ -48,6 +48,14 @@ const Settings = (props) => {
 							<input type="checkbox" checked={currentSettings.enableAudio} onChange={() => setCurrentSettings(prev => {return { ...prev, enableAudio: !currentSettings.enableAudio}})}/>
 						</div>
 					</div>
+					<div className="row">
+						<div className="col">
+							<span className="display text-small">Enable Intro Music</span>
+						</div>
+						<div className="col">
+							<input type="checkbox" checked={currentSettings.enableIntroMusic} onChange={() => setCurrentSettings(prev => { return { ...prev, enableIntroMusic: !currentSettings.enableIntroMusic } })} />
+						</div>
+					</div>
 				</div>
 			</div>
 			<div className="row">

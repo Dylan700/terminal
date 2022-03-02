@@ -4,6 +4,7 @@ import { useContext, useState, createContext, useEffect } from 'react'
 // this is a default settings object
 const defaultSettings = {
 	enableAudio: true,
+	enableIntroMusic: true,
 	githubUsername: null,
 	icalUrl: null,
 	backgroundOpacity: 1,
