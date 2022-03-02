@@ -1,0 +1,8 @@
+{
+	"name": "Thanos",
+	"primaryColor": "#b4a24c",
+	"secondaryColor": "#306493",
+	"backgroundColor": "#170023",
+	"backgroundColorBlend": "#170023",
+	"selectionColor": "rgba(255, 255, 255, 0.3)"
+}

@@ -1,0 +1,8 @@
+{
+	"name": "Martian",
+	"primaryColor": "#fff",
+	"secondaryColor": "#a8a8a8",
+	"backgroundColor": "#000000",
+	"backgroundColorBlend": "#0000002e",
+	"selectionColor": "rgba(255, 255, 255, 0.3)"
+}
