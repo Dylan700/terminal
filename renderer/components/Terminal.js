@@ -29,7 +29,7 @@ export default class Terminal extends React.Component {
 	}
 
 	render() {
-		return <div className="fullHeight">
+		return <div className="border fullHeight">
 			<ForwardedRefTerminal ref={this.terminalRef} setTerminal={this.setTerminal} useAudio={this.props.useAudio} usePty={true} useIntro={this.props.useAudio} introAudioDelay={this.props.delay} isActive={this.props.isActive} disableScroll={this.props.disableScroll} />
 		</div>;
 	}
