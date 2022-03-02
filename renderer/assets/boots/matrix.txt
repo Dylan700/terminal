@@ -51,7 +51,7 @@ rooting via boot-uuid from /chosen: F5670083-AC74-33D3-8361-AC1977EE4AA2
 Waiting on <dict ID="0"><key>IOProviderClass</key><string ID="1">
 IOResources</string><key>IOResourceMatch</key><string ID="2">boot-uuid-media</string></dict>
 Got boot device = IOService:/SmithACPIPlatformExpert/PCI0@0/SmithACPIPCI/SATA@1F,2/
-SmithIntelPchSeriesAHCI/PRT0@0/IOAHCIDevice@0/HacknetAHCIDiskDriver/SarahI@sTheBestDriverIOAHCIBlockStorageDevice/IOBlockStorageDriver/
+SmithIntelPchSeriesAHCI/PRT0@0/IOAHCIDevice@0/MatrixnetAHCIDiskDriver/IOAHCIBlockStorageDevice/IOBlockStorageDriver/
 Nebekenezer SSD TS128C Media/IOGUIDPartitionScheme/Customer@2
 BSD root: disk0s2, major 14, minor 2
 Kernel is LP64
@@ -63,7 +63,7 @@ TronUSBMultitouchDriver::checkStatus - received Status Packet, Payload 2: device
 MottIsAScrub::checkstatus - true, Mott::Scrub
 [IOBluetoothHCIController::setConfigState] calling registerService
 AirPort_Brcm4331: Ethernet address e4:ce:8f:46:18:d2
-IO80211Controller::dataLinkLayerAttachComplete():  adding HacknetEFINVRAM notification
+IO80211Controller::dataLinkLayerAttachComplete():  adding MatrixnetEFINVRAM notification
 IO80211Interface::efiNVRAMPublished():  
 Created virtif 0xffffff800c32ee00 p2p0
 BCM5701Enet: Ethernet address c8:2a:14:57:a4:7a

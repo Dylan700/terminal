@@ -32,6 +32,13 @@ export default class Startup extends React.Component {
 			}
 		})
 
+		lines.unshift(
+			{ text: "Nexus V0.0.1", time: 250 },
+		)
+		lines.push(
+			{ text: `Welcome, ${window.electron.system.username()}`, time: 20},
+		)
+
 		// for each line, write it after the delay, and take into account all previous delays
 		var delay = 0
 		lines.forEach(line => {
@@ -58,7 +65,7 @@ export default class Startup extends React.Component {
 	}
 
 	render() {
-		return <div className="fullHeight" style={{margin: "10px"}}>
+		return <div className="fullHeight" style={{marginLeft: "10px"}}>
 			<ForwardedRefTerminal ref={this.terminalRef} setTerminal={this.setTerminal} useAudio={this.props.useAudio} disableScroll={true} />
 		</div>;
 	}

@@ -2,6 +2,7 @@ const { ipcRenderer, contextBridge, clipboard } = require('electron')
 const si = require('systeminformation');
 const { getDoNotDisturb } = require('electron-notification-state')
 const fs = require('fs');
+const os = require('os');
 
 contextBridge.exposeInMainWorld('electron', {
   terminal: {
@@ -24,6 +25,7 @@ contextBridge.exposeInMainWorld('electron', {
     performance: (cb) => si.get({ currentLoad: "currentLoad", mem: "total, used", disksIO: "tIO_sec", processes: "list", cpu: "manufacturer, model, core, physicalCores"}, cb),
     doNotDisturb: () => getDoNotDisturb(),
     clipboard: () => clipboard.readText(),
+    username: () => os.userInfo().username,
   },
   file: {
     // read the file and return the data as JSON parsed
