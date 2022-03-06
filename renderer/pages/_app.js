@@ -5,10 +5,10 @@ import { SettingsProvider } from '../contexts/settings'
 
 export default function App({ Component, pageProps }) {
 	return (
-		<ThemeProvider>
-			<SettingsProvider>
+		<SettingsProvider>
+			<ThemeProvider>
 				<Main {...pageProps} />
-			</SettingsProvider>
-		</ThemeProvider>
+			</ThemeProvider>
+		</SettingsProvider>
 	)
 }

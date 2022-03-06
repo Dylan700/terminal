@@ -1,66 +1,33 @@
 import { useContext, useState, createContext, useEffect } from 'react'
-
-// import all themes
-import interstellar from '../assets/styles/terminal/interstellar.module.sass'
-import matrix from '../assets/styles/terminal/matrix.module.sass'
-import dark from '../assets/styles/terminal/dark.module.sass'
-import sleek from '../assets/styles/terminal/sleek.module.sass'
-import power from '../assets/styles/terminal/power.module.sass'
-import pure from '../assets/styles/terminal/pure.module.sass'
-import scifi from '../assets/styles/terminal/scifi.module.sass'
-import sunset from '../assets/styles/terminal/sunset.module.sass'
-import tron from '../assets/styles/terminal/tron.module.sass'
-import vader from '../assets/styles/terminal/vader.module.sass'
+import useSettings from './settings'
+import defaultTheme from '../assets/themes/default.json'
 
 
-const ThemeContext = createContext(matrix)
+const ThemeContext = createContext(defaultTheme)
 
 export const ThemeProvider = ({theme, children}) => {
 
-	const [currentTheme, setCurrentTheme] = useState(theme || matrix)
+	const [currentTheme, setCurrentTheme] = useState(defaultTheme)
+	const {currentSettings, setCurrentSettings} = useSettings()
 	const setTheme = (theme) => {
-
-		switch(theme) {
-			case 'interstellar':
-				setCurrentTheme(interstellar)
-				break
-			case 'dark':
-				setCurrentTheme(dark)
-				break
-			case 'sleek':
-				setCurrentTheme(sleek)
-				break
-			case 'power':
-				setCurrentTheme(power)
-				break
-			case 'pure':
-				setCurrentTheme(pure)
-				break
-			case 'scifi':
-				setCurrentTheme(scifi)
-				break
-			case 'sunset':
-				setCurrentTheme(sunset)
-				break
-			case 'tron':
-				setCurrentTheme(tron)
-				break
-			case 'vader':
-				setCurrentTheme(vader)
-				break
-			default:
-				setCurrentTheme(matrix)
-				break
-		}
+		setCurrentTheme(theme)
 
 		if(window != null){
-			window.localStorage.setItem('theme', theme)
+			window.localStorage.setItem('theme', JSON.stringify(theme))
 		}
 	}
 
 	// set theme on mount
 	useEffect(() => {
-		setTheme(window.localStorage.getItem("theme") || 'matrix')
+		if(window.localStorage.getItem('theme') == null){
+			setTheme(defaultTheme);
+		}
+
+		try{
+			setTheme(JSON.parse(window.localStorage.getItem("theme")))
+		}catch(e){
+			setTheme(defaultTheme)
+		}
 	}, [])
 
 	useEffect(() => {		
@@ -82,6 +49,9 @@ export const ThemeProvider = ({theme, children}) => {
 				const data = await window.electron.file.json(f.path);
 				if(data.primaryColor){
 					setCurrentTheme(data);
+					// remove any themes with the same name
+					setCurrentSettings(prev => ({...prev, themes: prev.themes.filter(t => t.name !== data.name)}))
+					setCurrentSettings(prev => ({ ...prev, themes: [...prev.themes, data] }))
 				}
 			}
 		});

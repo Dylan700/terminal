@@ -68,7 +68,7 @@ const AnimatedText = (props) => {
 	}, [props.children])
 
 	return(
-		<span className={props.className}>{state.currentTextValue}</span>
+		<span className={props.className} style={props.style}>{state.currentTextValue}</span>
 	)
 
 }

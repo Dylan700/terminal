@@ -4,12 +4,13 @@ import useSettings from "../contexts/settings";
 import Startup from "../components/Startup"
 import Settings from "../components/Settings";
 import Layout from "../components/Layout";
+import AnimatedText from "../components/AnimatedText";
 
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [toggleFullScreen, setToggleFullScreen] = useState(false)
-  const {setTheme} = useTheme()
+  const {currentTheme} = useTheme()
   const {currentSettings, setSettings} = useSettings()
 
   useEffect(() => {
@@ -19,26 +20,6 @@ const App = () => {
     })
 
     const handleKeyDown = (e) => {
-      if (e.keyCode === 49 && e.metaKey) {
-        setTheme("matrix")
-      }else if(e.keyCode === 50 && e.metaKey){
-        setTheme("interstellar")
-      }else if(e.keyCode === 51 && e.metaKey){
-        setTheme("dark")
-      }else if(e.keyCode === 52 && e.metaKey){
-        setTheme("sleek")
-      }else if(e.keyCode === 53 && e.metaKey){
-        setTheme("power")
-      }else if(e.keyCode === 54 && e.metaKey){
-        setTheme("pure")
-      }else if(e.keyCode === 55 && e.metaKey){
-        setTheme("sunset")
-      }else if(e.keyCode === 56 && e.metaKey){
-        setTheme("tron")
-      }else if(e.keyCode === 57 && e.metaKey){
-        setTheme("vader")
-      }
-
       if (e.keyCode === 220 && e.metaKey) {
         setToggleFullScreen(prev => {
           window.electron.touchbar.sendFullScreen(!prev);
@@ -68,6 +49,7 @@ const App = () => {
         <div className="bg-color"></div>
         <div className="row fullHeight">
           <Layout isFullscreen={!toggleFullScreen} />
+          <AnimatedText className={"text-tiny"} style={{ position: "absolute", bottom: 0, margin: "3px" }}>{!toggleFullScreen ? currentTheme.name: ""}</AnimatedText>
         </div>
         <Settings />
       </div>

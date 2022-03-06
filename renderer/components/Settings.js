@@ -4,11 +4,14 @@ import useSettings from '../contexts/settings'
 import { useEffect, useState } from 'react'
 
 import audioFile from '../assets/audio/info.mp3'
+import { ListContainer, ListItem } from './List'
+import useTheme from '../contexts/theme'
 
 const Settings = (props) => {
 
 	const audio = new Audio(audioFile);
 	const { currentSettings, setCurrentSettings } = useSettings()
+	const {currentTheme, setTheme} = useTheme()
 	const [active, setActive] = useState(false)
 
 	useEffect(() => {
@@ -94,6 +97,15 @@ const Settings = (props) => {
 				<div className="col">
 					<span className="display" style={{ margin: 5 }}>THEMES</span>
 					<Spacer type={"top"} />
+				</div>
+				<div className="col">
+						<select name="THEME" onChange={(e) => setTheme(JSON.parse(e.target.value))}>
+							{currentSettings.themes.map((theme, i) => {
+								return(
+									<option key={i} value={JSON.stringify(theme)}>{theme.name}</option>
+								)
+							})}
+						</select>
 				</div>
 			</div>
 		</div>

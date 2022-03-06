@@ -1,5 +1,7 @@
 import { useContext, useState, createContext, useEffect } from 'react'
 
+import defaultTheme from '../assets/themes/default.json'
+
 
 // this is a default settings object
 const defaultSettings = {
@@ -10,6 +12,9 @@ const defaultSettings = {
 	backgroundOpacity: 1,
 	backgroundBlurEnabled: true,
 	alertWhenBatteryFull: true,
+	themes: [
+		defaultTheme
+	]
 }
 
 const SettingsContext = createContext(defaultSettings)

@@ -1,0 +1,8 @@
+{
+	"name": "The Batman",
+	"primaryColor": "#ff0000",
+	"secondaryColor": "#f9f9f9",
+	"backgroundColor": "#000000",
+	"backgroundColorBlend": "#000000",
+	"selectionColor": "rgba(255, 255, 255, 0.3)"
+}
