@@ -10,6 +10,7 @@ import ModuleHeader from "./ModuleHeader";
 const Calendar = (props) => {
 	const [data, setData] = useState();
 	const {currentSettings} = useSettings();
+	const [indicatorPosition, setIndicatorPosition] = useState(0);
 
 	useEffect(async () => {
 		// set ical to lenient mode to prevent time parsing errors
@@ -32,6 +33,15 @@ const Calendar = (props) => {
 		const icalData = new ICAL.Component(icalDataParse);
 		setData(icalData);
 	}, []);
+
+	useEffect(async () => {
+		setIndicatorPosition(dateAsPercentage(new Date()) * 100);
+		// set a time interval to update the calendar every minute
+		const interval = setInterval(async () => {
+			setIndicatorPosition(dateAsPercentage(new Date()) * 100);
+		}, 60000);
+		return () => clearInterval(interval);
+	}, [])
 
 	// get the events from the ical where the date matches the current day/year
 	const getEvents = (date, data) => {
@@ -94,12 +104,12 @@ const Calendar = (props) => {
 	const getCalendar = () => {
 		return (
 			<div>
-				<ModuleHeader isActive={props.isActive} delay={props.delay} title="CALENDAR" subtitle={new Date().toTimeString()}/>
+				<ModuleHeader isActive={props.isActive} delay={props.delay} title="CALENDAR" subtitle={new Date().toDateString()}/>
 				<AnimatedPanel isActive={props.isActive} delay={props.delay}>
 
 					<div className="container" style={{ margin: "10px", position: "relative" }}>
 						<div style={{ width: "100%" }}>
-							<div className="text-primary" style={{ marginLeft: `${dateAsPercentage(new Date()) * 100}%`, position: "absolute" }}>
+							<div className="text-primary" style={{ marginLeft: `${indicatorPosition}%`, position: "absolute" }}>
 								<div style={{ width: "3px", height: "30px", backgroundColor: "var(--primary-color)" }}></div>
 							</div>
 							<div className="row" style={{ alignItems: "center" }}>
