@@ -1,5 +1,5 @@
 <h1 align="center">
-Nexus
+<img alt="Nexus Logo" src="./renderer/assets/icons/icon_transparent.png" height=300>
 </h1>
 <h4 align="center">Nexus is an electron powered, SciFi terminal, designed to be usable while also providing awesomeness.</h4>
 <hr>
