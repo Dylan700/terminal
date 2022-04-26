@@ -1,6 +1,6 @@
 {
   "private": true,
-  "productName": "Terminal",
+  "productName": "Nexus",
   "name": "electron-terminal",
   "version": "0.0.1",
   "main": "main/index.js",
