@@ -19,7 +19,6 @@ const XTerm = (props) => {
 	const fitAddon = new FitAddon()
 	const [terminal, setTerminal] = useState(new Terminal(
 		{
-			convertEol: true,
 			rows: 40,
 			cols: 100
 		}))
@@ -51,11 +50,11 @@ const XTerm = (props) => {
 
 		if (props.usePty) {
 			window.electron.terminal.on((event, data) => {
-				terminal.writeUtf8(data)
+				terminal.write(data)
 			})
 
-			terminal.onKey((data) => {
-				window.electron.terminal.send(data.key)
+			terminal.onData((data) => {
+				window.electron.terminal.send(data)
 			})
 
 			window.electron.terminal.resize(terminal.cols, terminal.rows)

@@ -19,7 +19,7 @@ export default class Terminal extends React.Component {
 	componentDidUpdate() {
 		if (this.state.terminal != null && !this.state.initialized) {
 			this.state.terminal.focus()
-			this.state.terminal.write('Connected to the Matrix.\n\nPress enter to continue.\n\n')
+			this.state.terminal.write('Connected to the Matrix.\r\n\r\nPress enter to continue.\r\n\r\n')
 			this.setState({ ...this.state, initialized: true })
 		}
 	}
