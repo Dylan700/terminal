@@ -1,7 +1,7 @@
 {
 	"name": "Maccas",
 	"primaryColor": "#ffd700",
-	"secondaryColor": "#ffd700",
+	"secondaryColor": "#ffffff",
 	"backgroundColor": "#db1020",
 	"backgroundColorBlend": "#db1020",
 	"selectionColor": "rgba(255, 255, 255, 0.3)"
