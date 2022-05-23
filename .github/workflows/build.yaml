@@ -44,6 +44,44 @@ jobs:
           path: dist/*.AppImage
           if-no-files-found: error
 
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node
+        with:
+          path: ~/.npm
+          key: ${{runner.os}}-build-${{env.cache-name}}-${{hashFiles('**/package-lock.json')}}
+      - name: cache-electron
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-electron
+        with:
+          path: ~/.cache/electron
+          key: export PATH="/usr/local/opt/node@16/bin:$PATH"
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      - name: Setup yarn
+        run: |
+          npm i -g npm@7;
+          npm i -g yarn;
+      - name: Install Build Dependencies
+        run: yarn;
+      - name: Build
+        run: yarn dist;
+        env: 
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Linux
+          path: dist/*.AppImage
+          if-no-files-found: error
+
   build-darwin:
     runs-on: macos-latest
     steps:
