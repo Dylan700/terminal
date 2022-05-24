@@ -1,8 +1,10 @@
 <h1 align="center">
 <img alt="Nexus Logo" src="./renderer/assets/icons/icon_transparent.png" height=300>
 </h1>
+<div align="center">
+	<a alt="Build App" href="https://github.com/Dylan700/terminal/actions/workflows/build.yaml"><img alt="Build App" src="https://github.com/Dylan700/terminal/actions/workflows/build.yaml/badge.svg"></a>
+</div>
 <h4 align="center">Nexus is an electron powered, SciFi terminal, designed to be usable while also providing awesomeness.</h4>
-<hr>
 </br>
 
 ## Features include:
