@@ -15,6 +15,9 @@ const App = () => {
 
   useEffect(() => {
 
+    // set the zoom level to 0.9 for the app (for design purposes to fit more modules)
+    window.electron.zoom.set(0.9);
+
     window.electron.touchbar.onFullScreen((event, bool) => {
       setToggleFullScreen(bool)
     })

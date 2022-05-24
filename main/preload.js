@@ -1,4 +1,4 @@
-const { ipcRenderer, contextBridge, clipboard } = require('electron')
+const { ipcRenderer, contextBridge, clipboard, webFrame } = require('electron')
 const si = require('systeminformation');
 const { getDoNotDisturb } = require('electron-notification-state')
 const fs = require('fs');
@@ -52,6 +52,9 @@ contextBridge.exposeInMainWorld('electron', {
     send: (payload) => ipcRenderer.send('message', payload),
     on: (handler) => ipcRenderer.on('message', handler),
     off: (handler) => ipcRenderer.off('message', handler),
+  },
+  zoom: {
+    set: (zoom) => webFrame.setZoomFactor(zoom),
   }
 })
 
