@@ -1,6 +1,5 @@
 const { ipcRenderer, contextBridge, clipboard, webFrame } = require('electron')
 const si = require('systeminformation');
-const { getDoNotDisturb } = require('electron-notification-state')
 const fs = require('fs');
 const os = require('os');
 
@@ -23,7 +22,7 @@ contextBridge.exposeInMainWorld('electron', {
     ping: (cb) => si.inetLatency('google.com', cb),
     docker: (cb) => si.get({dockerInfo: "containersRunning, images, containersPaused, containers, memTotal", dockerContainers: "name, state, id", mem: "total"}, cb),
     performance: (cb) => si.get({ currentLoad: "currentLoad", mem: "total, used", disksIO: "tIO_sec", processes: "list", cpu: "manufacturer, model, core, physicalCores"}, cb),
-    doNotDisturb: () => getDoNotDisturb(),
+    doNotDisturb: () => false,
     clipboard: () => clipboard.readText(),
     username: () => os.userInfo().username,
   },
