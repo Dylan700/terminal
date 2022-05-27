@@ -1,5 +1,15 @@
 name: Build App
-on: [push, pull_request, workflow_dispatch]
+# set workflow to trigger on push, pull or dispatch on main branch
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  pull_request_review:
+    branches:
+      - main
 
 jobs:
   build-linux:
