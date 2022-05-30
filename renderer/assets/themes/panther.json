@@ -1,0 +1,8 @@
+{
+	"name": "Black Panther",
+	"primaryColor": "#a44dfa",
+	"secondaryColor": "#5b5b5c",
+	"backgroundColor": "rgba(11, 2, 8, 0.9)",
+	"backgroundColorBlend": "rgba(11, 2, 8, 0.9)",
+	"selectionColor": "rgba(255, 255, 255, 0.3)"
+}
