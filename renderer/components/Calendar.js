@@ -12,29 +12,32 @@ const Calendar = (props) => {
 	const {currentSettings} = useSettings();
 	const [indicatorPosition, setIndicatorPosition] = useState(0);
 
-	useEffect(async () => {
-		// set ical to lenient mode to prevent time parsing errors
-		ICAL.design.strict = false;
-		const defaultData = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Google Inc//Google Calendar 70.9054//EN\nCALSCALE:GREGORIAN\nBEGIN:VTIMEZONE\nTZID:Australia/Sydney\nBEGIN:STANDARD\nTZOFFSETFROM:+1100\nTZOFFSETTO:+1000\nTZNAME:EST\nDTSTART:19700101T000000\nEND:STANDARD\nEND:VTIMEZONE\nEND:VCALENDAR";
+	useEffect(() => {
+		const getData = async () => {
+			// set ical to lenient mode to prevent time parsing errors
+			ICAL.design.strict = false;
+			const defaultData = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Google Inc//Google Calendar 70.9054//EN\nCALSCALE:GREGORIAN\nBEGIN:VTIMEZONE\nTZID:Australia/Sydney\nBEGIN:STANDARD\nTZOFFSETFROM:+1100\nTZOFFSETTO:+1000\nTZNAME:EST\nDTSTART:19700101T000000\nEND:STANDARD\nEND:VTIMEZONE\nEND:VCALENDAR";
 
-		let rawData = await window.electron.net.ical(currentSettings.icalUrl);
+			let rawData = await window.electron.net.ical(currentSettings.icalUrl);
 
-		if (rawData == null) {
-			rawData = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Google Inc//Google Calendar 70.9054//EN\nCALSCALE:GREGORIAN\nBEGIN:VTIMEZONE\nTZID:Australia/Sydney\nBEGIN:STANDARD\nTZOFFSETFROM:+1100\nTZOFFSETTO:+1000\nTZNAME:EST\nDTSTART:19700101T000000\nEND:STANDARD\nEND:VTIMEZONE\nEND:VCALENDAR";
+			if (rawData == null) {
+				rawData = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Google Inc//Google Calendar 70.9054//EN\nCALSCALE:GREGORIAN\nBEGIN:VTIMEZONE\nTZID:Australia/Sydney\nBEGIN:STANDARD\nTZOFFSETFROM:+1100\nTZOFFSETTO:+1000\nTZNAME:EST\nDTSTART:19700101T000000\nEND:STANDARD\nEND:VTIMEZONE\nEND:VCALENDAR";
+			}
+
+			let icalDataParse;
+
+			try {
+				icalDataParse = ICAL.parse(rawData);
+			} catch (e) {
+				icalDataParse = ICAL.parse(defaultData);
+			}
+			const icalData = new ICAL.Component(icalDataParse);
+			setData(icalData);
 		}
-
-		let icalDataParse;
-
-		try {
-			icalDataParse = ICAL.parse(rawData);
-		} catch (e) {
-			icalDataParse = ICAL.parse(defaultData);
-		}
-		const icalData = new ICAL.Component(icalDataParse);
-		setData(icalData);
+		getData();
 	}, []);
 
-	useEffect(async () => {
+	useEffect(() => {
 		setIndicatorPosition(dateAsPercentage(new Date()) * 100);
 		// set a time interval to update the calendar every minute
 		const interval = setInterval(async () => {

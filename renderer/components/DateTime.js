@@ -36,32 +36,34 @@ const DateTime = (props) => {
 	}
 
 	useEffect(() => {
-		const interval = setInterval(() => {
+		const interval = setInterval(async () => {
 			const timeStats = window.electron.system.time()
 			setDateTime(new Date())
 			setUptime(timeStats.uptime)
 			setTimezone(timeStats.timezoneName)
+
+			const batteryStats = window.electron.system.battery().then(stats => {
+				setBattery({
+					isCharging: stats.isCharging,
+					percent: stats.percent,
+					timeRemaining: stats.timeRemaining
+				})
+			})
+	
+			const hardwareStats = window.electron.system.hardware().then((data) => {
+				setHardware({
+					manufacturer: data.manufacturer,
+					model: data.model,
+					version: data.version,
+					serial: data.serial
+				})
+			})
+
 		}, 1000)
 
-		const batteryStats = window.electron.system.battery().then(stats => {
-			setBattery({
-				isCharging: stats.isCharging,
-				percent: stats.percent,
-				timeRemaining: stats.timeRemaining
-			})
-		})
-
-		const hardwareStats = window.electron.system.hardware().then((data) => {
-			setHardware({
-				manufacturer: data.manufacturer,
-				model: data.model,
-				version: data.version,
-				serial: data.serial
-			})
-		})
 
 		return () => clearInterval(interval)
-	}, [datetime])
+	}, [])
 
 	useEffect(() => {
 		if (currentSettings.alertWhenBatteryFull && battery.percent === 100 && !window.electron.system.doNotDisturb()) {

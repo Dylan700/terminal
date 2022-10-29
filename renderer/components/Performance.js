@@ -9,7 +9,7 @@ const Performance = (props) => {
 
   useEffect(() => {
 	  //set performance stats every 2 seconds
-	  const interval = setInterval(() => {
+	  const interval = setInterval(async () => {
 		  setPerformanceStats()
 	  }, 2000);
 	  return () => clearInterval(interval);
