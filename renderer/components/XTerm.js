@@ -61,13 +61,13 @@ const XTerm = (props) => {
 		}
 
 		// observe changes in the terminal size
-		new ResizeObserver(() => {
-			if(Number.isNaN(fitAddon.proposeDimensions().cols) || Number.isNaN(fitAddon.proposeDimensions().rows)) {
-				return
-			}
-			fitAddon.fit()
-			window.electron.terminal.resize(terminal.cols, terminal.rows)
-		}).observe(terminal.element)
+		// new ResizeObserver(() => {
+		// 	if(Number.isNaN(fitAddon.proposeDimensions().cols) || Number.isNaN(fitAddon.proposeDimensions().rows)) {
+		// 		return
+		// 	}
+		// 	fitAddon.fit()
+		// 	window.electron.terminal.resize(terminal.cols, terminal.rows)
+		// }).observe(terminal.element)
 
 		setTerminal(terminal)
 
